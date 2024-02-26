@@ -76,7 +76,6 @@ model Task {
   date       DateTime
   note       String?
   houseId    Int
-  // I think assigneeId is more descriptive than userId 
   assigneeId Int
   House      House?   @relation(fields: [houseId], references: [id])
   User       User?    @relation(fields: [assigneeId], references: [id])
@@ -85,7 +84,6 @@ model Task {
 model Expense {
   id             Int              @id @default(autoincrement())
   itemName       String
-  // I think it's better to set data type Float instead of Int, since the expsense is not always integer numbers
   fee            Float
   date           DateTime
   houseId        Int
@@ -98,7 +96,6 @@ model Expense {
 
 model Payment {
   id             Int              @id @default(autoincrement())
-  // I think it's better to set data type Float instead of Int, since the expsense is not always integer numbers
   fee            Float
   paidDate       DateTime
   expenseId      Int
