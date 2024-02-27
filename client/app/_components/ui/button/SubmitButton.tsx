@@ -6,7 +6,7 @@ import { Button, ButtonProps } from '@/_components/ui';
 
 type SubmitButtonProps = {
   actionText: string;
-  pendingText?: boolean;
+  pendingText?: string;
 } & ButtonProps;
 
 export function SubmitButton({
