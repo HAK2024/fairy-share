@@ -26,11 +26,16 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Installation
+## Prerequisites
 
-```bash
-$ npm install
-```
+- Docker
+- Docker Compose
+
+## Setting Up the Development Environment
+
+1. **Clone the Repository**
+
+   - Clone this repository to your local machine using Git.
 
 ## Environment Variables
 
@@ -38,7 +43,42 @@ $ npm install
 
   ```bash
   DATABASE_URL="postgresql://YOUR_USERNAME:YOUR_PASSWORD@localhost:5432/YOUR_DATABASE?schema=public"
+  POSTGRES_USER=YOUR_USERNAME
+  POSTGRES_PASSWORD=YOUR_PASSWORD
+  POSTGRES_DB=YOUR_DATABASE
   ```
+
+3. **Start the Docker Containers**
+
+   - Run the following command in the server directory to start all services defined in the `docker-compose.yml` file:
+
+   ```bash
+   docker-compose up -d
+   ```
+
+   This command will start the PostgreSQL database container as specified in the Docker Compose file.
+
+## Installation
+
+```bash
+$ npm install
+```
+
+- If you haven't install Nest CLI,
+
+```bash
+npm i -g @nestjs/cli
+```
+
+## Database Setup
+
+- Once the containers are running, you can set up the database schema and seed data using the Prisma CLI:
+
+```bash
+npm run prisma:generate
+npm run prisma:migrate
+npm run prisma:seed
+```
 
 ## Running the app
 
@@ -51,16 +91,6 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
-```
-
-## Database Setup
-
-- Once the containers are running, you can set up the database schema and seed data using the Prisma CLI:
-
-```bash
-npm run prisma:generate
-npm run prisma:migrate
-npm run prisma:seed
 ```
 
 ## Test
