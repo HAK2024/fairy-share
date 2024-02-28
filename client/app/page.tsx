@@ -1,20 +1,25 @@
-import { Button, SubmitButton } from '@/_components/ui';
+import { Button } from '@/_components/ui'
 
 export default function Home() {
   return (
     <main className='p-24'>
       Hello World!
-      <p className='text-xs'>Text</p>
-      <div className='flex gap-10'>
+      <p className='text-xs m-4 p-4 accent-sky-200'>Text</p>
+      <div className='text-sm m-4 flex gap-10 p-4 accent-sky-200'>
         <Button variant={'destructive'}>Click me</Button>
-        <Button variant={'outline'}>Click me</Button>
-        <Button variant={'secondary'}>Click me</Button>
+        <Button variant={'outline'} disabled>
+          Click me
+        </Button>
+        <Button variant={'secondary'} disabled>
+          Click me
+        </Button>
         <Button variant={'ghost'}>Click me</Button>
         <Button variant={'link'}>Click me</Button>
-        <Button>Click me</Button>
-        <Button type='submit'>Click me</Button>
-        <SubmitButton actionText='Submit' />
+        <Button disabled>Click me</Button>
+        <Button type='submit' isLoading>
+          Click me
+        </Button>
       </div>
     </main>
-  );
+  )
 }
