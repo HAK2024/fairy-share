@@ -58,6 +58,7 @@ $ npm run start:prod
 - Once the containers are running, you can set up the database schema and seed data using the Prisma CLI:
 
 ```bash
+npm run prisma:generate
 npm run prisma:migrate
 npm run prisma:seed
 ```
