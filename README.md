@@ -1,7 +1,5 @@
 # share-house-management
 
-# share-house-management
-
 ## Prerequisites
 
 - Docker
