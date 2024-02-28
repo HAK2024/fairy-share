@@ -1,9 +1,7 @@
 name: Client Lint and Format
 
-on:
-  push:
-    paths:
-      - client/**
+on: [push]
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -26,14 +24,12 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Install npm
-        run: npm ci
-
-      - name: Lint code
-        run: npm run lint:fix
-
-      - name: Format code
-        run: npm run format
+      - name: Lint and Format
+        working-directory: ./client
+        run: |
+          npm ci
+          npm run lint:fix
+          npm run format
 
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
