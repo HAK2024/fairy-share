@@ -100,20 +100,17 @@ npm run dev
 ```
 
 Storybook: http://localhost:6006/
-
 ```
 npm run sb:
 ```
 
 Lint
-
 ```
-npm lint
-npm lint:fix
+npm run lint
+npm run lint:fix
 ```
 
 Format
-
 ```
 npm format
 ```

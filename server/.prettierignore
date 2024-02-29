@@ -1,0 +1,25 @@
+# Ignore artifacts:
+build
+coverage
+
+# dotfile
+.env*
+
+# markdown
+*.md
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# config
+.eslintrc.js
+next.config.js
+tailwind.config.js
+tsconfig.json
+postcss.config.js
+next.config.mjs
+tailwind.config.ts
