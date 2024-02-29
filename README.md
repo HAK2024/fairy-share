@@ -106,15 +106,11 @@ npm run sb:
 
 Lint
 ```
-npm lint
-npm lint:fix
+npm run lint
+npm run lint:fix
 ```
 
 Format
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 ```
 npm format
 ```
