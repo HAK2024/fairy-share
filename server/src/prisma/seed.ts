@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
 import {
   expenseData,
   expensePaymentData,
@@ -8,7 +8,7 @@ import {
   taskData,
   userData,
   userHouseData,
-} from "./seedData";
+} from './seedData';
 
 const prisma = new PrismaClient();
 
@@ -21,7 +21,7 @@ async function main() {
       create: user,
     });
   }
-  console.log("Users have been added successfully.");
+  console.log('Users have been added successfully.');
 
   const housesData = await houseData();
   for (const house of housesData) {
@@ -31,7 +31,7 @@ async function main() {
       create: house,
     });
   }
-  console.log("Houses have been added successfully.");
+  console.log('Houses have been added successfully.');
 
   const userHousesData = await userHouseData();
   for (const userHouse of userHousesData) {
@@ -48,7 +48,7 @@ async function main() {
       });
     }
   }
-  console.log("UserHouses have been added successfully.");
+  console.log('UserHouses have been added successfully.');
 
   const rulesData = await ruleData();
   for (const rule of rulesData) {
@@ -58,7 +58,7 @@ async function main() {
       create: rule,
     });
   }
-  console.log("Rules have been added successfully.");
+  console.log('Rules have been added successfully.');
 
   const tasksData = await taskData();
   for (const task of tasksData) {
@@ -68,7 +68,7 @@ async function main() {
       create: task,
     });
   }
-  console.log("Tasks have been added successfully.");
+  console.log('Tasks have been added successfully.');
 
   const expensesData = await expenseData();
   for (const expense of expensesData) {
@@ -78,7 +78,7 @@ async function main() {
       create: expense,
     });
   }
-  console.log("Expenses have been added successfully.");
+  console.log('Expenses have been added successfully.');
 
   const paymentsData = await paymentData();
   for (const payment of paymentsData) {
@@ -88,7 +88,7 @@ async function main() {
       create: payment,
     });
   }
-  console.log("Payments have been added successfully.");
+  console.log('Payments have been added successfully.');
 
   const expensePaymentsData = await expensePaymentData();
   for (const expensePayment of expensePaymentsData) {
@@ -105,7 +105,7 @@ async function main() {
       });
     }
   }
-  console.log("ExpensePayments have been added successfully.");
+  console.log('ExpensePayments have been added successfully.');
 }
 
 main()
