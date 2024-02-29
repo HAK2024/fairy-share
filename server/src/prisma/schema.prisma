@@ -1,0 +1,116 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              Int    @id @default(autoincrement())
+  name            String
+  email           String @unique
+  hashed_password String
+
+  // You can't set default color in ENUM, so you need to set it when you create an actual record
+
+  icon      IconColor
+  UserHouse UserHouse[]
+  Task      Task[]
+  Expense   Expense[]
+  Payment   Payment[]
+}
+
+// I put the random color in IconColor, so you can change them to different colors if you need to
+
+enum IconColor {
+  RED
+  ORANGE
+  YELLOW
+  GREEN
+  BLUE
+  INDIGO
+  VIOLET
+  BLACK
+  WHITE
+}
+
+model UserHouse {
+  id      Int     @id @default(autoincrement())
+  userId  Int
+  houseId Int
+  isAdmin Boolean @default(false)
+  User    User?   @relation(fields: [userId], references: [id])
+  House   House?  @relation(fields: [houseId], references: [id])
+
+  @@unique([userId, houseId])
+}
+
+model House {
+  id               Int         @id @default(autoincrement())
+  name             String
+  isExpensePerTime Boolean     @default(true)
+  Rule             Rule[]
+  UserHouse        UserHouse[]
+  Task             Task[]
+  Expense          Expense[]
+}
+
+model Rule {
+  id      Int    @id @default(autoincrement())
+  text    String
+  houseId Int
+  House   House? @relation(fields: [houseId], references: [id])
+}
+
+model Task {
+  id         Int      @id @default(autoincrement())
+  title      String
+  date       DateTime
+  note       String?
+  houseId    Int
+  assigneeId Int
+  House      House?   @relation(fields: [houseId], references: [id])
+  User       User?    @relation(fields: [assigneeId], references: [id])
+}
+
+model Expense {
+  id             Int              @id @default(autoincrement())
+  itemName       String
+  fee            Float
+  date           DateTime
+  houseId        Int
+  buyerId        Int
+  House          House?           @relation(fields: [houseId], references: [id])
+  User           User?            @relation(fields: [buyerId], references: [id])
+  Payment        Payment[]
+  ExpensePayment ExpensePayment[]
+}
+
+model Payment {
+  id             Int              @id @default(autoincrement())
+  fee            Float
+  paidDate       DateTime
+  expenseId      Int
+  payerId        Int
+  Expense        Expense?         @relation(fields: [expenseId], references: [id])
+  User           User?            @relation(fields: [payerId], references: [id])
+  ExpensePayment ExpensePayment[]
+}
+
+model ExpensePayment {
+  id        Int      @id @default(autoincrement())
+  expenseId Int
+  paymentId Int
+  Expense   Expense? @relation(fields: [expenseId], references: [id])
+  Payment   Payment? @relation(fields: [paymentId], references: [id])
+
+  @@unique([expenseId, paymentId])
+}
