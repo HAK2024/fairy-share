@@ -1,0 +1,42 @@
+export const expenseData = async () => [
+  {
+    id: 111,
+    itemName: "Electricity Bill",
+    fee: 120.5,
+    date: new Date(2023, 0, 10),
+    houseId: 106,
+    buyerId: 101,
+  },
+  {
+    id: 112,
+    itemName: "Water Bill",
+    fee: 80.25,
+    date: new Date(2023, 1, 15),
+    houseId: 107,
+    buyerId: 102,
+  },
+  {
+    id: 113,
+    itemName: "Internet Bill",
+    fee: 60.0,
+    date: new Date(2023, 2, 20),
+    houseId: 108,
+    buyerId: 103,
+  },
+  {
+    id: 114,
+    itemName: "Groceries",
+    fee: 200.75,
+    date: new Date(2023, 3, 25),
+    houseId: 109,
+    buyerId: 104,
+  },
+  {
+    id: 115,
+    itemName: "Maintenance Fee",
+    fee: 150.0,
+    date: new Date(2023, 4, 30),
+    houseId: 110,
+    buyerId: 105,
+  },
+];
