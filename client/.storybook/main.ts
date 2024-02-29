@@ -48,6 +48,7 @@ const config: StorybookConfig = {
   docs: {
     autodocs: 'tag',
   },
+  staticDirs: ['../public'], // To handle images in the public folder (https://storybook.js.org/docs/configure/images-and-assets)
   webpackFinal: async (config) => {
     if (config.resolve) {
       config.resolve.alias = {

@@ -2,7 +2,7 @@ import { Button } from '@/_components/ui'
 
 export default function Home() {
   return (
-    <main className='p-24'>
+    <main>
       <p className='text-xs p-4'>Hello World!</p>
       <div className='text-sm m-4 flex gap-10 p-4'>
         <Button variant={'destructive'}>Click me</Button>
