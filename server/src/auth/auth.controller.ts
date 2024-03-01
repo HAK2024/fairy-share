@@ -1,7 +1,9 @@
 import { Response } from 'express';
+import * as crypto from 'crypto';
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -48,6 +50,18 @@ export class AuthController {
   async logout(@Res() res: Response) {
     // Clear Cookie
     res.clearCookie('token');
+    res.clearCookie('csrf-token');
     return res.send({ message: 'Logged out successfully' });
+  }
+
+  // For CSRF protection
+  @Get('csrf-token')
+  getCsrfToken(@Res() res: Response) {
+    const csrfToken = crypto.randomBytes(64).toString('hex');
+    res.cookie('csrf-token', csrfToken, {
+      httpOnly: true,
+      secure: true,
+    });
+    return res.send({ csrfToken });
   }
 }
