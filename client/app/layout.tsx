@@ -1,6 +1,6 @@
 import { Montserrat } from 'next/font/google'
 import './globals.css'
-import { Button, Footer, Header, Heading } from './_components/ui'
+import { Footer, Header } from './_components/ui'
 import type { Metadata } from 'next'
 
 const inter = Montserrat({ subsets: ['latin'] })
@@ -18,15 +18,14 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={inter.className}>
-        <Header />
-        <div className='h-screen bg-amber-100 p-4 md:p-16'>
-          <Heading
-            title='Fairy share'
-            buttonComponent={() => <Button>Edit</Button>}
-          />
-        </div>
-        {children}
-        <Footer />
+        <main className='min-h-screen bg-amber-100'>
+          <Header />
+          {/* Figma design for desktop has 120px padding for both left and right sides, but feels too much, so set it to 56px*/}
+          <div className='px-4 pb-10 pt-8 md:px-14 md:pb-20 md:pt-10'>
+            {children}
+          </div>
+          <Footer />
+        </main>
       </body>
     </html>
   )
