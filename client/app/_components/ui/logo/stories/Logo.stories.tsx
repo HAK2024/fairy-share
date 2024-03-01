@@ -17,6 +17,7 @@ const meta: Meta<typeof Logo> = {
 
 export default meta
 type Story = StoryObj<typeof Logo>
+
 export const WithAnImage: Story = {
   render: ({ width, height }) => (
     <Image

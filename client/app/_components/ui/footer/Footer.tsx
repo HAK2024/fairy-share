@@ -16,7 +16,7 @@ const Footer = () => {
         </Link>
         <Link href={'/calendar'}>
           <div
-            style={{ boxShadow: '4px 4px 4px rgba(13, 148, 136, 0.25)' }}
+            style={{ boxShadow: '4px 4px 4px rgba(13, 148, 136, 0.25)' }} // teal-600
             className='-translate-y-8 rounded-full bg-primary p-3 text-teal-50 shadow-lg transition-transform duration-300 hover:scale-110 hover:shadow-xl'
           >
             <RiCalendarFill className='h-6 w-6' />
