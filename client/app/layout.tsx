@@ -1,6 +1,6 @@
 import { Montserrat } from 'next/font/google'
 import './globals.css'
-import { Header } from './_components/ui'
+import { Footer, Header } from './_components/ui'
 import type { Metadata } from 'next'
 
 const inter = Montserrat({ subsets: ['latin'] })
@@ -20,6 +20,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Header />
         {children}
+        <Footer />
       </body>
     </html>
   )
