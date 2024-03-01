@@ -10,7 +10,6 @@ export class UserController {
   @UseGuards(AuthGuard)
   @Get()
   getMe(@GetUser('id') userId: number) {
-    console.log('userId', userId);
     return this.userService.getMe(userId);
   }
 }
