@@ -1,12 +1,21 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
+import { JwtGuard } from '../auth/guard';
+import { GetUser } from '../auth/decorator';
 
-@Controller('users')
+@Controller('me')
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @Get(':userId')
-  findUser(@Param('userId', ParseIntPipe) userId: number) {
-    return this.userService.findUser(userId);
+  @Get('test')
+  getAll() {
+    return 'all users';
+  }
+
+  @UseGuards(JwtGuard)
+  @Get()
+  getMe(@GetUser('id') userId: number) {
+    console.log('userId', userId);
+    return this.userService.getMe(userId);
   }
 }

@@ -31,6 +31,7 @@ module.exports = {
       {
         endOfLine: 'auto',
         singleQuote: true,
+        semi: true,
       },
     ],
     quotes: 'off',
