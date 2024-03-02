@@ -1,13 +1,23 @@
-version: "3.8"
+version: '3.8'
 services:
   postgres:
     image: postgres:latest
     env_file: .env
     container_name: 'fairy-share-db'
     ports:
-      - "5555:5432"
+      - '5555:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  postgres_test:
+    image: postgres:latest
+    env_file: .env.test
+    container_name: 'fairy-share-db-test'
+    ports:
+      - '5556:5432'
+    volumes:
+      - postgres_test_data:/var/lib/postgresql/data
+
 volumes:
   postgres_data:
+  postgres_test_data:

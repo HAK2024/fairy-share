@@ -15,9 +15,9 @@ datasource db {
 
 model User {
   id              Int    @id @default(autoincrement())
-  name            String
-  email           String @unique
-  hashed_password String
+  name            String @db.VarChar(20)
+  email           String @unique @db.VarChar(50)
+  hashed_password String 
 
   // You can't set default color in ENUM, so you need to set it when you create an actual record
 
@@ -55,7 +55,7 @@ model UserHouse {
 
 model House {
   id               Int         @id @default(autoincrement())
-  name             String
+  name             String      @db.VarChar(20)
   isExpensePerTime Boolean     @default(true)
   Rule             Rule[]
   UserHouse        UserHouse[]
@@ -65,16 +65,16 @@ model House {
 
 model Rule {
   id      Int    @id @default(autoincrement())
-  text    String
+  text    String @db.VarChar(100)
   houseId Int
   House   House? @relation(fields: [houseId], references: [id])
 }
 
 model Task {
   id         Int      @id @default(autoincrement())
-  title      String
+  title      String   @db.VarChar(50)
   date       DateTime
-  note       String?
+  note       String?  @db.VarChar(100)
   houseId    Int
   assigneeId Int
   House      House?   @relation(fields: [houseId], references: [id])
@@ -83,7 +83,7 @@ model Task {
 
 model Expense {
   id             Int              @id @default(autoincrement())
-  itemName       String
+  itemName       String           @db.VarChar(50)
   fee            Float
   date           DateTime
   houseId        Int
