@@ -90,6 +90,22 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+#### Nest CLI command
+
+```bash
+# Generate a new CRUD resource
+ nest g resource <name> [options]
+
+# Generate a module declaration
+ nest g module <name> [options]
+
+ # Generate a module controller
+ nest g controller <name> [options]
+
+  # Generate a module service
+ nest g service <name> [options]
+```
+
 ### Client
 
 Dev Mode: http://localhost:3000/
@@ -100,17 +116,20 @@ npm run dev
 ```
 
 Storybook: http://localhost:6006/
+
 ```
 npm run sb:
 ```
 
 Lint
+
 ```
 npm run lint
 npm run lint:fix
 ```
 
 Format
+
 ```
 npm format
 ```

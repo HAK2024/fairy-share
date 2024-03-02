@@ -1,6 +1,6 @@
 {
   // NOTE - eslit shows error if tsconfig.json is not in the root directory so we need to specify the project path
-  "eslint.workingDirectories": ["./client"],
+  "eslint.workingDirectories": ["./client", "./server"],
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
