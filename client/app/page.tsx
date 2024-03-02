@@ -5,7 +5,17 @@ export default function Home() {
     <div>
       <Heading
         title='Fairy share'
-        buttonComponent={() => <Button variant={'outline'}>Rules</Button>}
+        // TODO: There might be a better way to switch between two different size of Button component depending on the screen size?
+        buttonComponent={() => (
+          <>
+            <Button variant={'outline'} className='block md:hidden'>
+              Rules
+            </Button>
+            <Button variant={'outline'} className='hidden md:block'>
+              Rules
+            </Button>
+          </>
+        )}
       />
     </div>
   )

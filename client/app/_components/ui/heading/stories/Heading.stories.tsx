@@ -8,6 +8,13 @@ const meta = {
   parameters: {
     layout: 'fullscreen',
   },
+  decorators: [
+    (Story) => (
+      <div className='px-4 pb-10 pt-8 md:px-14 md:pb-20 md:pt-10'>
+        <Story />
+      </div>
+    ),
+  ],
   tags: ['autodocs'],
 } satisfies Meta<typeof Heading>
 

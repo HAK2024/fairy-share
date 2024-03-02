@@ -10,20 +10,20 @@ const Footer = () => {
     <div className='fixed bottom-0 left-0 right-0 flex h-16 w-screen items-center bg-teal-50 text-white shadow-lg md:hidden'>
       <div className='flex w-full items-center justify-between px-6'>
         <Link href={'/'}>
-          <div className=' rounded-full bg-primary p-2 text-teal-50 shadow-md transition-transform duration-300 hover:scale-110'>
+          <div className='flex h-10 w-10 items-center justify-center rounded-full bg-primary p-2 text-teal-50 shadow-md transition-transform duration-300 hover:scale-110'>
             <RiHomeFill className='h-6 w-6 ' />
           </div>
         </Link>
         <Link href={'/calendar'}>
           <div
             style={{ boxShadow: '4px 4px 4px rgba(13, 148, 136, 0.25)' }} // teal-600
-            className='-translate-y-8 rounded-full bg-primary p-3 text-teal-50 shadow-lg transition-transform duration-300 hover:scale-110 hover:shadow-xl'
+            className='z-10 flex h-12 w-12 -translate-y-8 items-center justify-center rounded-full bg-primary p-3 text-teal-50 shadow-lg transition-transform duration-300 hover:scale-110 hover:shadow-xl'
           >
-            <RiCalendarFill className='h-6 w-6' />
+            <RiCalendarFill className='h-8 w-8' />
           </div>
         </Link>
         <Link href={'/expense'}>
-          <div className='text-teal-50 transition-transform duration-300  hover:scale-110 hover:text-teal-200'>
+          <div className='flex items-center justify-center text-teal-50 transition-transform duration-300  hover:scale-110 hover:text-teal-200'>
             <RiMoneyEuroCircleFill className='h-12 w-12 text-primary drop-shadow-md' />
           </div>
         </Link>

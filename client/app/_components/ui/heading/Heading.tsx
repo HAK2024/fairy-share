@@ -12,7 +12,7 @@ const Heading = ({
 }: HeadingProps) => {
   return (
     <div className='flex justify-between'>
-      <p className='md:text-4xl text-2xl font-bold text-teal-800'>{title}</p>
+      <p className='text-2xl font-bold text-teal-800 md:text-4xl'>{title}</p>
       {ButtonComponent && <ButtonComponent />}
     </div>
   )
