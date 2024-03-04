@@ -4,7 +4,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from './DropdownMenu'
+} from '@/_components/ui'
 
 const SettingDropdown = () => {
   return (

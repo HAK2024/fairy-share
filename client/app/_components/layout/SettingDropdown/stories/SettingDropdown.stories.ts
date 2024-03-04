@@ -2,7 +2,7 @@ import { SettingDropdown } from '../SettingDropdown'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta = {
-  title: 'ui/SettingDropdown',
+  title: 'layout/SettingDropdown',
   component: SettingDropdown,
   parameters: {
     layout: 'centered',

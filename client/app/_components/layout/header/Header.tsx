@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { Button, Logo, SettingDropdown } from '..'
+import { Button } from '@/_components/ui'
+import { Logo, SettingDropdown } from '..'
 
 const Header = () => {
   return (
