@@ -1,10 +1,8 @@
 import { RxGear, RxPerson, RxExit } from 'react-icons/rx'
 import {
   DropdownMenu,
-  DropdownMenuLabel,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './DropdownMenu'
 
@@ -15,8 +13,6 @@ const SettingDropdown = () => {
         <RxGear className='h-7 w-7' />
       </DropdownMenuTrigger>
       <DropdownMenuContent className='m-4 w-52 font-medium'>
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
         {/* TODO: Need to put the onClick handler for each item later when implementing each feature */}
         <DropdownMenuItem className='cursor-pointer focus:bg-primary focus:text-primary-foreground'>
           <div className='flex items-center gap-2'>
