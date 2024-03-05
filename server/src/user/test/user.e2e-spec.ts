@@ -22,9 +22,10 @@ describe('UserController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(new ValidationPipe());
-
     app.use(cookieParser());
+
     await app.init();
+    app.setGlobalPrefix('api');
 
     prisma = app.get(PrismaService);
     await prisma.cleanDb();

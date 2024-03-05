@@ -15,7 +15,9 @@ describe('AuthController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(new ValidationPipe());
+
     await app.init();
+    app.setGlobalPrefix('api');
 
     prisma = app.get(PrismaService);
     await prisma.cleanDb();
