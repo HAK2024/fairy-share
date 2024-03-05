@@ -71,14 +71,17 @@ model Rule {
 }
 
 model Task {
-  id         Int      @id @default(autoincrement())
-  title      String
-  date       DateTime
-  note       String?
-  houseId    Int
-  assigneeId Int
-  House      House?   @relation(fields: [houseId], references: [id])
-  User       User?    @relation(fields: [assigneeId], references: [id])
+  id          Int      @id @default(autoincrement())
+  title       String
+  date        DateTime
+  note        String?
+  houseId     Int
+  assigneeId  Int
+  // Add this column to track if the task is complete or not
+  // I thought date column is supposed to be used for this purpose, but it's used for the date when the task has to be done
+  isCompleted Boolean  @default(false)
+  House       House?   @relation(fields: [houseId], references: [id])
+  User        User?    @relation(fields: [assigneeId], references: [id])
 }
 
 model Expense {
