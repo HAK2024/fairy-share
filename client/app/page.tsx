@@ -1,24 +1,17 @@
-import { Button } from '@/_components/ui'
+import { Button, Heading } from '@/_components/ui'
+import { Header, Footer } from './_components/layout'
 
 export default function Home() {
   return (
-    <main className='p-24'>
-      <p className='text-xs p-4'>Hello World!</p>
-      <div className='text-sm m-4 flex gap-10 p-4'>
-        <Button variant={'destructive'}>Click me</Button>
-        <Button variant={'outline'} disabled>
-          Click me
-        </Button>
-        <Button variant={'secondary'} disabled>
-          Click me
-        </Button>
-        <Button variant={'ghost'}>Click me</Button>
-        <Button variant={'link'}>Click me</Button>
-        <Button disabled>Click me</Button>
-        <Button type='submit' isLoading>
-          Click me
-        </Button>
+    <>
+      <Header />
+      <div className='px-4 pb-10 pt-8 md:px-14 md:pb-20 md:pt-10'>
+        <Heading
+          title='Fairy share'
+          buttonComponent={() => <Button variant={'outline'}>Rules</Button>}
+        />
       </div>
-    </main>
+      <Footer />
+    </>
   )
 }

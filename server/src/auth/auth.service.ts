@@ -27,12 +27,12 @@ export class AuthService {
         data: {
           name: dto.name,
           email: dto.email,
-          hashed_password: hashedPassword,
+          hashedPassword: hashedPassword,
           icon: 'WHITE',
         },
       });
 
-      delete user.hashed_password;
+      delete user.hashedPassword;
 
       const token = await this.generateJwtToken(
         user.id,
@@ -67,13 +67,13 @@ export class AuthService {
         throw new UnauthorizedException('Invalid credentials');
       }
 
-      const passwordMatch = await compare(dto.password, user.hashed_password);
+      const passwordMatch = await compare(dto.password, user.hashedPassword);
 
       if (!passwordMatch) {
         throw new UnauthorizedException('Invalid credentials');
       }
 
-      delete user.hashed_password;
+      delete user.hashedPassword;
 
       const token = await this.generateJwtToken(
         user.id,
