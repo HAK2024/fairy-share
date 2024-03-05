@@ -40,6 +40,7 @@ describe('UserController (e2e)', () => {
   });
 
   describe('GET /me', () => {
+    console.log('test');
     it('should return 401 if not authenticated', async () => {
       await request(app.getHttpServer()).get('/me').expect(401);
     });
