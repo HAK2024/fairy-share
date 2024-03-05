@@ -77,8 +77,6 @@ model Task {
   note        String?
   houseId     Int
   assigneeId  Int
-  // Add this column to track if the task is complete or not
-  // I thought date column is supposed to be used for this purpose, but it's used for the date when the task has to be done
   isCompleted Boolean  @default(false)
   house       House?   @relation(fields: [houseId], references: [id])
   user        User?    @relation(fields: [assigneeId], references: [id])
