@@ -32,9 +32,11 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
+        working-directory: ./server
         run: npm ci
 
       - name: Generate Prisma client
+        working-directory: ./server
         run: npx prisma generate
 
       - name: Run tests
