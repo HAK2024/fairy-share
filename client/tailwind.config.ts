@@ -9,9 +9,6 @@ module.exports = {
   ],
   prefix: '',
   theme: {
-    fontSize: {
-      '2xs': '0.625rem',
-    },
     container: {
       center: true,
       padding: '2rem',
@@ -20,6 +17,10 @@ module.exports = {
       },
     },
     extend: {
+      // I moved fontSize here to not override the original fontSize
+      fontSize: {
+        '2xs': '0.625rem',
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -77,4 +78,4 @@ module.exports = {
     },
   },
   plugins: [require('tailwindcss-animate')],
-};
+}

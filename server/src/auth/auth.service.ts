@@ -1,4 +1,8 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { hash, compare } from 'bcrypt';
@@ -23,12 +27,12 @@ export class AuthService {
         data: {
           name: dto.name,
           email: dto.email,
-          hashed_password: hashedPassword,
+          hashedPassword: hashedPassword,
           icon: 'WHITE',
         },
       });
 
-      delete user.hashed_password;
+      delete user.hashedPassword;
 
       const token = await this.generateJwtToken(
         user.id,
@@ -60,16 +64,16 @@ export class AuthService {
       });
 
       if (!user) {
-        throw new ForbiddenException('Invalid credentials');
+        throw new UnauthorizedException('Invalid credentials');
       }
 
-      const passwordMatch = await compare(dto.password, user.hashed_password);
+      const passwordMatch = await compare(dto.password, user.hashedPassword);
 
       if (!passwordMatch) {
-        throw new ForbiddenException('Invalid credentials');
+        throw new UnauthorizedException('Invalid credentials');
       }
 
-      delete user.hashed_password;
+      delete user.hashedPassword;
 
       const token = await this.generateJwtToken(
         user.id,

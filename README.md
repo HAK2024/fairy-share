@@ -8,9 +8,7 @@
 
    - Clone this repository to your local machine using Git.
 
-#### Environment Variables
-
-- Create a file named `.env` in the root of the server folder and update the variables to match your local environment settings.
+2. **Create a file named `.env` in the root of the server folder**
 
   ```bash
   DATABASE_URL="postgresql://YOUR_USERNAME:YOUR_PASSWORD@localhost:5432/YOUR_DATABASE?schema=public"
@@ -21,29 +19,28 @@
 
 3. **Start the Docker Containers**
 
-   - Run the following command in the server directory to start all services defined in the `docker-compose.yml` file:
+- Run the following command in the server directory to start all services defined in the `docker-compose.yml` file:
 
-   ```bash
+  ```bash
    docker-compose up -d
-   ```
+  ```
 
-   When you want to down the container.
+- When you want to down the container.
 
-```bash
- docker-compose down
-```
+  ```bash
+   docker-compose down
+  ```
 
-This command will start the PostgreSQL database container as specified in the Docker Compose file.
-
-```bash
-$ npm install
-```
+- Install all dependencies
+  ```bash
+  $ npm install
+  ```
 
 - If you haven't install Nest CLI,
 
-```bash
-npm i -g @nestjs/cli
-```
+  ```bash
+  npm i -g @nestjs/cli
+  ```
 
 #### Database Setup
 
@@ -62,32 +59,31 @@ cd client
 npm install
 ```
 
-## Running
+## Running with dev mode
 
 ### Server
 
 ```bash
 # development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm run start
 ```
 
 #### Test
+- If you need migration
 
 ```bash
-# unit tests
-$ npm run test
+npm run prisma:migrate-test
+```
 
+```bash
 # e2e tests
-$ npm run test:e2e
+npm run test:e2e
 
-# test coverage
-$ npm run test:cov
+# e2e tests watch mode
+npm run test:e2e:watch
+
+# e2e test only 1 file
+npm run test:e2e src/user/test/user.e2e-spec.ts
 ```
 
 #### Nest CLI command
@@ -108,18 +104,16 @@ $ npm run test:cov
 
 ### Client
 
-Dev Mode: http://localhost:3000/
-
 ```
 cd client
 npm run dev
 ```
-
-Storybook: http://localhost:6006/
+URL: http://localhost:3000/
 
 ```
 npm run sb:
 ```
+Storybook: http://localhost:6006/
 
 Lint
 
