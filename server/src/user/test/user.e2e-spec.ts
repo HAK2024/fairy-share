@@ -2,12 +2,10 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import * as cookieParser from 'cookie-parser';
 import { TestingModule, Test } from '@nestjs/testing';
-import { ConfigModule } from '@nestjs/config';
 import { PrismaService } from '../../prisma/prisma.service';
-import { AuthModule } from '../../auth/auth.module';
 import { UserModule } from '../user.module';
-import { PrismaModule } from '../../prisma/prisma.module';
 import { AuthGuard } from '../../auth/guard';
+import { authSetTokens, buildDefaultModules } from '../../../test';
 
 describe('UserController (e2e)', () => {
   let app: INestApplication;
@@ -18,12 +16,7 @@ describe('UserController (e2e)', () => {
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [
-        AuthModule,
-        UserModule,
-        PrismaModule,
-        ConfigModule.forRoot({ isGlobal: true }),
-      ],
+      imports: [...buildDefaultModules(), UserModule],
       providers: [AuthGuard],
     }).compile();
 
@@ -36,29 +29,9 @@ describe('UserController (e2e)', () => {
     prisma = app.get(PrismaService);
     await prisma.cleanDb();
 
-    // Create a user
-    const response = await request(app.getHttpServer())
-      .post('/auth/register')
-      .send({
-        name: 'Test User',
-        email: 'test@test.com',
-        password: 'password',
-        icon: 'WHITE',
-      });
-
-    // Extract the JWT token from the response
-    const jwtCookies = response.headers['set-cookie'];
-
-    if (jwtCookies && jwtCookies.length) {
-      const jwtCookie = jwtCookies[0];
-      token = jwtCookie.split('=')[1].split(';')[0];
-    }
-
-    const csrfResponse = await request(app.getHttpServer()).get(
-      '/auth/csrf-token',
-    );
-
-    csrfToken = csrfResponse.body.csrfToken;
+    const tokens = await authSetTokens(app);
+    token = tokens.jwtToken;
+    csrfToken = tokens.csrfToken;
   });
 
   afterAll(() => {

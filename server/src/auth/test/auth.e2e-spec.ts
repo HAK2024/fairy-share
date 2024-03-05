@@ -1,10 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
-import { ConfigModule } from '@nestjs/config';
-import { AuthModule } from './../auth.module';
-import { PrismaModule } from '../../prisma/prisma.module';
 import { PrismaService } from '../../prisma/prisma.service';
+import { buildDefaultModules } from '../../../test';
 
 describe('AuthController (e2e)', () => {
   let app: INestApplication;
@@ -12,11 +10,7 @@ describe('AuthController (e2e)', () => {
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [
-        AuthModule,
-        PrismaModule,
-        ConfigModule.forRoot({ isGlobal: true }),
-      ],
+      imports: [...buildDefaultModules()],
     }).compile();
 
     app = moduleFixture.createNestApplication();
