@@ -49,7 +49,6 @@ describe('UserController (e2e)', () => {
         .get('/me')
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
-        .set('Authorization', 'abc123')
         .expect(200);
     });
   });
