@@ -40,6 +40,8 @@ jobs:
         run: |
           npm run prisma:generate
           npm run prisma:migrate-test
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test
 
       - name: Run tests
         working-directory: ./server
