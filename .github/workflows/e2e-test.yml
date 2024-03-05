@@ -1,0 +1,32 @@
+name: E2E Test
+on:
+  push:
+    paths:
+      - 'server/**'
+
+jobs:
+  tests:
+    name: run e2e test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.10.0]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - name: npm install
+        run: npm install
+
+      - name: Run test
+        working-directory: ./client
+        run: |
+          npm ci
+          npm run test:e2e
