@@ -3,7 +3,6 @@ import { BiEuro } from 'react-icons/bi'
 import { BiHomeAlt2 } from 'react-icons/bi'
 import { BiCalendarAlt } from 'react-icons/bi'
 
-// TODO: This design may have some room for improvement
 const Footer = () => {
   return (
     // Footer: Visible on devices less wider than "md" breakpoint
@@ -16,8 +15,8 @@ const Footer = () => {
         </Link>
         <Link href={'/calendar'}>
           <div className='relative flex -translate-y-8 items-center justify-center'>
-            <BiCalendarAlt className='z-10 h-10 w-10 rounded-full bg-primary p-2 shadow-lg shadow-primary transition-transform duration-300 hover:scale-110' />
-            <div className='absolute inset-0 z-0 h-14 w-14 -translate-x-2 -translate-y-2 rounded-full bg-teal-50 '></div>
+            <BiCalendarAlt className='z-10 h-12 w-12 rounded-full bg-primary p-2 shadow-lg shadow-primary transition-transform duration-300 hover:scale-110' />
+            <div className='absolute inset-0 z-0 h-16 w-16 -translate-x-2 -translate-y-2 rounded-full bg-teal-50 '></div>
           </div>
         </Link>
         <Link href={'/expense'}>
