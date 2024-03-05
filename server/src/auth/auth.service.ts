@@ -1,4 +1,8 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { hash, compare } from 'bcrypt';
@@ -60,13 +64,13 @@ export class AuthService {
       });
 
       if (!user) {
-        throw new ForbiddenException('Invalid credentials');
+        throw new UnauthorizedException('Invalid credentials');
       }
 
       const passwordMatch = await compare(dto.password, user.hashed_password);
 
       if (!passwordMatch) {
-        throw new ForbiddenException('Invalid credentials');
+        throw new UnauthorizedException('Invalid credentials');
       }
 
       delete user.hashed_password;
