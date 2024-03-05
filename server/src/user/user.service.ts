@@ -10,10 +10,10 @@ export class UserService {
       const user = await this.prisma.user.findUnique({
         where: { id: userId },
         include: {
-          UserHouse: true,
-          Task: true,
-          Expense: true,
-          Payment: true,
+          userHouses: true,
+          tasks: true,
+          expenses: true,
+          payments: true,
         },
       });
 

@@ -14,18 +14,18 @@ datasource db {
 }
 
 model User {
-  id              Int    @id @default(autoincrement())
-  name            String
-  email           String @unique
-  hashed_password String
+  id             Int    @id @default(autoincrement())
+  name           String
+  email          String @unique
+  hashedPassword String
 
   // You can't set default color in ENUM, so you need to set it when you create an actual record
 
-  icon      IconColor
-  UserHouse UserHouse[]
-  Task      Task[]
-  Expense   Expense[]
-  Payment   Payment[]
+  icon       IconColor
+  userHouses UserHouse[]
+  tasks      Task[]
+  expenses   Expense[]
+  payments   Payment[]
 }
 
 // I put the random color in IconColor, so you can change them to different colors if you need to
@@ -47,8 +47,8 @@ model UserHouse {
   userId  Int
   houseId Int
   isAdmin Boolean @default(false)
-  User    User?   @relation(fields: [userId], references: [id])
-  House   House?  @relation(fields: [houseId], references: [id])
+  user    User?   @relation(fields: [userId], references: [id])
+  house   House?  @relation(fields: [houseId], references: [id])
 
   @@unique([userId, houseId])
 }
@@ -57,17 +57,17 @@ model House {
   id               Int         @id @default(autoincrement())
   name             String
   isExpensePerTime Boolean     @default(true)
-  Rule             Rule[]
-  UserHouse        UserHouse[]
-  Task             Task[]
-  Expense          Expense[]
+  rules            Rule[]
+  userHouses       UserHouse[]
+  tasks            Task[]
+  expenses         Expense[]
 }
 
 model Rule {
   id      Int    @id @default(autoincrement())
   text    String
   houseId Int
-  House   House? @relation(fields: [houseId], references: [id])
+  house   House? @relation(fields: [houseId], references: [id])
 }
 
 model Task {
@@ -80,40 +80,40 @@ model Task {
   // Add this column to track if the task is complete or not
   // I thought date column is supposed to be used for this purpose, but it's used for the date when the task has to be done
   isCompleted Boolean  @default(false)
-  House       House?   @relation(fields: [houseId], references: [id])
-  User        User?    @relation(fields: [assigneeId], references: [id])
+  house       House?   @relation(fields: [houseId], references: [id])
+  user        User?    @relation(fields: [assigneeId], references: [id])
 }
 
 model Expense {
-  id             Int              @id @default(autoincrement())
-  itemName       String
-  fee            Float
-  date           DateTime
-  houseId        Int
-  buyerId        Int
-  House          House?           @relation(fields: [houseId], references: [id])
-  User           User?            @relation(fields: [buyerId], references: [id])
-  Payment        Payment[]
-  ExpensePayment ExpensePayment[]
+  id              Int              @id @default(autoincrement())
+  itemName        String
+  fee             Float
+  date            DateTime
+  houseId         Int
+  buyerId         Int
+  house           House?           @relation(fields: [houseId], references: [id])
+  user            User?            @relation(fields: [buyerId], references: [id])
+  payments        Payment[]
+  expensePayments ExpensePayment[]
 }
 
 model Payment {
-  id             Int              @id @default(autoincrement())
-  fee            Float
-  paidDate       DateTime
-  expenseId      Int
-  payerId        Int
-  Expense        Expense?         @relation(fields: [expenseId], references: [id])
-  User           User?            @relation(fields: [payerId], references: [id])
-  ExpensePayment ExpensePayment[]
+  id              Int              @id @default(autoincrement())
+  fee             Float
+  paidDate        DateTime
+  expenseId       Int
+  payerId         Int
+  expense         Expense?         @relation(fields: [expenseId], references: [id])
+  user            User?            @relation(fields: [payerId], references: [id])
+  expensePayments ExpensePayment[]
 }
 
 model ExpensePayment {
   id        Int      @id @default(autoincrement())
   expenseId Int
   paymentId Int
-  Expense   Expense? @relation(fields: [expenseId], references: [id])
-  Payment   Payment? @relation(fields: [paymentId], references: [id])
+  expense   Expense? @relation(fields: [expenseId], references: [id])
+  payment   Payment? @relation(fields: [paymentId], references: [id])
 
   @@unique([expenseId, paymentId])
 }
