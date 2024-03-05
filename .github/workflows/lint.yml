@@ -1,6 +1,9 @@
 name: Client Lint and Format
 
-on: [push]
+on:
+  push:
+    paths:
+      - 'client/**'
 
 jobs:
   lint:
