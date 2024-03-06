@@ -20,7 +20,7 @@ const house: House = {
     },
     {
       id: 122,
-      text: 'No loud music after 10 PM',
+      text: 'No loud music after 10 PM No loud music after 10 PM',
       houseId: 106,
     },
     {
@@ -30,7 +30,7 @@ const house: House = {
     },
     {
       id: 124,
-      text: 'Clean the bathroom weekly',
+      text: 'Clean the bathroom weekly Clean the bathroom weekly',
       houseId: 107,
     },
     {
@@ -50,17 +50,21 @@ const RuleList = () => {
   return (
     <>
       <Header />
-      <div className='px-4 pb-6 pt-8 md:px-14 md:pb-8 md:pt-10'>
+      {/* <div className='px-4 pb-6 pt-8 md:px-14 md:pb-8 md:pt-10'> */}
+      <div className='px-4 pb-10 pt-8 md:px-14 md:pb-20 md:pt-10'>
         <Heading title={house.name} buttonComponent={null} />
-      </div>
 
-      <div className='mx-4 border border-amber-400 bg-amber-100 md:mx-14'>
-        {house.rules.map((rule, index) => (
-          <div key={index} className='my-7 ml-6 flex items-center md:my-8 '>
-            <MdPushPin className='mr-2' />
-            <p className='md:text-md text-sm font-semibold'>{rule.text}</p>
-          </div>
-        ))}
+        <div className='mt-8 border border-amber-400 bg-amber-100'>
+          {house.rules.map((rule, index) => (
+            <div
+              key={index}
+              className='mx-4 my-7 flex items-center md:mx-6 md:my-8 '
+            >
+              <MdPushPin className='mr-2 h-auto w-5 min-w-5 text-teal-700 md:mr-3 md:w-6 md:min-w-6' />
+              <p className='text-sm font-semibold md:text-lg'>{rule.text}</p>
+            </div>
+          ))}
+        </div>
       </div>
       <Footer />
     </>
