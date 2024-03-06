@@ -35,15 +35,8 @@ export class UserService {
         select: { name: true },
       });
 
-      // If the user is not in any house, return the code below
       if (!house) {
-        return {
-          error: 'House not found',
-          houseName: null,
-          todayTasks: [],
-          weekTasks: [],
-          hasUnpaidPayments: false,
-        };
+        throw new Error('House not found');
       }
 
       const currentDate = new Date();
