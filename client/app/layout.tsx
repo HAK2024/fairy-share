@@ -18,7 +18,7 @@ export default function RootLayout({
     <html lang='en'>
       <body className={inter.className}>
         {/* TODO: Show different layouts depending on the screen */}
-        <main className='min-h-screen bg-amber-100 text-slate-800'>
+        <main className='bg-amber-100 text-slate-800'>
           {children}
         </main>
       </body>

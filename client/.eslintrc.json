@@ -5,14 +5,14 @@
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "next/core-web-vitals",
     "plugin:storybook/recommended",
-    "prettier"
+    "prettier",
+    "plugin:@tanstack/eslint-plugin-query/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": ["./tsconfig.json"]
   },
-  "plugins": ["@typescript-eslint"],
-
+  "plugins": ["@typescript-eslint", "@tanstack/query"],
   "rules": {
     "import/order": [
       "error",

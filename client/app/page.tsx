@@ -1,3 +1,4 @@
+'use client'
 import { Button, Heading } from '@/_components/ui'
 import { Header, Footer } from './_components/layout'
 

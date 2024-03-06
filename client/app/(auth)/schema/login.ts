@@ -1,12 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 
-const signInSchema = z.object({
-  email: z.string().email('This is not valid email address'),
+const loginSchema = z.object({
+  email: z
+    .string({ required_error: 'Email is required' })
+    .email('This is not valid email address'),
   password: z
-    .string()
-    .min(8, { message: 'Password must contain at least 8 character(s)' }),
+    .string({ required_error: 'Password is required' })
+    .max(50, { message: 'Password must be less than 50 characters' }),
 })
 
-export type SignInSchema = z.infer<typeof signInSchema>
-export const signInResolver = zodResolver(signInSchema)
+export type LoginSchema = z.infer<typeof loginSchema>
+export const loginResolver = zodResolver(loginSchema)
