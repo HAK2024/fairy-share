@@ -1,5 +1,6 @@
 import { Montserrat } from 'next/font/google'
 import './globals.css'
+import { ClientComponentsProvider, ReactQueryProvider } from '@/_providers'
 import type { Metadata } from 'next'
 
 const inter = Montserrat({ subsets: ['latin'] })
@@ -17,10 +18,13 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={inter.className}>
-        {/* TODO: Show different layouts depending on the screen */}
-        <main className='bg-amber-100 text-slate-800'>
-          {children}
-        </main>
+        <ReactQueryProvider>
+          {/* TODO: Show different layouts depending on the screen */}
+          <main className='min-h-svh bg-amber-100 text-slate-800'>
+            {children}
+          </main>
+          <ClientComponentsProvider />
+        </ReactQueryProvider>
       </body>
     </html>
   )

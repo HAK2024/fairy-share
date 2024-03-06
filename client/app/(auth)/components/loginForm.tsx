@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { FcGoogle } from 'react-icons/fc'
+// import { FcGoogle } from 'react-icons/fc'
 import {
   Form,
   FormControl,
@@ -16,9 +16,7 @@ import {
 import { useLogin } from '../hooks'
 
 const LoginForm = () => {
-  const { form, onSubmit } = useLogin()
-
-  console.log('errors', form.formState.errors)
+  const { form, onSubmit, isPending } = useLogin()
 
   return (
     <div className='flex w-full flex-col items-center bg-amber-50 md:w-[680px] md:p-10'>
@@ -33,42 +31,51 @@ const LoginForm = () => {
         <h1 className='mt-7 text-center text-3xl font-bold'>Welcome Home</h1>
 
         <Form {...form}>
-          <form onSubmit={onSubmit} className='mx-auto mt-8 w-full space-y-5'>
-            <FormField
-              control={form.control}
-              name='email'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder='example@gmail.com' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <form onSubmit={onSubmit} className='mx-auto mt-8 w-full'>
+            <div className='space-y-5'>
+              <FormField
+                control={form.control}
+                name='email'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder='example@gmail.com' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name='password'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input placeholder='password' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name='password'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input placeholder='password' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
             <div className='mt-7 text-center'>
-              <Button type='submit'>Login</Button>
+              <Button
+                type='submit'
+                className='min-w-[98px]'
+                isLoading={isPending}
+              >
+                Login
+              </Button>
             </div>
           </form>
         </Form>
 
-        <div className='mt-7 flex items-center'>
+        {/* TODO Implement Google Auth when we have time */}
+        {/* <div className='mt-7 flex items-center'>
           <div className='h-[1px] flex-grow bg-slate-300' />
           <span className='px-3 text-slate-600'>or</span>
 
@@ -80,7 +87,7 @@ const LoginForm = () => {
             <FcGoogle className='mr-2' size={20} />
             Continue with Google
           </Button>
-        </div>
+        </div> */}
 
         <div className='mt-10 flex flex-col items-center gap-2'>
           <span className='text-sm md:text-base'>

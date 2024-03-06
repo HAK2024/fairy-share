@@ -4,9 +4,11 @@ import * as z from 'zod'
 const loginSchema = z.object({
   email: z
     .string({ required_error: 'Email is required' })
-    .email('This is not valid email address'),
+    .email('This is not valid email address')
+    .max(50, { message: 'Email must be less than 50 characters' }),
   password: z
-    .string({ required_error: 'Password is required' })
+    .string()
+    .min(1, { message: 'Password is required' })
     .max(50, { message: 'Password must be less than 50 characters' }),
 })
 

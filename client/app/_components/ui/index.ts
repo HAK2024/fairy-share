@@ -17,3 +17,5 @@ export {
   DropdownMenuTrigger,
 } from './dropdown/DropdownMenu'
 export { Heading } from './heading/Heading'
+export { Toaster } from './toaster'
+export { useToast } from './use-toast'
