@@ -21,7 +21,7 @@ export class UserController {
 
   @UseGuards(AuthGuard)
   @Get(':houseId/todos')
-  getHomeInfo(
+  getTodos(
     @GetUser('id') userId: number,
     @Param('houseId', ParseIntPipe) houseId: number,
   ) {

@@ -19,7 +19,10 @@
     "prisma:reset": "prisma migrate reset --force --schema src/prisma/schema.prisma",
     "prisma:migrate": "prisma migrate dev --schema src/prisma/schema.prisma",
     "prisma:generate": "prisma generate --schema src/prisma/schema.prisma",
-    "prisma:migrate-test": "dotenv -e .env.test -- prisma migrate reset --force --schema src/prisma/schema.prisma"
+    "prisma:seed-test": "dotenv -e .env.test -- ts-node src/prisma/seed.ts",
+    "prisma:reset-test": "dotenv -e .env.test -- prisma migrate reset --force --schema src/prisma/schema.prisma",
+    "prisma:migrate-test": "dotenv -e .env.test -- prisma migrate reset --force --schema src/prisma/schema.prisma",
+    "prisma:generate-test": "dotenv -e .env.test -- prisma generate --schema src/prisma/schema.prisma"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
