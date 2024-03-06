@@ -1,0 +1,70 @@
+import React from 'react'
+import { MdPushPin } from 'react-icons/md'
+import { Header, Footer } from '@/_components/layout'
+import { Heading } from '@/_components/ui/heading/Heading'
+
+interface House {
+  id: number
+  name: string
+  rules: { id: number; text: string; houseId: number }[]
+}
+
+const house: House = {
+  id: 106,
+  name: 'Green Villa',
+  rules: [
+    {
+      id: 121,
+      text: 'Keep the kitchen clean',
+      houseId: 106,
+    },
+    {
+      id: 122,
+      text: 'No loud music after 10 PM',
+      houseId: 106,
+    },
+    {
+      id: 123,
+      text: 'Sort the trash for recycling',
+      houseId: 107,
+    },
+    {
+      id: 124,
+      text: 'Clean the bathroom weekly',
+      houseId: 107,
+    },
+    {
+      id: 125,
+      text: 'Sort the trash for recycling',
+      houseId: 108,
+    },
+    {
+      id: 126,
+      text: 'Clean the bathroom weekly',
+      houseId: 108,
+    },
+  ],
+}
+
+const RuleList = () => {
+  return (
+    <>
+      <Header />
+      <div className='px-4 pb-6 pt-8 md:px-14 md:pb-8 md:pt-10'>
+        <Heading title={house.name} buttonComponent={null} />
+      </div>
+
+      <div className='mx-4 border border-amber-400 bg-amber-100 md:mx-14'>
+        {house.rules.map((rule, index) => (
+          <div key={index} className='my-7 ml-6 flex items-center md:my-8 '>
+            <MdPushPin className='mr-2' />
+            <p className='md:text-md text-sm font-semibold'>{rule.text}</p>
+          </div>
+        ))}
+      </div>
+      <Footer />
+    </>
+  )
+}
+
+export { RuleList }
