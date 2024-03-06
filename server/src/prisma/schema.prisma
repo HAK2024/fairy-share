@@ -95,13 +95,13 @@ model Expense {
 }
 
 model Payment {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   fee       Float
-  paidDate  DateTime
+  paidDate  DateTime?
   expenseId Int
   payerId   Int
-  expense   Expense? @relation(fields: [expenseId], references: [id])
-  user      User?    @relation(fields: [payerId], references: [id])
+  expense   Expense?  @relation(fields: [expenseId], references: [id])
+  user      User?     @relation(fields: [payerId], references: [id])
 
   @@unique([expenseId, payerId])
 }
