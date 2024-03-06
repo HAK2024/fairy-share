@@ -5,7 +5,6 @@ import { ruleData } from './rule';
 import { taskData } from './task';
 import { expenseData } from './expense';
 import { paymentData } from './payment';
-import { expensePaymentData } from './expensePayment';
 
 export {
   userData,
@@ -15,5 +14,4 @@ export {
   taskData,
   expenseData,
   paymentData,
-  expensePaymentData,
 };

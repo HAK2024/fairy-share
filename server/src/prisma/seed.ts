@@ -1,7 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import {
   expenseData,
-  expensePaymentData,
   houseData,
   paymentData,
   ruleData,
@@ -89,23 +88,6 @@ async function main() {
     });
   }
   console.log('Payments have been added successfully.');
-
-  const expensePaymentsData = await expensePaymentData();
-  for (const expensePayment of expensePaymentsData) {
-    const existingExpensePayment = await prisma.expensePayment.findFirst({
-      where: {
-        expenseId: expensePayment.expenseId,
-        paymentId: expensePayment.paymentId,
-      },
-    });
-
-    if (!existingExpensePayment) {
-      await prisma.expensePayment.create({
-        data: expensePayment,
-      });
-    }
-  }
-  console.log('ExpensePayments have been added successfully.');
 }
 
 main()
