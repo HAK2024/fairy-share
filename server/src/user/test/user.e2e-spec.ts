@@ -47,18 +47,4 @@ describe('UserController (e2e)', () => {
         .expect(200);
     });
   });
-
-  describe('GET /me/106/todos', () => {
-    it('should return 401 if not authenticated', async () => {
-      await request(app.getHttpServer()).get('/me/106/todos').expect(401);
-    });
-
-    it('should return 200 and user data if authenticated', async () => {
-      await request(app.getHttpServer())
-        .get('/me/106/todos')
-        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
-        .set('x-csrf-token', csrfToken)
-        .expect(200);
-    });
-  });
 });

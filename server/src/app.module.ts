@@ -10,6 +10,7 @@ import { HouseModule } from './house/house.module';
     ConfigModule.forRoot({ isGlobal: true }),
     UserModule,
     AuthModule,
+    HouseModule,
     PrismaModule,
     HouseModule,
   ],
