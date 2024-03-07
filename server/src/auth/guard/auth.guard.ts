@@ -17,8 +17,6 @@ export class AuthGuard extends NestAuthGuard('jwt') {
 
     const csrfToken = request.headers['x-csrf-token'];
 
-    console.log('csrfToken', csrfToken);
-
     if (!csrfToken) {
       throw new UnauthorizedException('Invalid CSRF token');
     }

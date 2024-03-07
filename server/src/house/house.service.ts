@@ -5,22 +5,31 @@ import { PrismaService } from '../prisma/prisma.service';
 export class HouseService {
   constructor(private prisma: PrismaService) {}
 
-  async getHouse(houseId: number) {
+  async getHouse(userId: number, houseId: number) {
     try {
       const house = await this.prisma.house.findUnique({
-        where: { id: houseId },
+        where: { id: houseId, userHouses: { some: { userId } } },
         include: {
           rules: true,
-          userHouses: true,
-          tasks: true,
-          expenses: true,
+          userHouses: {
+            where: { userId },
+            select: { isAdmin: true },
+          },
         },
       });
+
+      const houseResponse = {
+        id: house.id,
+        name: house.name,
+        isExpensePerTime: house.isExpensePerTime,
+        rules: house.rules,
+        isUserAdmin: house.userHouses[0]?.isAdmin,
+      };
 
       if (!house) {
         throw new NotFoundException(`House with ID ${houseId} not found.`);
       }
-      return house;
+      return houseResponse;
     } catch (error) {
       console.error('Error fetching todos:', error);
       throw error;

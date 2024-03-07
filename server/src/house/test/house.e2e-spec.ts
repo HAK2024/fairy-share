@@ -34,7 +34,7 @@ describe('HouseController (e2e)', () => {
     app.close();
   });
 
-  describe('GET /houses/106', () => {
+  describe('GET /houses/:houseId', () => {
     it('should return 401 if not authenticated', async () => {
       await request(app.getHttpServer()).get('/houses/106').expect(401);
     });

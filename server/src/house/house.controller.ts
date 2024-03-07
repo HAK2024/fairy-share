@@ -15,8 +15,11 @@ export class HouseController {
   constructor(private readonly houseService: HouseService) {}
 
   @Get(':houseId')
-  getHouse(@Param('houseId', ParseIntPipe) houseId: number) {
-    return this.houseService.getHouse(houseId);
+  getHouse(
+    @GetUser('id') userId: number,
+    @Param('houseId', ParseIntPipe) houseId: number,
+  ) {
+    return this.houseService.getHouse(userId, houseId);
   }
 
   @Get(':houseId/todos')
