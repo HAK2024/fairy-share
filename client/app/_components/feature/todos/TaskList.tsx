@@ -13,7 +13,7 @@ const TaskList: React.FC<TaskListProps> = ({ title, tasks }) => (
   <div className='flex w-full flex-col gap-2'>
     <p className='text-xl font-semibold md:text-2xl'>{title}</p>
     <div className='rounded-sm border-[1px] border-amber-400 bg-amber-100 px-5 py-6 md:px-8 md:py-6'>
-      <ul className='hide-scrollbar hide-scrollbar::-webkit-scrollbar flex max-h-32 flex-col gap-3 overflow-y-auto px-1 md:max-h-48'>
+      <ul className='hide-scrollbar hide-scrollbar::-webkit-scrollbar flex max-h-32 flex-col gap-3 overflow-y-auto px-1 md:max-h-36 md:py-3'>
         {tasks.map((task, index) => (
           <li
             key={index}
