@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { Loading } from '@/_components/layout'
+import { Header, Footer } from '@/_components/layout'
 import { AUTH_PUBLIC_PATH } from '@/_consts'
 import { useGetMeQuery, useGetCsrfTokenQuery } from '@/_hooks/api'
 import { useAuthStore } from '@/_store'
@@ -58,7 +59,13 @@ const CheckAuth = ({ children }: { children: React.ReactNode }) => {
     return <Loading isCenter />
   }
 
-  return <>{children}</>
+  return (
+    <>
+      {currentUser && <Header />}
+      {children}
+      {currentUser && <Footer />}
+    </>
+  )
 }
 
 export { CheckAuth }
