@@ -16,7 +16,6 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
       this.task.deleteMany(),
       this.expense.deleteMany(),
       this.payment.deleteMany(),
-      this.expensePayment.deleteMany(),
     ]);
   }
 }

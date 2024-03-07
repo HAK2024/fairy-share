@@ -14,9 +14,9 @@ datasource db {
 }
 
 model User {
-  id             Int     @id @default(autoincrement())
-  name            String @db.VarChar(20)
-  email           String @unique @db.VarChar(50)
+  id             Int    @id @default(autoincrement())
+  name           String @db.VarChar(20)
+  email          String @unique @db.VarChar(50)
   hashedPassword String
 
   // You can't set default color in ENUM, so you need to set it when you create an actual record
@@ -83,35 +83,25 @@ model Task {
 }
 
 model Expense {
-  id              Int              @id @default(autoincrement())
-  itemName        String           @db.VarChar(50)
-  fee             Float
-  date            DateTime
-  houseId         Int
-  buyerId         Int
-  house           House?           @relation(fields: [houseId], references: [id])
-  user            User?            @relation(fields: [buyerId], references: [id])
-  payments        Payment[]
-  expensePayments ExpensePayment[]
+  id       Int       @id @default(autoincrement())
+  itemName String    @db.VarChar(50)
+  fee      Float
+  date     DateTime
+  houseId  Int
+  buyerId  Int
+  house    House?    @relation(fields: [houseId], references: [id])
+  user     User?     @relation(fields: [buyerId], references: [id])
+  payments Payment[]
 }
 
 model Payment {
-  id              Int              @id @default(autoincrement())
-  fee             Float
-  paidDate        DateTime
-  expenseId       Int
-  payerId         Int
-  expense         Expense?         @relation(fields: [expenseId], references: [id])
-  user            User?            @relation(fields: [payerId], references: [id])
-  expensePayments ExpensePayment[]
-}
-
-model ExpensePayment {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
+  fee       Float
+  paidDate  DateTime?
   expenseId Int
-  paymentId Int
-  expense   Expense? @relation(fields: [expenseId], references: [id])
-  payment   Payment? @relation(fields: [paymentId], references: [id])
+  payerId   Int
+  expense   Expense?  @relation(fields: [expenseId], references: [id])
+  user      User?     @relation(fields: [payerId], references: [id])
 
-  @@unique([expenseId, paymentId])
+  @@unique([expenseId, payerId])
 }
