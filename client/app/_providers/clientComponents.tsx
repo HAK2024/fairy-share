@@ -2,6 +2,8 @@
 
 import { Toaster } from '@/_components/ui'
 
-export const ClientComponentsProvider = () => {
+const ClientComponentsProvider = () => {
   return <Toaster />
 }
+
+export { ClientComponentsProvider }

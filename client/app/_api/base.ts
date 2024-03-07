@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { useAuthStore } from '@/_store'
 
 const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_ORIGIN,
@@ -6,11 +7,11 @@ const apiClient = axios.create({
 })
 
 apiClient.interceptors.request.use((config) => {
-  config.headers['Content-Type'] = 'application/json'
-  // const accessToken = getAccessToken()
-  // if (accessToken) {
-  //   config.headers.Authorization = `Bearer ${accessToken}`
-  // }
+  const csrfToken = useAuthStore.getState().csrfToken
+
+  if (csrfToken) {
+    config.headers['X-CSRF-Token'] = csrfToken
+  }
 
   return config
 })

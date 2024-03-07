@@ -1,6 +1,7 @@
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { useToast } from '@/_components/ui'
+import { useAuthStore } from '@/_store'
 import { isErrorWithMessage } from '@/_utils'
 import { useLoginMutation } from './api'
 import { loginResolver, LoginSchema } from '../schema'
@@ -8,6 +9,7 @@ import { loginResolver, LoginSchema } from '../schema'
 export const useLogin = () => {
   const router = useRouter()
   const { toast } = useToast()
+  const setCurrentUser = useAuthStore((state) => state.setCurrentUser)
 
   const form = useForm<LoginSchema>({
     resolver: loginResolver,
@@ -21,7 +23,8 @@ export const useLogin = () => {
 
   const onLogin = (data: LoginSchema) => {
     mutate(data, {
-      onSuccess: () => {
+      onSuccess: (res) => {
+        setCurrentUser(res)
         router.push('/')
       },
       onError: (error) => {

@@ -1,8 +1,10 @@
 'use client'
 import { Button, Heading } from '@/_components/ui'
+import { useAuthStore } from '@/_store'
 import { Header, Footer } from './_components/layout'
 
 export default function Home() {
+  const currentUser = useAuthStore((state) => state.currentUser)
   return (
     <>
       <Header />
@@ -12,6 +14,8 @@ export default function Home() {
           buttonComponent={() => <Button variant={'outline'}>Rules</Button>}
         />
       </div>
+
+      <div>{currentUser?.name}</div>
       <Footer />
     </>
   )
