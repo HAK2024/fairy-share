@@ -20,7 +20,6 @@ const buttonVariants = cva(
         link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
-        // I set the mobile and desktop in each size, so that you can set the size for both screen sizes just by passing string as a props
         default: 'h-10 px-4 py-2 md:h-11 md:px-6 md:py-4',
         sm: 'h-9 rounded-md px-3 md:h-10 md:px-4',
         lg: 'h-11 rounded-md px-8 md:h-12 md:px-8',

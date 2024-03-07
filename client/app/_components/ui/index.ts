@@ -6,3 +6,4 @@ export {
   DropdownMenuTrigger,
 } from './dropdown/DropdownMenu'
 export { Heading } from './heading/Heading'
+export { Checkbox } from './checkbox/Checkbox'
