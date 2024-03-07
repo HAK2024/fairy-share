@@ -17,7 +17,6 @@ module.exports = {
       },
     },
     extend: {
-      // I moved fontSize here to not override the original fontSize
       fontSize: {
         '2xs': '0.625rem',
       },
