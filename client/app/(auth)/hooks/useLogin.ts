@@ -1,15 +1,15 @@
 import { useRouter } from 'next/navigation'
+import { useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { useToast } from '@/_components/ui'
-import { useAuthStore } from '@/_store'
 import { isErrorWithMessage } from '@/_utils'
 import { useLoginMutation } from './api'
 import { loginResolver, LoginSchema } from '../schema'
 
 export const useLogin = () => {
+  const queryClient = useQueryClient()
   const router = useRouter()
   const { toast } = useToast()
-  const setCurrentUser = useAuthStore((state) => state.setCurrentUser)
 
   const form = useForm<LoginSchema>({
     resolver: loginResolver,
@@ -23,8 +23,8 @@ export const useLogin = () => {
 
   const onLogin = (data: LoginSchema) => {
     mutate(data, {
-      onSuccess: (res) => {
-        setCurrentUser(res)
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['me'] })
         router.push('/')
       },
       onError: (error) => {
