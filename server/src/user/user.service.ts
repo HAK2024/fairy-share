@@ -43,7 +43,7 @@ export class UserService {
       });
 
       if (!house) {
-        throw new Error('House not found');
+        throw new NotFoundException(`House not found.`);
       }
 
       const currentDate = new Date();
