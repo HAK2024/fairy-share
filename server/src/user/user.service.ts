@@ -31,7 +31,14 @@ export class UserService {
     try {
       // Find the house of the user
       const house = await this.prisma.house.findFirst({
-        where: { id: houseId },
+        where: {
+          id: houseId,
+          userHouses: {
+            some: {
+              userId: userId,
+            },
+          },
+        },
         select: { name: true },
       });
 
