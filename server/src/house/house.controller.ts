@@ -9,12 +9,12 @@ import { HouseService } from './house.service';
 import { AuthGuard } from '../auth/guard';
 
 @UseGuards(AuthGuard)
-@Controller('House')
+@Controller('house')
 export class HouseController {
   constructor(private readonly houseService: HouseService) {}
 
   @Get(':id')
-  getHouses(@Param('id', ParseIntPipe) houseId: number) {
-    return this.houseService.getHouses(houseId);
+  getHouse(@Param('id', ParseIntPipe) houseId: number) {
+    return this.houseService.getHouse(houseId);
   }
 }
