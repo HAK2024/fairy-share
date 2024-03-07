@@ -1,7 +1,7 @@
 import { useRouter } from 'next/navigation'
 import { useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
-import { useToast } from '@/_components/ui'
+import { useToast } from '@/_hooks'
 import { isErrorWithMessage } from '@/_utils'
 import { useLoginMutation } from './api'
 import { loginResolver, LoginSchema } from '../schema'
