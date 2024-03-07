@@ -40,11 +40,17 @@ describe('UserController (e2e)', () => {
     });
 
     it('should return 200 and user data if authenticated', async () => {
-      await request(app.getHttpServer())
+      const response = await request(app.getHttpServer())
         .get('/me')
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
         .expect(200);
+
+      expect(response.body).toMatchObject({
+        id: 101,
+        name: 'Alice',
+        email: 'alice@example.com',
+      });
     });
   });
 });
