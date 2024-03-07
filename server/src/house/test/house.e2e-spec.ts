@@ -2,11 +2,11 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import * as cookieParser from 'cookie-parser';
 import { TestingModule, Test } from '@nestjs/testing';
-import { UserModule } from '../user.module';
+import { HouseModule } from '../house.module';
 import { AuthGuard } from '../../auth/guard';
 import { authSetTokens, buildDefaultModules } from '../../../test';
 
-describe('UserController (e2e)', () => {
+describe('HouseController (e2e)', () => {
   let app: INestApplication;
 
   let token: string;
@@ -14,7 +14,7 @@ describe('UserController (e2e)', () => {
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [...buildDefaultModules(), UserModule],
+      imports: [...buildDefaultModules(), HouseModule],
       providers: [AuthGuard],
     }).compile();
 
@@ -34,14 +34,14 @@ describe('UserController (e2e)', () => {
     app.close();
   });
 
-  describe('GET /me', () => {
+  describe('GET /houses/106/todos', () => {
     it('should return 401 if not authenticated', async () => {
-      await request(app.getHttpServer()).get('/me').expect(401);
+      await request(app.getHttpServer()).get('/houses/106/todos').expect(401);
     });
 
-    it('should return 200 and user data if authenticated', async () => {
+    it('should return 200 and todos data if authenticated', async () => {
       await request(app.getHttpServer())
-        .get('/me')
+        .get('/houses/106/todos')
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
         .expect(200);
