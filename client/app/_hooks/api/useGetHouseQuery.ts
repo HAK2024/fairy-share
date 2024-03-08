@@ -1,18 +1,22 @@
 import { useQuery } from '@tanstack/react-query'
 import { getHouseApi } from '@/_api'
+import { useAuthStore } from '@/_store'
 import { HouseType } from '@/_types'
 
-export const useGetHouseQuery = (userId: number, houseId: number) => {
+export const useGetHouseQuery = () => {
+  const getHouseId = useAuthStore((state) => state.getHouseId)
+  const houseId = getHouseId()
+
   const getHouse = async () => {
-    const response = await getHouseApi(userId, houseId)
+    const response = await getHouseApi(houseId)
     return response
   }
-  // not sure if this is corrected?
+
   const { data, isLoading, isError } = useQuery<HouseType>({
     queryKey: ['house'],
     queryFn: getHouse,
-    retry: false,
   })
+
   return {
     data,
     isLoading,
