@@ -2,7 +2,7 @@ name: End-to-end Test
 on:
   push:
     paths:
-      - 'server/**'
+      - "server/**"
 
 jobs:
   tests:
@@ -34,14 +34,6 @@ jobs:
       - name: Install dependencies
         working-directory: ./server
         run: npm ci
-
-      - name: Generate Prisma client & Migrate database
-        working-directory: ./server
-        run: |
-          npm run prisma:generate
-          npm run prisma:migrate-test
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Run tests
         working-directory: ./server

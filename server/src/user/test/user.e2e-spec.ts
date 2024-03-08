@@ -2,14 +2,12 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import * as cookieParser from 'cookie-parser';
 import { TestingModule, Test } from '@nestjs/testing';
-import { PrismaService } from '../../prisma/prisma.service';
 import { UserModule } from '../user.module';
 import { AuthGuard } from '../../auth/guard';
 import { authSetTokens, buildDefaultModules } from '../../../test';
 
 describe('UserController (e2e)', () => {
   let app: INestApplication;
-  let prisma: PrismaService;
 
   let token: string;
   let csrfToken: string;
@@ -27,9 +25,6 @@ describe('UserController (e2e)', () => {
     await app.init();
     app.setGlobalPrefix('api');
 
-    prisma = app.get(PrismaService);
-    await prisma.cleanDb();
-
     const tokens = await authSetTokens(app);
     token = tokens.jwtToken;
     csrfToken = tokens.csrfToken;
@@ -45,11 +40,17 @@ describe('UserController (e2e)', () => {
     });
 
     it('should return 200 and user data if authenticated', async () => {
-      await request(app.getHttpServer())
+      const response = await request(app.getHttpServer())
         .get('/me')
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
         .expect(200);
+
+      expect(response.body).toMatchObject({
+        id: 101,
+        name: 'Alice',
+        email: 'alice@example.com',
+      });
     });
   });
 });

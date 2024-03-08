@@ -10,15 +10,12 @@ import * as request from 'supertest';
 export const authSetTokens = async (app: INestApplication) => {
   let jwtToken: string;
 
-  // Create a user
-  const response = await request(app.getHttpServer())
-    .post('/auth/register')
-    .send({
-      name: 'Test User',
-      email: 'test@test.com',
-      password: 'password',
-      icon: 'WHITE',
-    });
+  // Login a user
+  const response = await request(app.getHttpServer()).post('/auth/login').send({
+    name: 'Alice',
+    email: 'alice@example.com',
+    password: 'password',
+  });
 
   // Extract the JWT token from the response
   const jwtCookies = response.headers['set-cookie'];

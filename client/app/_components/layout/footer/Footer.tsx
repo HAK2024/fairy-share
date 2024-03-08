@@ -3,10 +3,16 @@ import { BiEuro } from 'react-icons/bi'
 import { BiHomeAlt2 } from 'react-icons/bi'
 import { BiCalendarAlt } from 'react-icons/bi'
 
-const Footer = () => {
+type FooterProps = {
+  hasNavigation?: boolean
+}
+
+const Footer = ({ hasNavigation = true }: FooterProps) => {
   return (
-    // Footer: Visible on devices less wider than "md" breakpoint
-    <div className='fixed bottom-0 left-0 right-0 flex h-16 w-screen items-center bg-teal-50 text-white shadow-lg md:hidden'>
+    // Footer: Visible on devices less wider than "md" breakpoint and hasNavigation is true
+    <div
+      className={`${hasNavigation ? 'fixed' : 'hidden'} bottom-0 left-0 right-0 flex h-16 w-screen items-center bg-teal-50 text-white shadow-lg md:hidden`}
+    >
       <div className='flex w-full items-center justify-between px-6'>
         <Link href={'/'}>
           <div className='flex items-center justify-center rounded-full text-primary transition-transform duration-300 hover:scale-110'>

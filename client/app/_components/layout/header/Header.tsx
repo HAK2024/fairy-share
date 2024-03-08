@@ -2,18 +2,36 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { SettingDropdown } from '..'
 
-const Header = () => {
+type HeaderProps = {
+  hasNavigation?: boolean
+}
+
+const Header = ({ hasNavigation = true }: HeaderProps) => {
   return (
     <div className='flex h-16 w-full items-center justify-between bg-primary px-4 text-primary-foreground md:h-20 md:px-14'>
-      {/* Set the exact ratio of the original image so that you can avoid getting a warn */}
-      <Image
-        priority={true}
-        src={`/images/logo/logo.png`}
-        alt={'logo'}
-        width={179}
-        height={32}
-      />
-      <div className='flex items-center justify-between gap-10'>
+      {hasNavigation ? (
+        <Link href='/'>
+          <Image
+            priority={true}
+            src={`/images/logo/logo.png`}
+            alt={'logo'}
+            //  Set the exact ratio of the original image so that you can avoid getting a warn
+            width={179}
+            height={32}
+          />
+        </Link>
+      ) : (
+        <Image
+          priority={true}
+          src={`/images/logo/logo.png`}
+          alt={'logo'}
+          width={179}
+          height={32}
+        />
+      )}
+      <div
+        className={`items-center justify-between gap-10 ${hasNavigation ? 'flex' : 'hidden'}`}
+      >
         {/* Navigation menu: Visible on devices wider than "md" breakpoint */}
         <div className='hidden items-center justify-between gap-10 md:flex'>
           <Link

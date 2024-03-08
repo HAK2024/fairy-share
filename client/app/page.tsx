@@ -1,9 +1,13 @@
+'use client'
 import { Button, Heading } from '@/_components/ui'
+// import { useGetMeQuery } from '@/_hooks/api'
 import { TaskList } from './_components/feature'
 import { ExpenseError } from './_components/feature/todos/ExpenseError'
-import { Header, Footer } from './_components/layout'
 
 export default function Home() {
+  // This is the sample. Please change it to todos API query.
+  // const { data } = useGetMeQuery()
+
   const todayTasks = [
     { title: 'Buy detergents' },
     { title: 'Buy toilet papers' },
@@ -19,7 +23,6 @@ export default function Home() {
 
   return (
     <>
-      <Header />
       <div className='flex flex-col gap-8 px-4 pb-10 pt-8 text-slate-800 md:px-14 md:pb-20 md:pt-10 '>
         <Heading
           title='Fairy share'
@@ -31,7 +34,6 @@ export default function Home() {
         </div>
         <ExpenseError />
       </div>
-      <Footer />
     </>
   )
 }
