@@ -1,5 +1,5 @@
-import { create } from 'zustand'
 import { UserType } from '@/_types'
+import { customCreate } from './setting'
 
 type AuthStore = {
   currentUser: UserType | null
@@ -8,7 +8,7 @@ type AuthStore = {
   setCsrfToken: (token: string | null) => void
 }
 
-export const useAuthStore = create<AuthStore>()((set) => ({
+export const useAuthStore = customCreate<AuthStore>()((set) => ({
   currentUser: null,
   setCurrentUser: (user) => set({ currentUser: user }),
   csrfToken: null,
