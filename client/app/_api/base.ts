@@ -6,6 +6,10 @@ const apiClient = axios.create({
   withCredentials: true,
 })
 
+// do we need to add axios.get() --> should we have common one
+// or get house, get rule separately?
+// .get(/houses/houseId)
+
 apiClient.interceptors.request.use((config) => {
   const csrfToken = useAuthStore.getState().csrfToken
 
