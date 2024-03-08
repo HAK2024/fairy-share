@@ -3,7 +3,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { useToast } from '@/_hooks'
 import { isErrorWithMessage } from '@/_utils'
-import { useLoginMutation } from './api'
+import { useRegisterMutation } from './api'
 import { registerResolver, RegisterSchema } from '../schema'
 
 export const useRegister = () => {
@@ -20,13 +20,18 @@ export const useRegister = () => {
     },
   })
 
-  const { mutate, isPending } = useLoginMutation()
+  const { mutate, isPending } = useRegisterMutation()
 
   const onRegister = (data: RegisterSchema) => {
     mutate(data, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['me'] })
         router.push('/')
+
+        toast({
+          variant: 'success',
+          title: 'Successfully created an account!',
+        })
       },
       onError: (error) => {
         console.error(error)

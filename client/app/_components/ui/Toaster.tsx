@@ -1,5 +1,6 @@
 'use client'
 
+import { FiAlertCircle, FiCheckCircle } from 'react-icons/fi'
 import {
   Toast,
   ToastClose,
@@ -14,15 +15,30 @@ export function Toaster() {
   const { toasts } = useToast()
 
   return (
-    <ToastProvider>
-      {toasts.map(function ({ id, title, description, action, ...props }) {
+    <ToastProvider duration={100000}>
+      {toasts.map(function ({
+        id,
+        title,
+        description,
+        action,
+        variant,
+        ...props
+      }) {
         return (
-          <Toast key={id} {...props}>
-            <div className='grid gap-1'>
-              {title && <ToastTitle>{title}</ToastTitle>}
-              {description && (
-                <ToastDescription>{description}</ToastDescription>
-              )}
+          <Toast key={id} variant={variant} {...props}>
+            <div className='flex items-start gap-2'>
+              <div className='pt-[2px]'>
+                {variant === 'success' && <FiCheckCircle size={20} />}
+                {variant === 'destructive' && <FiAlertCircle size={20} />}
+              </div>
+              <div className='flex flex-col items-start gap-1'>
+                {title && <ToastTitle className='text-md'>{title}</ToastTitle>}
+                {description && (
+                  <ToastDescription className='text-sm'>
+                    {description}
+                  </ToastDescription>
+                )}
+              </div>
             </div>
             {action}
             <ToastClose />

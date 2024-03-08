@@ -24,7 +24,7 @@ const LoginForm = () => {
       <Image src={logo} alt='Fairy Share logo' className='h-auto w-[200px]' />
 
       <div className='w-full md:max-w-[360px]'>
-        <h1 className='mt-7 text-center text-3xl font-bold'>Welcome Home</h1>
+        <h1 className='mt-7 text-center text-3xl font-bold'>Welcome back</h1>
 
         <Form {...form}>
           <form onSubmit={onSubmit} className='mx-auto mt-8 w-full'>
