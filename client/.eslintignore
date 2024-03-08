@@ -1,6 +1,8 @@
 # config
 .eslintrc.js
 next.config.js
+next.config.mjs
+postcss.config.js
 tailwind.config.js
 tsconfig.json
 postcss.config.js
