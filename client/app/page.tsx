@@ -1,8 +1,8 @@
 'use client'
 import { Button, Heading } from '@/_components/ui'
+import { ExpenseError, TaskList } from './_components/todos'
+
 // import { useGetMeQuery } from '@/_hooks/api'
-import { TaskList } from './_components/feature'
-import { ExpenseError } from './_components/feature/todos/ExpenseError'
 
 export default function Home() {
   // This is the sample. Please change it to todos API query.
