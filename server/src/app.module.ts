@@ -12,7 +12,6 @@ import { HouseModule } from './house/house.module';
     AuthModule,
     HouseModule,
     PrismaModule,
-    HouseModule,
   ],
 })
 export class AppModule {}

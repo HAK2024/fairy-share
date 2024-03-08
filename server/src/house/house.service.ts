@@ -18,6 +18,10 @@ export class HouseService {
         },
       });
 
+      if (!house) {
+        throw new NotFoundException(`House with ID ${houseId} not found.`);
+      }
+
       const houseResponse = {
         id: house.id,
         name: house.name,
@@ -25,10 +29,6 @@ export class HouseService {
         rules: house.rules,
         isUserAdmin: house.userHouses[0]?.isAdmin,
       };
-
-      if (!house) {
-        throw new NotFoundException(`House with ID ${houseId} not found.`);
-      }
       return houseResponse;
     } catch (error) {
       console.error('Error fetching todos:', error);
