@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import { FiAlertTriangle } from 'react-icons/fi'
+import { RouterLink } from '@/_components/ui'
 
 const ExpenseError = () => {
   return (
@@ -11,12 +11,10 @@ const ExpenseError = () => {
           <p className='text-md font-semibold '>
             You haven&apos;t completed the payment yet!
           </p>
-          <Link
-            href='/expense'
-            className='border-b-[1px] border-slate-500 pb-[1px] text-sm font-semibold text-slate-500 hover:opacity-80'
-          >
+
+          <RouterLink href='/expense' className='text-sm'>
             Tracking
-          </Link>
+          </RouterLink>
         </div>
       </div>
     </div>

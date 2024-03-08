@@ -36,19 +36,19 @@ const Header = ({ hasNavigation = true }: HeaderProps) => {
         <div className='hidden items-center justify-between gap-10 md:flex'>
           <Link
             href={'/'}
-            className='hover-underline-animation text-lg font-semibold'
+            className='hover-underline-animation text-lg font-semibold hover:text-teal-800'
           >
             Home
           </Link>
           <Link
             href={'/calendar'}
-            className='hover-underline-animation text-lg font-semibold'
+            className='hover-underline-animation text-lg font-semibold hover:text-teal-800'
           >
             Calendar
           </Link>
           <Link
             href={'/expense'}
-            className='hover-underline-animation text-lg font-semibold'
+            className='hover-underline-animation text-lg font-semibold hover:text-teal-800'
           >
             Expense
           </Link>
