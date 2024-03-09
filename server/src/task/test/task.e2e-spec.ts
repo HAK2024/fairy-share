@@ -35,32 +35,29 @@ describe('TaskController (e2e)', () => {
   });
 
   describe('PATCH /tasks/:taskId/status', () => {
-    it('should return 200 and tasks status data if authenticated', async () => {
-      const taskId = 126;
-      const response = await request(app.getHttpServer())
-        .patch(`/tasks/${taskId}/status`)
-        .send({ isCompleted: true })
-        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
-        .set('x-csrf-token', csrfToken)
-        .expect(200);
-
-      expect(response.body).toMatchObject({
-        isCompleted: true,
-      });
+    it('should return 401 if not authenticated', async () => {
+      await request(app.getHttpServer()).patch('/tasks/126/status').expect(401);
     });
 
-    it('should return 200 and tasks status data if authenticated', async () => {
-      const taskId = 127;
-      const response = await request(app.getHttpServer())
+    const updateTaskStatus = async (taskId: number, isCompleted: boolean) => {
+      return request(app.getHttpServer())
         .patch(`/tasks/${taskId}/status`)
-        .send({ isCompleted: false })
+        .send({ isCompleted })
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
         .expect(200);
+    };
 
-      expect(response.body).toMatchObject({
-        isCompleted: false,
-      });
+    it('should update task status to true and return task data if authenticated', async () => {
+      const taskId = 126;
+      const response = await updateTaskStatus(taskId, true);
+      expect(response.body).toMatchObject({ isCompleted: true });
+    });
+
+    it('should update task status to false and return task data if authenticated', async () => {
+      const taskId = 127;
+      const response = await updateTaskStatus(taskId, false);
+      expect(response.body).toMatchObject({ isCompleted: false });
     });
   });
 });
