@@ -17,7 +17,7 @@ model User {
   id             Int    @id @default(autoincrement())
   name           String @db.VarChar(20)
   email          String @unique @db.VarChar(50)
-  hashedPassword String
+  hashedPassword String?
 
   // You can't set default color in ENUM, so you need to set it when you create an actual record
 
