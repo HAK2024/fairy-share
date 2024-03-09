@@ -1,10 +1,36 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
+
+import { UpdateTaskDto, UpdateTaskStatusDto } from './dto';
 
 @Injectable()
 export class TaskService {
   constructor(private prisma: PrismaService) {}
+
+  async updateTask(taskId: number, dto: UpdateTaskDto) {
+    try {
+      const task = await this.prisma.task.update({
+        where: {
+          id: taskId,
+        },
+        data: {
+          title: dto.title,
+          date: dto.date,
+          note: dto.note,
+          assigneeId: dto.assigneeId,
+        },
+      });
+
+      if (!task) {
+        throw new NotFoundException(`Task with ID ${taskId} not found.`);
+      }
+
+      return task;
+    } catch (error) {
+      console.error('Error updating task:', error);
+      throw error;
+    }
+  }
 
   async updateTaskStatus(taskId: number, dto: UpdateTaskStatusDto) {
     try {
