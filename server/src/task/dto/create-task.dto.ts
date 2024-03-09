@@ -7,7 +7,7 @@ import {
   MaxLength,
 } from 'class-validator';
 
-export class UpdateTaskDto {
+export class CreateTaskDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(50)
@@ -25,4 +25,8 @@ export class UpdateTaskDto {
   @IsNumber()
   @IsNotEmpty()
   assigneeId: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  houseId: number;
 }

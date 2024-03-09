@@ -34,7 +34,154 @@ describe('TaskController (e2e)', () => {
     app.close();
   });
 
-  const task1 = {
+  // create task test
+
+  const createTask = {
+    title: 'Valid Title',
+    date: '2023-03-18T12:00:00.000Z',
+    note: 'Valid Note',
+    assigneeId: 101,
+    houseId: 106,
+  };
+
+  describe('POST /tasks/create', () => {
+    it('should return 401 if not authenticated', async () => {
+      await request(app.getHttpServer()).post(`/tasks/create`).expect(401);
+    });
+
+    const invalidCreateTaskFields = [
+      // Title tests
+      {
+        title: '',
+        date: '2023-03-18T12:00:00.000Z',
+        note: 'Valid Note',
+        assigneeId: 101,
+        houseId: 106,
+      },
+      {
+        title: undefined,
+        date: '2023-03-18T12:00:00.000Z',
+        note: 'Valid Note',
+        assigneeId: 101,
+        houseId: 106,
+      },
+      {
+        title: 'a'.repeat(51),
+        date: '2023-03-18T12:00:00.000Z',
+        note: 'Valid Note',
+        assigneeId: 101,
+        houseId: 106,
+      },
+
+      // Date tests
+      {
+        title: 'Valid Title',
+        date: '',
+        note: 'Valid Note',
+        assigneeId: 101,
+        houseId: 106,
+      },
+
+      {
+        title: 'Valid Title',
+        date: undefined,
+        note: 'Valid Note',
+        assigneeId: 101,
+        houseId: 106,
+      },
+      {
+        title: 'Valid Title',
+        date: 'invalid-date',
+        note: 'Valid Note',
+        assigneeId: 101,
+        houseId: 106,
+      },
+
+      // Note tests
+      {
+        title: 'Valid Title',
+        date: '2023-03-18T12:00:00.000Z',
+        note: 1,
+        assigneeId: 101,
+        houseId: 106,
+      },
+      {
+        title: 'Valid Title',
+        date: '2023-03-18T12:00:00.000Z',
+        note: 'a'.repeat(101),
+        assigneeId: 101,
+        houseId: 106,
+      },
+
+      // AssigneeId tests
+      {
+        title: 'Valid Title',
+        date: '2023-03-18T12:00:00.000Z',
+        note: 'Valid Note',
+        assigneeId: '',
+        houseId: 106,
+      },
+      {
+        title: 'Valid Title',
+        date: '2023-03-18T12:00:00.000Z',
+        note: 'Valid Note',
+        assigneeId: undefined,
+        houseId: 106,
+      },
+      {
+        title: 'Valid Title',
+        date: '2023-03-18T12:00:00.000Z',
+        note: 'Valid Note',
+        assigneeId: 'not-a-number',
+        houseId: 106,
+      },
+
+      // houseId tests
+      {
+        title: 'Valid Title',
+        date: '2023-03-18T12:00:00.000Z',
+        note: 'Valid Note',
+        assigneeId: 106,
+        houseId: '',
+      },
+      {
+        title: 'Valid Title',
+        date: '2023-03-18T12:00:00.000Z',
+        note: 'Valid Note',
+        assigneeId: 106,
+        houseId: undefined,
+      },
+      {
+        title: 'Valid Title',
+        date: '2023-03-18T12:00:00.000Z',
+        note: 'Valid Note',
+        assigneeId: 106,
+        houseId: 'not-a-number',
+      },
+    ];
+
+    invalidCreateTaskFields.forEach((taskField, index) => {
+      it(`should return 400 for invalid task fields - case ${index + 1}`, async () => {
+        await request(app.getHttpServer())
+          .post('/tasks/create')
+          .send(taskField)
+          .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+          .set('x-csrf-token', csrfToken)
+          .expect(400);
+      });
+    });
+
+    it('should return 201 and task data if authenticated', async () => {
+      await request(app.getHttpServer())
+        .post('/tasks/create')
+        .send(createTask)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(201);
+    });
+  });
+
+  const updateTask = {
     title: 'Valid Title',
     date: '2023-03-18T12:00:00.000Z',
     note: 'Valid Note',
@@ -48,7 +195,7 @@ describe('TaskController (e2e)', () => {
       await request(app.getHttpServer()).patch(`/tasks/${taskId}`).expect(401);
     });
 
-    const invalidTaskFields = [
+    const invalidUpdateTaskFields = [
       // Title tests
       {
         title: '',
@@ -88,13 +235,7 @@ describe('TaskController (e2e)', () => {
       {
         title: 'Valid Title',
         date: '2023-03-18T12:00:00.000Z',
-        note: '',
-        assigneeId: 101,
-      },
-      {
-        title: 'Valid Title',
-        date: '2023-03-18T12:00:00.000Z',
-        note: undefined,
+        note: 1,
         assigneeId: 101,
       },
       {
@@ -125,7 +266,7 @@ describe('TaskController (e2e)', () => {
       },
     ];
 
-    invalidTaskFields.forEach((taskField, index) => {
+    invalidUpdateTaskFields.forEach((taskField, index) => {
       it(`should return 400 for invalid task fields - case ${index + 1}`, async () => {
         await request(app.getHttpServer())
           .patch(`/tasks/${taskId}`)
@@ -139,7 +280,7 @@ describe('TaskController (e2e)', () => {
     it('should return 200 and task data if authenticated', async () => {
       await request(app.getHttpServer())
         .patch(`/tasks/${taskId}`)
-        .send(task1)
+        .send(updateTask)
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
         .expect(200);

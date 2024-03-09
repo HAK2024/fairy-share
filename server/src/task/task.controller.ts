@@ -1,5 +1,5 @@
 import { AuthGuard } from '../auth/guard';
-import { UpdateTaskDto, UpdateTaskStatusDto } from './dto';
+import { CreateTaskDto, UpdateTaskDto, UpdateTaskStatusDto } from './dto';
 
 import { TaskService } from './task.service';
 import {
@@ -8,6 +8,7 @@ import {
   Param,
   ParseIntPipe,
   Patch,
+  Post,
   UseGuards,
 } from '@nestjs/common';
 
@@ -16,7 +17,13 @@ import {
 export class TaskController {
   constructor(private taskService: TaskService) {}
 
-  // To edit task
+  // Create task
+  @Post('create')
+  createTask(@Body() createTaskDto: CreateTaskDto) {
+    return this.taskService.createTask(createTaskDto);
+  }
+
+  // Edit task
   @Patch(':taskId')
   updateTask(
     @Param('taskId', ParseIntPipe) taskId: number,
@@ -25,7 +32,7 @@ export class TaskController {
     return this.taskService.updateTask(taskId, updateTaskDto);
   }
 
-  // To update the status of completion of the task
+  // Update the status of the task completion
   @Patch(':taskId/status')
   updateTaskStatus(
     @Param('taskId', ParseIntPipe) taskId: number,
