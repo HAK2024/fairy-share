@@ -16,7 +16,7 @@ export class TaskController {
   constructor(private taskService: TaskService) {}
 
   @Patch(':taskId/status')
-  updateTask(
+  updateTaskStatus(
     @Param('taskId', ParseIntPipe) taskId: number,
     @Body() updateTaskStatusDto: UpdateTaskStatusDto,
   ) {
