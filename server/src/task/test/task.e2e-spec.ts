@@ -314,5 +314,24 @@ describe('TaskController (e2e)', () => {
       const response = await updateTaskStatus(taskId, false);
       expect(response.body).toMatchObject({ isCompleted: false });
     });
+
+    // delete task test
+
+    describe('DELETE /tasks/:taskId', () => {
+      const taskId = 126;
+      it('should return 401 if not authenticated', async () => {
+        await request(app.getHttpServer())
+          .delete(`/tasks/${taskId}`)
+          .expect(401);
+      });
+
+      it('should return 200 and task status if authenticated', async () => {
+        return request(app.getHttpServer())
+          .delete(`/tasks/${taskId}`)
+          .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+          .set('x-csrf-token', csrfToken)
+          .expect(200);
+      });
+    });
   });
 });

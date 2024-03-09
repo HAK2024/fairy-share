@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateTaskDto, UpdateTaskDto, UpdateTaskStatusDto } from './dto';
 
@@ -58,6 +58,26 @@ export class TaskService {
       return { isCompleted: task.isCompleted };
     } catch (error) {
       console.error('Error updating task status:', error);
+      throw error;
+    }
+  }
+
+  // Delete task
+  async deleteTask(taskId: number) {
+    try {
+      const task = await this.prisma.task.delete({
+        where: {
+          id: taskId,
+        },
+      });
+
+      if (!task) {
+        throw new NotFoundException(`Task with ID ${taskId} not found.`);
+      }
+
+      return { status: HttpStatus.NO_CONTENT };
+    } catch (error) {
+      console.error('Error deleting task:', error);
       throw error;
     }
   }

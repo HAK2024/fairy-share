@@ -5,6 +5,7 @@ import { TaskService } from './task.service';
 import {
   Body,
   Controller,
+  Delete,
   Param,
   ParseIntPipe,
   Patch,
@@ -39,5 +40,11 @@ export class TaskController {
     @Body() updateTaskStatusDto: UpdateTaskStatusDto,
   ) {
     return this.taskService.updateTaskStatus(taskId, updateTaskStatusDto);
+  }
+
+  // delete task test
+  @Delete(':taskId')
+  deleteTask(@Param('taskId', ParseIntPipe) taskId: number) {
+    return this.taskService.deleteTask(taskId);
   }
 }
