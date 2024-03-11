@@ -158,12 +158,12 @@ describe('TaskController (e2e)', () => {
           .expect(401);
       });
 
-      it('should return 200 and task status if authenticated', async () => {
+      it('should return 204 and task status if authenticated', async () => {
         return request(app.getHttpServer())
           .delete(`/tasks/${taskId}`)
           .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
           .set('x-csrf-token', csrfToken)
-          .expect(200);
+          .expect(204);
       });
     });
   });

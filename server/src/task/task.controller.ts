@@ -7,6 +7,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   ParseIntPipe,
   Patch,
@@ -51,6 +53,7 @@ export class TaskController {
 
   // delete task test
   @Delete(':taskId')
+  @HttpCode(HttpStatus.NO_CONTENT)
   deleteTask(@Param('taskId', ParseIntPipe) taskId: number) {
     return this.taskService.deleteTask(taskId);
   }

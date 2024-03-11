@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateTaskDto, UpdateTaskDto, UpdateTaskStatusDto } from './dto';
 
@@ -50,12 +50,11 @@ export class TaskService {
         data: dto,
       });
 
-      if (!task) {
-        throw new NotFoundException(`Task with ID ${taskId} not found.`);
-      }
-
       return task;
     } catch (error) {
+      if (error.code === 'P2025') {
+        throw new NotFoundException(`Task with ID ${taskId} not found.`);
+      }
       console.error('Error updating task:', error);
       throw error;
     }
@@ -71,12 +70,11 @@ export class TaskService {
         data: dto,
       });
 
-      if (!task) {
-        throw new NotFoundException(`Task with ID ${taskId} not found.`);
-      }
-
       return { isCompleted: task.isCompleted };
     } catch (error) {
+      if (error.code === 'P2025') {
+        throw new NotFoundException(`Task with ID ${taskId} not found.`);
+      }
       console.error('Error updating task status:', error);
       throw error;
     }
@@ -85,18 +83,15 @@ export class TaskService {
   // Delete task
   async deleteTask(taskId: number) {
     try {
-      const task = await this.prisma.task.delete({
+      await this.prisma.task.delete({
         where: {
           id: taskId,
         },
       });
-
-      if (!task) {
+    } catch (error) {
+      if (error.code === 'P2025') {
         throw new NotFoundException(`Task with ID ${taskId} not found.`);
       }
-
-      return { status: HttpStatus.NO_CONTENT };
-    } catch (error) {
       console.error('Error deleting task:', error);
       throw error;
     }
