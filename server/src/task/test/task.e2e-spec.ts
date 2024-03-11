@@ -70,6 +70,23 @@ describe('TaskController (e2e)', () => {
     });
   });
 
+  // get-task test
+
+  describe('GET /tasks/:taskId', () => {
+    const taskId = 126;
+    it('should return 401 if not authenticated', async () => {
+      await request(app.getHttpServer()).get(`/tasks/${taskId}`).expect(401);
+    });
+
+    it('should return 200 and task status if authenticated', async () => {
+      return request(app.getHttpServer())
+        .get(`/tasks/${taskId}`)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(200);
+    });
+  });
+
   // update-task test
 
   describe('PATCH /tasks/:taskId', () => {

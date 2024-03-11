@@ -6,6 +6,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   Param,
   ParseIntPipe,
   Patch,
@@ -22,6 +23,12 @@ export class TaskController {
   @Post('create')
   createTask(@Body() createTaskDto: CreateTaskDto) {
     return this.taskService.createTask(createTaskDto);
+  }
+
+  // Get task
+  @Get(':taskId')
+  GetTask(@Param('taskId', ParseIntPipe) taskId: number) {
+    return this.taskService.getTask(taskId);
   }
 
   // Edit task
