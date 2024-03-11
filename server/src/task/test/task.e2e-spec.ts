@@ -40,14 +40,11 @@ describe('TaskController (e2e)', () => {
     app.close();
   });
 
-  // create-task test
-
   describe('POST /tasks/create', () => {
     it('should return 401 if not authenticated', async () => {
       await request(app.getHttpServer()).post(`/tasks/create`).expect(401);
     });
 
-    // invalid test
     invalidCreateTaskFields.forEach((invalidTaskField, index) => {
       it(`should return 400 for invalid task fields - case ${index + 1}`, async () => {
         await request(app.getHttpServer())
@@ -59,7 +56,6 @@ describe('TaskController (e2e)', () => {
       });
     });
 
-    // valid test
     it('should return 201 and the task data if authenticated', async () => {
       await request(app.getHttpServer())
         .post('/tasks/create')
@@ -69,8 +65,6 @@ describe('TaskController (e2e)', () => {
         .expect(201);
     });
   });
-
-  // get-task test
 
   describe('GET /tasks/:taskId', () => {
     const taskId = 126;
@@ -87,15 +81,12 @@ describe('TaskController (e2e)', () => {
     });
   });
 
-  // update-task test
-
   describe('PATCH /tasks/:taskId', () => {
     const taskId = 126;
     it('should return 401 if not authenticated', async () => {
       await request(app.getHttpServer()).patch(`/tasks/${taskId}`).expect(401);
     });
 
-    // invalid test
     invalidUpdateTaskFields.forEach((invalidTaskField, index) => {
       it(`should return 400 for invalid task fields - case ${index + 1}`, async () => {
         await request(app.getHttpServer())
@@ -107,7 +98,6 @@ describe('TaskController (e2e)', () => {
       });
     });
 
-    // valid test
     it('should return 200 and task data if authenticated', async () => {
       await request(app.getHttpServer())
         .patch(`/tasks/${taskId}`)
@@ -117,8 +107,6 @@ describe('TaskController (e2e)', () => {
         .expect(200);
     });
   });
-
-  // update-task-status test
 
   describe('PATCH /tasks/:taskId/status', () => {
     it('should return 401 if not authenticated', async () => {
@@ -134,37 +122,31 @@ describe('TaskController (e2e)', () => {
         .expect(200);
     };
 
-    // set status to true
     it('should return 200 and task status if authenticated', async () => {
       const taskId = 126;
       const response = await updateTaskStatus(taskId, true);
       expect(response.body).toMatchObject({ isCompleted: true });
     });
 
-    // set status to false
     it('should return 200 and task status if authenticated', async () => {
       const taskId = 127;
       const response = await updateTaskStatus(taskId, false);
       expect(response.body).toMatchObject({ isCompleted: false });
     });
+  });
 
-    // delete-task test
+  describe('DELETE /tasks/:taskId', () => {
+    const taskId = 126;
+    it('should return 401 if not authenticated', async () => {
+      await request(app.getHttpServer()).delete(`/tasks/${taskId}`).expect(401);
+    });
 
-    describe('DELETE /tasks/:taskId', () => {
-      const taskId = 126;
-      it('should return 401 if not authenticated', async () => {
-        await request(app.getHttpServer())
-          .delete(`/tasks/${taskId}`)
-          .expect(401);
-      });
-
-      it('should return 204 if authenticated', async () => {
-        return request(app.getHttpServer())
-          .delete(`/tasks/${taskId}`)
-          .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
-          .set('x-csrf-token', csrfToken)
-          .expect(204);
-      });
+    it('should return 204 if authenticated', async () => {
+      return request(app.getHttpServer())
+        .delete(`/tasks/${taskId}`)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(204);
     });
   });
 });
