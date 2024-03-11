@@ -10,12 +10,13 @@ export default function Rules() {
   const { data: house, isLoading } = useGetHouseQuery()
 
   if (isLoading || !house) return <Loading />
+  /* TODO: error handling */
 
   return (
     <>
       <div className='px-4 pb-10 pt-8 md:px-14 md:pb-20 md:pt-10'>
         <Heading title={`${house.name}'s Rules`} buttonComponent={null} />
-        <RuleList />
+        <RuleList rules={house.rules} />
       </div>
     </>
   )
