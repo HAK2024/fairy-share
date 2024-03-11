@@ -13,6 +13,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 
@@ -31,7 +32,7 @@ export class TaskController {
     return this.taskService.getTask(taskId);
   }
 
-  @Patch(':taskId')
+  @Put(':taskId')
   updateTask(
     @Param('taskId', ParseIntPipe) taskId: number,
     @Body() updateTaskDto: UpdateTaskDto,

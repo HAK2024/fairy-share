@@ -81,16 +81,16 @@ describe('TaskController (e2e)', () => {
     });
   });
 
-  describe('PATCH /tasks/:taskId', () => {
+  describe('PUT /tasks/:taskId', () => {
     const taskId = 126;
     it('should return 401 if not authenticated', async () => {
-      await request(app.getHttpServer()).patch(`/tasks/${taskId}`).expect(401);
+      await request(app.getHttpServer()).put(`/tasks/${taskId}`).expect(401);
     });
 
     invalidUpdateTaskFields.forEach((invalidTaskField, index) => {
       it(`should return 400 for invalid task fields - case ${index + 1}`, async () => {
         await request(app.getHttpServer())
-          .patch(`/tasks/${taskId}`)
+          .put(`/tasks/${taskId}`)
           .send(invalidTaskField)
           .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
           .set('x-csrf-token', csrfToken)
@@ -100,7 +100,7 @@ describe('TaskController (e2e)', () => {
 
     it('should return 200 and task data if authenticated', async () => {
       await request(app.getHttpServer())
-        .patch(`/tasks/${taskId}`)
+        .put(`/tasks/${taskId}`)
         .send(validUpdateTaskField)
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
