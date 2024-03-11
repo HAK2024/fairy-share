@@ -6,7 +6,6 @@ import { CreateTaskDto, UpdateTaskDto, UpdateTaskStatusDto } from './dto';
 export class TaskService {
   constructor(private prisma: PrismaService) {}
 
-  // Create task
   async createTask(dto: CreateTaskDto) {
     try {
       const task = await this.prisma.task.create({
@@ -20,7 +19,6 @@ export class TaskService {
     }
   }
 
-  // Get task
   async getTask(taskId: number) {
     try {
       const task = await this.prisma.task.findUnique({
@@ -40,7 +38,6 @@ export class TaskService {
     }
   }
 
-  // Update task
   async updateTask(taskId: number, dto: UpdateTaskDto) {
     try {
       const task = await this.prisma.task.update({
@@ -60,7 +57,6 @@ export class TaskService {
     }
   }
 
-  // Update the status of the task completion
   async updateTaskStatus(taskId: number, dto: UpdateTaskStatusDto) {
     try {
       const task = await this.prisma.task.update({
@@ -80,7 +76,6 @@ export class TaskService {
     }
   }
 
-  // Delete task
   async deleteTask(taskId: number) {
     try {
       await this.prisma.task.delete({

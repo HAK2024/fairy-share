@@ -21,19 +21,16 @@ import {
 export class TaskController {
   constructor(private taskService: TaskService) {}
 
-  // Create task
   @Post('create')
   createTask(@Body() createTaskDto: CreateTaskDto) {
     return this.taskService.createTask(createTaskDto);
   }
 
-  // Get task
   @Get(':taskId')
   GetTask(@Param('taskId', ParseIntPipe) taskId: number) {
     return this.taskService.getTask(taskId);
   }
 
-  // Edit task
   @Patch(':taskId')
   updateTask(
     @Param('taskId', ParseIntPipe) taskId: number,
@@ -42,7 +39,6 @@ export class TaskController {
     return this.taskService.updateTask(taskId, updateTaskDto);
   }
 
-  // Update the status of the task completion
   @Patch(':taskId/status')
   updateTaskStatus(
     @Param('taskId', ParseIntPipe) taskId: number,
@@ -51,7 +47,6 @@ export class TaskController {
     return this.taskService.updateTaskStatus(taskId, updateTaskStatusDto);
   }
 
-  // delete task test
   @Delete(':taskId')
   @HttpCode(HttpStatus.NO_CONTENT)
   deleteTask(@Param('taskId', ParseIntPipe) taskId: number) {
