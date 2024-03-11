@@ -8,9 +8,16 @@ export class TaskService {
 
   // Create task
   async createTask(dto: CreateTaskDto) {
-    return await this.prisma.task.create({
-      data: dto,
-    });
+    try {
+      const task = await this.prisma.task.create({
+        data: dto,
+      });
+
+      return task;
+    } catch (error) {
+      console.error('Error creating task:', error);
+      throw error;
+    }
   }
 
   // Update task
@@ -20,12 +27,7 @@ export class TaskService {
         where: {
           id: taskId,
         },
-        data: {
-          title: dto.title,
-          date: dto.date,
-          note: dto.note,
-          assigneeId: dto.assigneeId,
-        },
+        data: dto,
       });
 
       if (!task) {
@@ -46,9 +48,7 @@ export class TaskService {
         where: {
           id: taskId,
         },
-        data: {
-          isCompleted: dto.isCompleted,
-        },
+        data: dto,
       });
 
       if (!task) {
