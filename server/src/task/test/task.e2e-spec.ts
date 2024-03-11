@@ -60,7 +60,7 @@ describe('TaskController (e2e)', () => {
     });
 
     // valid test
-    it('should return 201 and task data if authenticated', async () => {
+    it('should return 201 and the task data if authenticated', async () => {
       await request(app.getHttpServer())
         .post('/tasks/create')
         .send(validCreateTaskField)
@@ -78,7 +78,7 @@ describe('TaskController (e2e)', () => {
       await request(app.getHttpServer()).get(`/tasks/${taskId}`).expect(401);
     });
 
-    it('should return 200 and task status if authenticated', async () => {
+    it('should return 200 and the task data if authenticated', async () => {
       return request(app.getHttpServer())
         .get(`/tasks/${taskId}`)
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
@@ -158,7 +158,7 @@ describe('TaskController (e2e)', () => {
           .expect(401);
       });
 
-      it('should return 204 and task status if authenticated', async () => {
+      it('should return 204 if authenticated', async () => {
         return request(app.getHttpServer())
           .delete(`/tasks/${taskId}`)
           .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
