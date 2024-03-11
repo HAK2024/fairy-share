@@ -95,7 +95,8 @@ export class AuthService {
 
   async loginGoogle(code: string) {
     try {
-      const { tokens } = await oAuth2Client.getToken(code); // exchange code for tokens
+      // exchange code for tokens
+      const { tokens } = await oAuth2Client.getToken(code);
 
       const ticket = await oAuth2Client.verifyIdToken({
         idToken: tokens.id_token,
