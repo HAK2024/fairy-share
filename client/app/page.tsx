@@ -6,7 +6,7 @@ import { Loading } from './_components/layout'
 import { Button, Heading } from './_components/ui'
 
 export default function Home() {
-  const { data: todos, isError, isLoading: isLoading } = useGetTodosQuery()
+  const { data: todos, isError, isLoading } = useGetTodosQuery()
 
   if (isLoading) {
     return <Loading isCenter />
