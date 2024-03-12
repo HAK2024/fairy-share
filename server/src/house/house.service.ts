@@ -1,9 +1,131 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { CreateHouseDto, UpdateHouseDto } from './dto';
 
 @Injectable()
 export class HouseService {
   constructor(private prisma: PrismaService) {}
+
+  async createHouse(userId: number, dto: CreateHouseDto) {
+    try {
+      const house = await this.prisma.house.create({
+        data: {
+          name: dto.name,
+          isExpensePerTime: dto.isExpensePerTime,
+          userHouses: {
+            create: {
+              userId,
+              isAdmin: true,
+            },
+          },
+          rules: {
+            create: dto.rules,
+          },
+        },
+        include: {
+          userHouses: true,
+          rules: true,
+        },
+      });
+
+      const responseHouse = {
+        houseId: house.id,
+        name: house.name,
+        isExpensePerTime: house.isExpensePerTime,
+        rules: house.rules,
+        isAdmin: house.userHouses[0].isAdmin,
+      };
+
+      return responseHouse;
+    } catch (error) {
+      console.error('Error creating house:', error);
+      throw error;
+    }
+  }
+
+  async updateHouse(userId: number, houseId: number, dto: UpdateHouseDto) {
+    try {
+      return this.prisma.$transaction(async (tx) => {
+        const house = await tx.house.findUnique({
+          where: {
+            id: houseId,
+            userHouses: {
+              some: {
+                userId,
+              },
+            },
+          },
+          include: {
+            rules: true,
+          },
+        });
+
+        if (!house) {
+          throw new NotFoundException(`House with ID ${houseId} not found.`);
+        }
+
+        // Return Error if the rules are not found in the house
+        const rulesInHouse = house.rules.map((rule) => rule.id);
+
+        const ruleIds = dto.rules
+          .map((rule) => rule.id)
+          .filter((id) => id !== undefined);
+
+        const createRules = dto.rules.filter((rule) => !rule.id);
+        const updateRules = dto.rules.filter((rule) => rule.id);
+
+        for (const id of ruleIds) {
+          if (!rulesInHouse.includes(id)) {
+            throw new NotFoundException(
+              `Rule with ID ${id} not found in the house.`,
+            );
+          }
+        }
+
+        // Delete all the rules that does not exist in the new rules
+        await tx.rule.deleteMany({
+          where: {
+            houseId: houseId,
+            id: {
+              notIn: ruleIds,
+            },
+          },
+        });
+
+        const updatedHouse = await tx.house.update({
+          where: { id: houseId },
+          data: {
+            name: dto.name,
+            isExpensePerTime: dto.isExpensePerTime,
+            rules: {
+              updateMany: updateRules.map((rule) => ({
+                where: { id: rule.id },
+                data: { text: rule.text },
+              })),
+              create: createRules,
+            },
+          },
+          include: {
+            userHouses: true,
+            rules: true,
+          },
+        });
+
+        const responseHouse = {
+          houseId: updatedHouse.id,
+          name: updatedHouse.name,
+          isExpensePerTime: updatedHouse.isExpensePerTime,
+          rules: updatedHouse.rules,
+          isAdmin: updatedHouse.userHouses[0].isAdmin,
+        };
+
+        return responseHouse;
+      });
+    } catch (error) {
+      console.error('Error updating house:', error);
+      throw error;
+    }
+  }
 
   async getHouse(userId: number, houseId: number) {
     try {
