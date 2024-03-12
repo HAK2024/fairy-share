@@ -23,11 +23,11 @@ export class HouseService {
       }
 
       const houseResponse = {
-        id: house.id,
+        houseId: house.id,
         name: house.name,
         isExpensePerTime: house.isExpensePerTime,
         rules: house.rules,
-        isUserAdmin: house.userHouses[0]?.isAdmin,
+        isAdmin: house.userHouses[0]?.isAdmin,
       };
       return houseResponse;
     } catch (error) {
