@@ -7,7 +7,7 @@ type TaskListProps = {
   tasks: TaskType[]
 }
 
-const TaskList: React.FC<TaskListProps> = ({ title, tasks }) => {
+const TaskList = ({ title, tasks }: TaskListProps) => {
   return (
     <div className='flex w-full flex-col gap-2'>
       <p className='text-xl font-semibold md:text-2xl'>{title}</p>

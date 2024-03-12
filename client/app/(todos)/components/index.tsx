@@ -1,4 +1,4 @@
-export { ExpenseError } from './ExpenseError'
+export { Error } from './Error'
 export { TaskList } from './TaskList'
 export { TaskItem } from './TaskItem'
 export { EmptyTask } from './EmptyTask'
