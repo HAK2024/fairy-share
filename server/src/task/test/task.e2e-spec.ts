@@ -90,8 +90,9 @@ describe('TaskController (e2e)', () => {
         title: 'Garden Maintenance',
         date: '2023-04-15T07:00:00.000Z',
         note: 'Trim the hedges and mow the lawn',
-        assigneeId: 101,
         houseId: 106,
+        assigneeId: 101,
+        isCompleted: false,
       };
 
       const response = await request(app.getHttpServer())
