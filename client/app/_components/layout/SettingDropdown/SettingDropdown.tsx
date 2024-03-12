@@ -1,3 +1,5 @@
+import { useRouter } from 'next/navigation'
+import { useQueryClient } from '@tanstack/react-query'
 import { RxGear, RxPerson, RxExit } from 'react-icons/rx'
 import {
   DropdownMenu,
@@ -5,32 +7,77 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/_components/ui'
+import { useLogoutMutation } from '@/_hooks/api'
+import { resetAllStores } from '@/_stores'
 
 const SettingDropdown = () => {
+  const queryClient = useQueryClient()
+  const { mutate, isPending } = useLogoutMutation()
+  const router = useRouter()
+
+  const logoutHandler = () => {
+    mutate(undefined, {
+      onSuccess: () => {
+        resetAllStores()
+        queryClient.clear()
+        router.push('/login')
+      },
+    })
+  }
+
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className='pl-2 focus:outline-none'>
-        <RxGear className='h-7 w-7' />
+      <DropdownMenuTrigger className='ml-2' asChild>
+        <button>
+          <RxGear className='h-7 w-7' />
+        </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='m-4 w-52 font-medium'>
-        {/* TODO: Need to put the onClick handler for each item later when implementing each feature */}
-        <DropdownMenuItem className='cursor-pointer focus:bg-primary focus:text-primary-foreground'>
-          <div className='flex items-center gap-2'>
+        {/* TODO: Change URL */}
+        <DropdownMenuItem
+          className='cursor-pointer focus:bg-primary focus:text-primary-foreground'
+          asChild
+        >
+          <button
+            onClick={() => router.push('/profile')}
+            className='flex w-full items-center gap-2'
+          >
             <RxPerson className='h-4 w-4' />
             <span>Profile</span>
-          </div>
+          </button>
         </DropdownMenuItem>
-        <DropdownMenuItem className='cursor-pointer focus:bg-primary focus:text-primary-foreground'>
-          <div className='flex items-center gap-2'>
+        <DropdownMenuItem
+          className='cursor-pointer focus:bg-primary focus:text-primary-foreground'
+          asChild
+        >
+          <button
+            onClick={() => router.push(`/house/[id]/edit`)}
+            className='flex w-full items-center gap-2'
+          >
             <RxGear className='h-4 w-4' />
             <span>House setting</span>
-          </div>
+          </button>
         </DropdownMenuItem>
-        <DropdownMenuItem className='cursor-pointer focus:bg-primary focus:text-primary-foreground'>
-          <div className='flex items-center gap-2'>
+        <DropdownMenuItem
+          className='cursor-pointer focus:bg-primary focus:text-primary-foreground'
+          asChild
+        >
+          <button
+            className='flex w-full items-center gap-2 disabled:pointer-events-none disabled:opacity-50'
+            onClick={logoutHandler}
+            disabled={isPending}
+          >
             <RxExit className='h-4 w-4' />
             <span>Log out</span>
-          </div>
+          </button>
+          {/* <Button
+            className='flex w-full items-center gap-2'
+            onClick={() => console.log('click!')}
+            variant={'ghost'}
+          >
+            <RxExit className='h-4 w-4' />
+            <span>Log out</span>
+          </Button> */}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

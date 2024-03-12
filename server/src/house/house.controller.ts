@@ -12,7 +12,15 @@ import { GetUser } from '../auth/decorator';
 @UseGuards(AuthGuard)
 @Controller('houses')
 export class HouseController {
-  constructor(private houseService: HouseService) {}
+  constructor(private readonly houseService: HouseService) {}
+
+  @Get(':houseId')
+  getHouse(
+    @GetUser('id') userId: number,
+    @Param('houseId', ParseIntPipe) houseId: number,
+  ) {
+    return this.houseService.getHouse(userId, houseId);
+  }
 
   @Get(':houseId/todos')
   getTodos(

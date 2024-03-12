@@ -7,6 +7,7 @@ export {
 } from './DropdownMenu'
 export { Heading } from './heading/Heading'
 export { Checkbox } from './checkbox/Checkbox'
+export { PasswordInput } from './input/PasswordInput'
 export { RouterLink } from './link/RouterLink'
 export {
   Form,

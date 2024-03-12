@@ -1,5 +1,5 @@
 import { Loading } from '@/_components/layout'
-import { useAuthStore } from '@/_store'
+import { useAuthStore } from '@/_stores'
 import { useGetTodosQuery } from '../hooks'
 import { TaskList, Error as ExpenseError } from '.'
 
