@@ -1,5 +1,5 @@
 export type RuleType = {
-  ruleId: number
+  id: number
   text: string
   houseId: number
 }
