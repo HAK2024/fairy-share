@@ -11,6 +11,7 @@ import {
   invalidUpdateTaskFields,
   validUpdateTaskField,
 } from './data';
+import { describe } from 'node:test';
 
 describe('TaskController (e2e)', () => {
   let app: INestApplication;
@@ -57,12 +58,23 @@ describe('TaskController (e2e)', () => {
     });
 
     it('should return 201 and the task data if authenticated', async () => {
-      await request(app.getHttpServer())
+      const expectedTaskData = {
+        id: expect.any(Number),
+        title: 'Valid Title',
+        date: '2023-03-18T12:00:00.000Z',
+        note: 'Valid Note',
+        assigneeId: 101,
+        houseId: 106,
+      };
+
+      const response = await request(app.getHttpServer())
         .post('/tasks/create')
         .send(validCreateTaskField)
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
         .expect(201);
+
+      expect(response.body).toMatchObject(expectedTaskData);
     });
   });
 
@@ -73,11 +85,22 @@ describe('TaskController (e2e)', () => {
     });
 
     it('should return 200 and the task data if authenticated', async () => {
-      return request(app.getHttpServer())
+      const expectedTaskData = {
+        id: taskId,
+        title: 'Garden Maintenance',
+        date: '2023-04-15T07:00:00.000Z',
+        note: 'Trim the hedges and mow the lawn',
+        assigneeId: 101,
+        houseId: 106,
+      };
+
+      const response = await request(app.getHttpServer())
         .get(`/tasks/${taskId}`)
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
         .expect(200);
+
+      expect(response.body).toMatchObject(expectedTaskData);
     });
   });
 
@@ -99,12 +122,22 @@ describe('TaskController (e2e)', () => {
     });
 
     it('should return 200 and task data if authenticated', async () => {
-      await request(app.getHttpServer())
+      const expectedTaskData = {
+        id: expect.any(Number),
+        title: 'Valid Title',
+        date: '2023-03-18T12:00:00.000Z',
+        note: 'Valid Note',
+        assigneeId: 101,
+      };
+
+      const response = await request(app.getHttpServer())
         .put(`/tasks/${taskId}`)
         .send(validUpdateTaskField)
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
         .expect(200);
+
+      expect(response.body).toMatchObject(expectedTaskData);
     });
   });
 
