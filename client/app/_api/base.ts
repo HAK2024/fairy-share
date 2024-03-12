@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useAuthStore } from '@/_store'
+import { useAuthStore } from '@/_stores'
 
 const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_ORIGIN,

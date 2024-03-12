@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { getHouseApi } from '@/_api'
-import { useAuthStore } from '@/_store'
+import { useAuthStore } from '@/_stores'
 import { HouseType } from '@/_types'
 
 export const useGetHouseQuery = () => {

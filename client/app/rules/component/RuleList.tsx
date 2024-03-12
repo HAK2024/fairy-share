@@ -7,6 +7,7 @@ type RuleListProps = {
 }
 
 const RuleList = ({ rules }: RuleListProps) => {
+  console.log(rules)
   return (
     <>
       <div className='mt-6 flex flex-col gap-3 rounded-md border border-amber-400 bg-amber-100 px-2 py-4 md:mt-8 md:px-7 md:py-7'>

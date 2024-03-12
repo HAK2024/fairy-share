@@ -6,7 +6,7 @@ import { Loading } from '@/_components/layout'
 import { Header, Footer } from '@/_components/layout'
 import { AUTH_PUBLIC_PATH } from '@/_consts'
 import { useGetMeQuery, useGetCsrfTokenQuery } from '@/_hooks/api'
-import { useAuthStore } from '@/_store'
+import { useAuthStore } from '@/_stores'
 
 const CheckAuth = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter()
