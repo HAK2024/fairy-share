@@ -45,6 +45,19 @@ export class AuthController {
     return res.send(user.user);
   }
 
+  @Post('login/google')
+  async loginGoogle(@Body() body: { code: string }, @Res() res: Response) {
+    const user = await this.authService.loginGoogle(body.code);
+    // // Set Cookie with user.token
+    res.cookie('token', user.token, {
+      httpOnly: true,
+      secure: true,
+      maxAge: 24 * 60 * 60 * 1000, // 24H
+    });
+
+    return res.send(user.user);
+  }
+
   @HttpCode(HttpStatus.OK)
   @Post('logout')
   async logout(@Res() res: Response) {

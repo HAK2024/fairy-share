@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-// import { FcGoogle } from 'react-icons/fc'
+import { FcGoogle } from 'react-icons/fc'
 import logo from '@public/images/logo/logo.png'
 import {
   Form,
@@ -18,7 +18,7 @@ import {
 import { useLogin } from '../hooks'
 
 const LoginForm = () => {
-  const { form, onSubmit, isPending } = useLogin()
+  const { form, onSubmit, isPending, googleLogin } = useLogin()
 
   return (
     <div className='flex w-full flex-col items-center bg-amber-50 md:w-[680px] md:p-10'>
@@ -71,8 +71,7 @@ const LoginForm = () => {
           </form>
         </Form>
 
-        {/* TODO Implement Google Auth when we have time */}
-        {/* <div className='mt-7 flex items-center'>
+        <div className='mt-7 flex items-center'>
           <div className='h-[1px] flex-grow bg-slate-300' />
           <span className='px-3 text-slate-600'>or</span>
 
@@ -80,11 +79,16 @@ const LoginForm = () => {
         </div>
 
         <div className='mt-7 text-center'>
-          <Button variant='secondaryOutline'>
+          <Button
+            variant='secondaryOutline'
+            className='min-w-[240px] text-base'
+            onClick={() => googleLogin()}
+            isLoading={isPending}
+          >
             <FcGoogle className='mr-2' size={20} />
             Continue with Google
           </Button>
-        </div> */}
+        </div>
 
         <div className='mt-10 flex flex-col items-center gap-2'>
           <span className='text-sm md:text-base'>
