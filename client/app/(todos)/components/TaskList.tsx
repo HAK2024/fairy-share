@@ -15,7 +15,7 @@ const TaskList = ({ title, tasks }: TaskListProps) => {
         {tasks.length === 0 ? (
           <EmptyTask />
         ) : (
-          <ul className='hide-scrollbar hide-scrollbar::-webkit-scrollbar flex max-h-32 flex-col gap-3 overflow-y-auto px-1 md:max-h-36 md:py-3'>
+          <ul className='hide-scrollbar hide-scrollbar::-webkit-scrollbar flex h-32 flex-col gap-3 overflow-y-auto px-1 md:h-36 md:py-3'>
             {tasks.map((task) => (
               <TaskItem key={task.id} task={task} />
             ))}
