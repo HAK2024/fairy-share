@@ -70,14 +70,6 @@ const SettingDropdown = () => {
             <RxExit className='h-4 w-4' />
             <span>Log out</span>
           </button>
-          {/* <Button
-            className='flex w-full items-center gap-2'
-            onClick={() => console.log('click!')}
-            variant={'ghost'}
-          >
-            <RxExit className='h-4 w-4' />
-            <span>Log out</span>
-          </Button> */}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
