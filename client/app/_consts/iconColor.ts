@@ -37,3 +37,15 @@ export const iconColor = [
     value: 'WHITE',
   },
 ] as const
+
+export const colorMap = {
+  RED: 'text-red-800',
+  ORANGE: 'text-orange-800',
+  YELLOW: 'text-yellow-800',
+  GREEN: 'text-green-800',
+  BLUE: 'text-blue-800',
+  INDIGO: 'text-indigo-800',
+  VIOLET: 'text-violet-800',
+  BLACK: 'text-black-800',
+  WHITE: 'text-white-800',
+}
