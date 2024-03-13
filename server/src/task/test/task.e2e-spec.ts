@@ -142,14 +142,14 @@ describe('TaskController (e2e)', () => {
     });
   });
 
-  describe('PATCH /tasks/:taskId/status', () => {
+  describe('PUT /tasks/:taskId/status', () => {
     it('should return 401 if not authenticated', async () => {
-      await request(app.getHttpServer()).patch('/tasks/126/status').expect(401);
+      await request(app.getHttpServer()).put('/tasks/126/status').expect(401);
     });
 
     const updateTaskStatus = async (taskId: number, isCompleted: boolean) => {
       return request(app.getHttpServer())
-        .patch(`/tasks/${taskId}/status`)
+        .put(`/tasks/${taskId}/status`)
         .send({ isCompleted })
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)

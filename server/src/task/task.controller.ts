@@ -11,7 +11,6 @@ import {
   HttpStatus,
   Param,
   ParseIntPipe,
-  Patch,
   Post,
   Put,
   UseGuards,
@@ -40,7 +39,7 @@ export class TaskController {
     return this.taskService.updateTask(taskId, updateTaskDto);
   }
 
-  @Patch(':taskId/status')
+  @Put(':taskId/status')
   updateTaskStatus(
     @Param('taskId', ParseIntPipe) taskId: number,
     @Body() updateTaskStatusDto: UpdateTaskStatusDto,
