@@ -4,8 +4,7 @@ import * as cookieParser from 'cookie-parser';
 import { TestingModule, Test } from '@nestjs/testing';
 import { UserModule } from '../user.module';
 import { AuthGuard } from '../../auth/guard';
-import { authSetTokens, buildDefaultModules } from '../../../test';
-import { resetData } from '../../../test/setup';
+import { authSetTokens, buildDefaultModules, resetData } from '../../../test';
 
 describe('UserController (e2e)', () => {
   let app: INestApplication;

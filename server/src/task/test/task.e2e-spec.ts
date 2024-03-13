@@ -3,7 +3,7 @@ import * as request from 'supertest';
 import * as cookieParser from 'cookie-parser';
 import { TestingModule, Test } from '@nestjs/testing';
 import { AuthGuard } from '../../auth/guard';
-import { authSetTokens, buildDefaultModules } from '../../../test';
+import { authSetTokens, buildDefaultModules, resetData } from '../../../test';
 import { TaskModule } from '../task.module';
 import {
   validCreateTaskField,
@@ -12,7 +12,6 @@ import {
   validUpdateTaskField,
 } from './data';
 import { describe } from 'node:test';
-import { resetData } from '../../../test/setup';
 
 describe('TaskController (e2e)', () => {
   let app: INestApplication;

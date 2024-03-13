@@ -3,9 +3,8 @@ import * as request from 'supertest';
 import * as cookieParser from 'cookie-parser';
 import { TestingModule, Test } from '@nestjs/testing';
 import { AuthGuard } from '../../auth/guard';
-import { authSetTokens, buildDefaultModules } from '../../../test';
+import { authSetTokens, buildDefaultModules, resetData } from '../../../test';
 import { HouseModule } from '../house.module';
-import { resetData } from '../../../test/setup';
 
 describe('HouseController (e2e)', () => {
   let app: INestApplication;
