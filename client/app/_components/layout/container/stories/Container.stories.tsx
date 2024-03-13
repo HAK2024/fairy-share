@@ -23,7 +23,7 @@ export const Default: Story = {
 export const ContainerWithHeading: Story = {
   args: {
     children: (
-      <div className='h-[400px]'>
+      <>
         <Heading
           title='Account'
           buttonComponent={() => <Button variant={'outline'}>Edit</Button>}
@@ -41,7 +41,7 @@ export const ContainerWithHeading: Story = {
           aliquid iste consequatur. Architecto, aspernatur repudiandae quis
           minus fuga laudantium cumque.
         </div>
-      </div>
+      </>
     ),
   },
 }
