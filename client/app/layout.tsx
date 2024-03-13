@@ -1,5 +1,6 @@
 import { Montserrat } from 'next/font/google'
 import './globals.css'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 import {
   ReactQueryProvider,
   CheckAuth,
@@ -22,13 +23,20 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={inter.className}>
-        {/* TODO: Show different layouts depending on the screen */}
         <ReactQueryProvider>
           <main className='min-h-svh bg-amber-50 text-slate-800'>
             <CheckAuth>{children}</CheckAuth>
           </main>
           <ClientComponentsProvider />
         </ReactQueryProvider>
+        <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID || ''}>
+          <ReactQueryProvider>
+            <main className='min-h-svh bg-amber-50 text-slate-800'>
+              <CheckAuth>{children}</CheckAuth>
+            </main>
+            <ClientComponentsProvider />
+          </ReactQueryProvider>
+        </GoogleOAuthProvider>
       </body>
     </html>
   )
