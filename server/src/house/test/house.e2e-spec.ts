@@ -35,27 +35,31 @@ describe('HouseController (e2e)', () => {
   });
 
   describe('GET /houses/:houseId', () => {
+    const houseId = 106;
     it('should return 401 if not authenticated', async () => {
-      await request(app.getHttpServer()).get('/houses/106').expect(401);
+      await request(app.getHttpServer()).get(`/houses/${houseId}`).expect(401);
     });
 
     it('should return 200 and house data if authenticated', async () => {
       await request(app.getHttpServer())
-        .get('/houses/106')
+        .get(`/houses/${houseId}`)
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
         .expect(200);
     });
   });
 
-  describe('GET /houses/106/todos', () => {
+  describe('GET /houses/:houseId/todos', () => {
+    const houseId = 106;
     it('should return 401 if not authenticated', async () => {
-      await request(app.getHttpServer()).get('/houses/106/todos').expect(401);
+      await request(app.getHttpServer())
+        .get(`/houses/${houseId}/todos`)
+        .expect(401);
     });
 
     it('should return 200 and todos data if authenticated', async () => {
       await request(app.getHttpServer())
-        .get('/houses/106/todos')
+        .get(`/houses/${houseId}/todos`)
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
         .expect(200);
