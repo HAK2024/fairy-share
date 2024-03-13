@@ -20,6 +20,7 @@ export default function Home() {
   return (
     <div className='flex flex-col gap-8 px-4 pb-10 pt-8 text-slate-800 md:px-14 md:pb-20 md:pt-10 '>
       {!todos ? (
+        // TODO: Replace the linkHref with the actual path
         <HouseError
           mainMessage='You are currently not in any house.'
           linkHref='/create-setting'
