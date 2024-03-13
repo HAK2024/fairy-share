@@ -14,6 +14,6 @@ export class UpdateRuleDto {
 
   @IsString()
   @IsNotEmpty()
-  @MaxLength(100)
+  @MaxLength(200)
   text: string;
 }

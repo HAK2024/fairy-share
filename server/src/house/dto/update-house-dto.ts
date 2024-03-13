@@ -13,7 +13,7 @@ import { UpdateRuleDto } from './sub-dto';
 export class UpdateHouseDto {
   @IsString()
   @IsNotEmpty()
-  @MaxLength(20)
+  @MaxLength(100)
   name: string;
 
   @IsBoolean()

@@ -13,7 +13,7 @@ import { Type } from 'class-transformer';
 export class CreateHouseDto {
   @IsString()
   @IsNotEmpty()
-  @MaxLength(20)
+  @MaxLength(100)
   name: string;
 
   @IsBoolean()
