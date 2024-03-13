@@ -1,5 +1,7 @@
 import { execSync } from 'child_process';
 
-module.exports = async () => {
-  execSync('npm run prisma:generate-test', { stdio: 'inherit' });
+// Reset data and seed data before testing
+export const resetData = async () => {
+  execSync('npm run prisma:reset-test', { stdio: 'inherit' });
+  execSync('npm run prisma:seed-test', { stdio: 'inherit' });
 };
