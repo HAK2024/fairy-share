@@ -4,7 +4,7 @@ import { HouseType } from '@/_types'
 type IconType = (typeof iconColor)[number]['value']
 
 export type UserType = {
-  id: string
+  id: number
   name: string
   email: string
   icon: IconType

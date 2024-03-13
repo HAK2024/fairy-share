@@ -49,7 +49,7 @@ describe('HouseController (e2e)', () => {
     };
 
     it('should return 401 if not authenticated', async () => {
-      await request(app.getHttpServer()).get('/houses/106').expect(401);
+      await request(app.getHttpServer()).post('/houses').send(dto).expect(401);
     });
 
     it('should return 201 and house data if authenticated', async () => {
