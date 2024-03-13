@@ -23,12 +23,6 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={inter.className}>
-        <ReactQueryProvider>
-          <main className='min-h-svh bg-amber-50 text-slate-800'>
-            <CheckAuth>{children}</CheckAuth>
-          </main>
-          <ClientComponentsProvider />
-        </ReactQueryProvider>
         <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID || ''}>
           <ReactQueryProvider>
             <main className='min-h-svh bg-amber-50 text-slate-800'>
