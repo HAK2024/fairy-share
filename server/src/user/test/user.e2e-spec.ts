@@ -5,6 +5,7 @@ import { TestingModule, Test } from '@nestjs/testing';
 import { UserModule } from '../user.module';
 import { AuthGuard } from '../../auth/guard';
 import { authSetTokens, buildDefaultModules } from '../../../test';
+import { resetData } from '../../../test/setup';
 
 describe('UserController (e2e)', () => {
   let app: INestApplication;
@@ -13,6 +14,8 @@ describe('UserController (e2e)', () => {
   let csrfToken: string;
 
   beforeAll(async () => {
+    await resetData();
+
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [...buildDefaultModules(), UserModule],
       providers: [AuthGuard],

@@ -11,7 +11,7 @@ import {
 
 const prisma = new PrismaClient();
 
-async function main() {
+async function insertSeedData() {
   const usersData = await userData();
   for (const user of usersData) {
     await prisma.user.upsert({
@@ -90,7 +90,7 @@ async function main() {
   console.log('Payments have been added successfully.');
 }
 
-main()
+insertSeedData()
   .catch((e) => {
     console.error(e);
     process.exit(1);

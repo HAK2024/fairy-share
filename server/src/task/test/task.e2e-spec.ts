@@ -12,6 +12,7 @@ import {
   validUpdateTaskField,
 } from './data';
 import { describe } from 'node:test';
+import { resetData } from '../../../test/setup';
 
 describe('TaskController (e2e)', () => {
   let app: INestApplication;
@@ -20,6 +21,8 @@ describe('TaskController (e2e)', () => {
   let csrfToken: string;
 
   beforeAll(async () => {
+    await resetData();
+
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [...buildDefaultModules(), TaskModule],
       providers: [AuthGuard],

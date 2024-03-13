@@ -5,6 +5,7 @@ import { TestingModule, Test } from '@nestjs/testing';
 import { AuthGuard } from '../../auth/guard';
 import { authSetTokens, buildDefaultModules } from '../../../test';
 import { HouseModule } from '../house.module';
+import { resetData } from '../../../test/setup';
 
 describe('HouseController (e2e)', () => {
   let app: INestApplication;
@@ -13,6 +14,8 @@ describe('HouseController (e2e)', () => {
   let csrfToken: string;
 
   beforeAll(async () => {
+    await resetData();
+
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [...buildDefaultModules(), HouseModule],
       providers: [AuthGuard],
