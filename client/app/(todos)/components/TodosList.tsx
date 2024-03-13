@@ -1,5 +1,5 @@
 import { TodoType } from '@/_types'
-import { TaskList, Error as ExpenseError } from '.'
+import { TaskList, Alert as ExpenseAlert } from '.'
 
 const TodosList = ({ todos }: { todos: TodoType }) => {
   return (
@@ -11,7 +11,7 @@ const TodosList = ({ todos }: { todos: TodoType }) => {
       {!todos.hasUnpaidPayments && (
         <div className='flex flex-col gap-2'>
           <p className='text-xl font-semibold md:text-2xl'>Expenses</p>
-          <ExpenseError
+          <ExpenseAlert
             mainMessage="You haven't completed the payment yet!"
             linkHref='/expense'
             linkText='Tracking'
