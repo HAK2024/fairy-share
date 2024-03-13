@@ -7,6 +7,7 @@ import {
   Post,
   Body,
   Put,
+  Delete,
 } from '@nestjs/common';
 import { HouseService } from './house.service';
 import { AuthGuard } from '../auth/guard';
@@ -23,6 +24,14 @@ export class HouseController {
     return this.houseService.createHouse(userId, dto);
   }
 
+  @Get(':houseId')
+  getHouse(
+    @GetUser('id') userId: number,
+    @Param('houseId', ParseIntPipe) houseId: number,
+  ) {
+    return this.houseService.getHouse(userId, houseId);
+  }
+
   @Put(':houseId')
   updateHouse(
     @GetUser('id') userId: number,
@@ -32,12 +41,12 @@ export class HouseController {
     return this.houseService.updateHouse(userId, houseId, dto);
   }
 
-  @Get(':houseId')
-  getHouse(
+  @Delete(':houseId')
+  deleteHouse(
     @GetUser('id') userId: number,
     @Param('houseId', ParseIntPipe) houseId: number,
   ) {
-    return this.houseService.getHouse(userId, houseId);
+    return this.houseService.deleteHouse(userId, houseId);
   }
 
   @Get(':houseId/todos')

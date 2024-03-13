@@ -48,7 +48,7 @@ model UserHouse {
   houseId Int
   isAdmin Boolean @default(false)
   user    User?   @relation(fields: [userId], references: [id])
-  house   House?  @relation(fields: [houseId], references: [id])
+  house   House?  @relation(fields: [houseId], references: [id], onDelete: Cascade)
 
   @@unique([userId, houseId])
 }
@@ -67,7 +67,7 @@ model Rule {
   id      Int    @id @default(autoincrement())
   text    String @db.VarChar(100)
   houseId Int
-  house   House? @relation(fields: [houseId], references: [id])
+  house   House? @relation(fields: [houseId], references: [id], onDelete: Cascade)
 }
 
 model Task {
@@ -78,7 +78,7 @@ model Task {
   houseId     Int
   assigneeId  Int
   isCompleted Boolean  @default(false)
-  house       House?   @relation(fields: [houseId], references: [id])
+  house       House?   @relation(fields: [houseId], references: [id], onDelete: Cascade)
   user        User?    @relation(fields: [assigneeId], references: [id])
 }
 
@@ -89,7 +89,7 @@ model Expense {
   date     DateTime
   houseId  Int
   buyerId  Int
-  house    House?    @relation(fields: [houseId], references: [id])
+  house    House?    @relation(fields: [houseId], references: [id], onDelete: Cascade)
   user     User?     @relation(fields: [buyerId], references: [id])
   payments Payment[]
 }
@@ -100,7 +100,7 @@ model Payment {
   paidDate  DateTime?
   expenseId Int
   payerId   Int
-  expense   Expense?  @relation(fields: [expenseId], references: [id])
+  expense   Expense?  @relation(fields: [expenseId], references: [id], onDelete: Cascade)
   user      User?     @relation(fields: [payerId], references: [id])
 
   @@unique([expenseId, payerId])
