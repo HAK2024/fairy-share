@@ -7,5 +7,5 @@ export const registerApi = async (data: RegisterSchema) => {
     '/auth/register',
     data,
   )
-  return response.data
+  return response
 }

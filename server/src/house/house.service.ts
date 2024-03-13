@@ -71,6 +71,7 @@ export class HouseService {
             },
           ],
         },
+        orderBy: [{ date: 'asc' }, { id: 'asc' }],
       });
 
       const oneWeekLater = new Date(currentDate);
@@ -90,6 +91,7 @@ export class HouseService {
             },
           ],
         },
+        orderBy: [{ date: 'asc' }, { id: 'asc' }],
       });
 
       // Find the expense that the user hasn't paid
