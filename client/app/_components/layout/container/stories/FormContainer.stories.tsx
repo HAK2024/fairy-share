@@ -1,15 +1,15 @@
 import { Button, Heading } from '@/_components/ui'
-import { Container } from '../Container'
+import { FormContainer } from '../FormContainer'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta = {
   title: 'layout/Container',
-  component: Container,
+  component: FormContainer,
   parameters: {
     layout: 'fullscreen',
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof Container>
+} satisfies Meta<typeof FormContainer>
 
 export default meta
 type Story = StoryObj<typeof meta>
@@ -20,7 +20,7 @@ export const Default: Story = {
   },
 }
 
-export const ContainerWithHeading: Story = {
+export const FormContainerWithHeading: Story = {
   args: {
     children: (
       <>
