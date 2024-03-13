@@ -28,7 +28,7 @@ const RegisterForm = () => {
 
       <div className='w-full md:max-w-[360px]'>
         <h1 className='mt-7 text-center text-3xl font-bold'>
-          Create you account
+          Create your account
         </h1>
 
         <Form {...form}>

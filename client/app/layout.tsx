@@ -25,7 +25,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID || ''}>
           <ReactQueryProvider>
-            <main className='min-h-svh bg-amber-100 text-slate-800'>
+            <main className='min-h-svh bg-amber-50 text-slate-800'>
               <CheckAuth>{children}</CheckAuth>
             </main>
             <ClientComponentsProvider />

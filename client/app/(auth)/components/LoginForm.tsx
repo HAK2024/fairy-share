@@ -12,6 +12,7 @@ import {
   FormMessage,
   RouterLink,
   Input,
+  PasswordInput,
   Button,
 } from '@/_components/ui'
 import { useLogin } from '../hooks'
@@ -50,7 +51,7 @@ const LoginForm = () => {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input placeholder='password' {...field} />
+                      <PasswordInput placeholder='password' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
