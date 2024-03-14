@@ -4,7 +4,7 @@ import * as cookieParser from 'cookie-parser';
 import { TestingModule, Test } from '@nestjs/testing';
 import { UserModule } from '../user.module';
 import { AuthGuard } from '../../auth/guard';
-import { authSetTokens, buildDefaultModules } from '../../../test';
+import { authSetTokens, buildDefaultModules, resetData } from '../../../test';
 
 describe('UserController (e2e)', () => {
   let app: INestApplication;
@@ -13,6 +13,8 @@ describe('UserController (e2e)', () => {
   let csrfToken: string;
 
   beforeAll(async () => {
+    await resetData();
+
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [...buildDefaultModules(), UserModule],
       providers: [AuthGuard],

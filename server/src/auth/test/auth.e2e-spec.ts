@@ -1,12 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
-import { buildDefaultModules } from '../../../test';
+import { buildDefaultModules, resetData } from '../../../test';
 
 describe('AuthController (e2e)', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
+    await resetData();
+
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [...buildDefaultModules()],
     }).compile();
