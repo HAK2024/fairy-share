@@ -14,6 +14,7 @@ const CheckAuth = ({ children }: { children: React.ReactNode }) => {
   const csrfToken = useAuthStore((state) => state.csrfToken)
   const setCsrfToken = useAuthStore((state) => state.setCsrfToken)
   const currentUser = useAuthStore((state) => state.currentUser)
+  const getHouseId = useAuthStore((state) => state.getHouseId)
   const setCurrentUser = useAuthStore((state) => state.setCurrentUser)
 
   const isAccessingAuthPages = AUTH_PUBLIC_PATH.includes(pathname)
@@ -57,6 +58,17 @@ const CheckAuth = ({ children }: { children: React.ReactNode }) => {
   // Show LoadingUI until finish checking if the user has token when accessing private pages.
   if (!currentUser && !isAccessingAuthPages) {
     return <Loading isCenter />
+  }
+
+  // Redirect to house setting page if the user doesn't create any house yet.
+  if (currentUser && !getHouseId()) {
+    return (
+      <>
+        <Header hasNavigation={false} />
+        <div>House Setting form</div>
+        <Footer hasNavigation={false} />
+      </>
+    )
   }
 
   return (

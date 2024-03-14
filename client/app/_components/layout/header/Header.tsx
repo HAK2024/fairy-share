@@ -32,11 +32,11 @@ const Header = ({ hasNavigation = true }: HeaderProps) => {
         />
       )}
 
-      <div
-        className={`items-center justify-between gap-4 ${hasNavigation ? 'flex' : 'hidden'}`}
-      >
+      <div className={'items-center justify-between gap-4'}>
         {/* Navigation menu: Visible on devices wider than "md" breakpoint */}
-        <div className='hidden items-center justify-between gap-4 md:flex'>
+        <div
+          className={`hidden items-center justify-between gap-4 ${hasNavigation ? 'md:flex' : 'md:hidden'}`}
+        >
           <Link href={'/'}>
             <Button variant={'ghost'} className='text-md font-semibold'>
               Home

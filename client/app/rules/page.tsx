@@ -7,10 +7,12 @@ import { useGetHouseQuery } from '@/_hooks/api'
 import { RuleList } from './component/RuleList'
 
 export default function Rules() {
-  const { data: house, isLoading } = useGetHouseQuery()
+  const { data: house, isLoading, isError } = useGetHouseQuery()
+
+  // TODO Error handling
+  if (isError) return <div>Error</div>
 
   if (isLoading || !house) return <Loading />
-  /* TODO: error handling */
 
   return (
     <>

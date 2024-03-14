@@ -26,7 +26,7 @@ export const useRegister = () => {
     mutate(data, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['me'] })
-        router.push('/')
+        router.push('/house/create')
 
         toast({
           variant: 'success',
