@@ -8,7 +8,7 @@ const TodosList = ({ todos }: { todos: TodoType }) => {
         <TaskList title='Today' tasks={todos.todayTasks} />
         <TaskList title='Coming this week' tasks={todos.weekTasks} />
       </div>
-      {!todos.hasUnpaidPayments && (
+      {todos.hasUnpaidPayments && (
         <div className='flex flex-col gap-2'>
           <p className='text-xl font-semibold md:text-2xl'>Expenses</p>
           <ExpenseAlert
