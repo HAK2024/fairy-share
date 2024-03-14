@@ -28,32 +28,24 @@ export const iconColor = [
     name: 'violet',
     value: 'VIOLET',
   },
-  // {
-  //   name: 'black',
-  //   value: 'BLACK',
-  // },
   {
     name: 'black',
-    value: 'SLATE',
+    value: 'BLACK',
   },
-  // {
-  //   name: 'white',
-  //   value: 'WHITE',
-  // },
   {
     name: 'white',
-    value: 'PINK',
+    value: 'WHITE',
   },
 ] as const
 
 export const colorMap = {
-  RED: 'bg-red-500',
-  ORANGE: 'bg-orange-500',
-  YELLOW: 'bg-yellow-500',
-  GREEN: 'bg-green-500',
-  BLUE: 'bg-blue-300',
-  INDIGO: 'bg-indigo-500',
-  VIOLET: 'bg-violet-600',
-  SLATE: 'bg-slate-400', // we don't have BLACK
-  PINK: 'bg-pink-400', // WE don't have WHITE
+  RED: 'text-red-500',
+  ORANGE: 'text-orange-500',
+  YELLOW: 'text-yellow-500',
+  GREEN: 'text-green-500',
+  BLUE: 'text-blue-500',
+  INDIGO: 'text-indigo-500',
+  VIOLET: 'text-violet-500',
+  BLACK: 'text-slate-700',
+  WHITE: 'text-slate-400',
 }
