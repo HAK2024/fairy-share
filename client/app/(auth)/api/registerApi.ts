@@ -7,7 +7,7 @@ export const registerApi = async (
   invitedHouseId: string | null,
 ) => {
   const response = await apiClient.post<Omit<UserType, 'houses'>>(
-    `/auth/register${invitedHouseId && `?invitedHouseId=${invitedHouseId}`}`,
+    `/auth/register${invitedHouseId && `?invited_house_id=${invitedHouseId}`}`,
     data,
   )
   return response.data

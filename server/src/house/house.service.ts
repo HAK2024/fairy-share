@@ -80,7 +80,7 @@ export class HouseService {
 
   async updateHouse(userId: number, houseId: number, dto: UpdateHouseDto) {
     try {
-      return this.prisma.$transaction(async (tx) => {
+      return await this.prisma.$transaction(async (tx) => {
         const house = await tx.house.findUnique({
           where: {
             id: houseId,

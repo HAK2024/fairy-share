@@ -1,6 +1,7 @@
 import {
   ForbiddenException,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -19,33 +20,58 @@ export class AuthService {
     private config: ConfigService,
   ) {}
 
-  async register(dto: RegisterDto) {
+  async register(dto: RegisterDto, invitedHouseId?: string) {
     // Bcrypt password
     const hashedPassword = await hash(dto.password, 10);
 
     try {
-      const user = await this.prisma.user.create({
-        data: {
-          name: dto.name,
-          email: dto.email,
-          hashedPassword: hashedPassword,
-          icon: 'WHITE',
-        },
+      return await this.prisma.$transaction(async (tx) => {
+        const user = await tx.user.create({
+          data: {
+            name: dto.name,
+            email: dto.email,
+            hashedPassword: hashedPassword,
+            icon: 'WHITE',
+          },
+        });
+
+        // If user is invited to a house, add user to house
+        if (invitedHouseId) {
+          console.log('add house!');
+
+          const house = await tx.house.findUnique({
+            where: { id: Number(invitedHouseId) },
+          });
+
+          if (!house) {
+            throw new NotFoundException(
+              `House with ID ${invitedHouseId} not found.`,
+            );
+          }
+
+          await tx.userHouse.create({
+            data: {
+              userId: user.id,
+              houseId: Number(invitedHouseId),
+              isAdmin: false,
+            },
+          });
+        }
+
+        delete user.hashedPassword;
+
+        const token = await this.generateJwtToken(
+          user.id,
+          user.name,
+          user.email,
+          user.icon,
+        );
+
+        return {
+          token,
+          user,
+        };
       });
-
-      delete user.hashedPassword;
-
-      const token = await this.generateJwtToken(
-        user.id,
-        user.name,
-        user.email,
-        user.icon,
-      );
-
-      return {
-        token,
-        user,
-      };
     } catch (error) {
       console.error(error);
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -58,10 +84,21 @@ export class AuthService {
     }
   }
 
-  async login(dto: LoginDto) {
+  async login(dto: LoginDto, invitedHouseId?: string) {
     try {
       const user = await this.prisma.user.findUnique({
         where: { email: dto.email },
+        include: {
+          userHouses: {
+            include: {
+              house: {
+                include: {
+                  rules: true,
+                },
+              },
+            },
+          },
+        },
       });
 
       if (!user) {
@@ -74,7 +111,29 @@ export class AuthService {
         throw new UnauthorizedException('Invalid credentials');
       }
 
+      // If user does not have any house yet and is invited to a house, add user to house
+      if (invitedHouseId && user.userHouses.length === 0) {
+        const house = await this.prisma.house.findUnique({
+          where: { id: Number(invitedHouseId) },
+        });
+
+        if (!house) {
+          throw new NotFoundException(
+            `House with ID ${invitedHouseId} not found.`,
+          );
+        }
+
+        await this.prisma.userHouse.create({
+          data: {
+            userId: user.id,
+            houseId: Number(invitedHouseId),
+            isAdmin: false,
+          },
+        });
+      }
+
       delete user.hashedPassword;
+      delete user.userHouses;
 
       const token = await this.generateJwtToken(
         user.id,
@@ -93,7 +152,7 @@ export class AuthService {
     }
   }
 
-  async loginGoogle(code: string) {
+  async loginGoogle(code: string, invitedHouseId?: string) {
     try {
       // exchange code for tokens
       const { tokens } = await oAuth2Client.getToken(code);
@@ -107,11 +166,44 @@ export class AuthService {
 
       const existedUser = await this.prisma.user.findUnique({
         where: { email },
+        include: {
+          userHouses: {
+            include: {
+              house: {
+                include: {
+                  rules: true,
+                },
+              },
+            },
+          },
+        },
       });
 
       // If user exists, generate token and return
       if (existedUser) {
+        // If user does not have any house yet and is invited to a house, add user to house
+        if (invitedHouseId && existedUser.userHouses.length === 0) {
+          const house = await this.prisma.house.findUnique({
+            where: { id: Number(invitedHouseId) },
+          });
+
+          if (!house) {
+            throw new NotFoundException(
+              `House with ID ${invitedHouseId} not found.`,
+            );
+          }
+
+          await this.prisma.userHouse.create({
+            data: {
+              userId: existedUser.id,
+              houseId: Number(invitedHouseId),
+              isAdmin: false,
+            },
+          });
+        }
+
         delete existedUser.hashedPassword;
+        delete existedUser.userHouses;
 
         const token = await this.generateJwtToken(
           existedUser.id,
@@ -124,30 +216,54 @@ export class AuthService {
           token,
           user: existedUser,
         };
+
         // If user does not exist, create user and generate token
       } else {
-        const newUser = await this.prisma.user.create({
-          data: {
-            name: name,
-            email: email,
-            hashedPassword: '',
-            icon: 'WHITE',
-          },
+        return await this.prisma.$transaction(async (tx) => {
+          const newUser = await tx.user.create({
+            data: {
+              name: name,
+              email: email,
+              hashedPassword: '',
+              icon: 'WHITE',
+            },
+          });
+
+          // If user is invited to a house, add user to house
+          if (invitedHouseId) {
+            const house = await tx.house.findUnique({
+              where: { id: Number(invitedHouseId) },
+            });
+
+            if (!house) {
+              throw new NotFoundException(
+                `House with ID ${invitedHouseId} not found.`,
+              );
+            }
+
+            await tx.userHouse.create({
+              data: {
+                userId: newUser.id,
+                houseId: Number(invitedHouseId),
+                isAdmin: false,
+              },
+            });
+          }
+
+          delete newUser.hashedPassword;
+
+          const token = await this.generateJwtToken(
+            newUser.id,
+            newUser.name,
+            newUser.email,
+            newUser.icon,
+          );
+
+          return {
+            token,
+            user: newUser,
+          };
         });
-
-        delete newUser.hashedPassword;
-
-        const token = await this.generateJwtToken(
-          newUser.id,
-          newUser.name,
-          newUser.email,
-          newUser.icon,
-        );
-
-        return {
-          token,
-          newUser,
-        };
       }
     } catch (error) {
       console.error(error);

@@ -32,7 +32,7 @@ const Header = ({ hasNavigation = true }: HeaderProps) => {
         />
       )}
 
-      <div className={'items-center justify-between gap-4'}>
+      <div className={'flex items-center justify-between gap-4'}>
         {/* Navigation menu: Visible on devices wider than "md" breakpoint */}
         <div
           className={`hidden items-center justify-between gap-4 ${hasNavigation ? 'md:flex' : 'md:hidden'}`}

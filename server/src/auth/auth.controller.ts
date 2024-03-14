@@ -7,18 +7,26 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Query,
   Res,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { RegisterDto, LoginDto } from './dto';
+import { RegisterDto, LoginDto, AuthQueryDto } from './dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('register')
-  async register(@Body() registerDto: RegisterDto, @Res() res: Response) {
-    const user = await this.authService.register(registerDto);
+  async register(
+    @Body() registerDto: RegisterDto,
+    @Res() res: Response,
+    @Query() query: AuthQueryDto,
+  ) {
+    const user = await this.authService.register(
+      registerDto,
+      query.invited_house_id,
+    );
 
     // Set Cookie with user.token
     res.cookie('token', user.token, {
@@ -32,8 +40,12 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  async login(@Body() loginDto: LoginDto, @Res() res: Response) {
-    const user = await this.authService.login(loginDto);
+  async login(
+    @Body() loginDto: LoginDto,
+    @Res() res: Response,
+    @Query() query: AuthQueryDto,
+  ) {
+    const user = await this.authService.login(loginDto, query.invited_house_id);
 
     // Set Cookie with user.token
     res.cookie('token', user.token, {
@@ -46,8 +58,15 @@ export class AuthController {
   }
 
   @Post('login/google')
-  async loginGoogle(@Body() body: { code: string }, @Res() res: Response) {
-    const user = await this.authService.loginGoogle(body.code);
+  async loginGoogle(
+    @Body() body: { code: string },
+    @Res() res: Response,
+    @Query() query: AuthQueryDto,
+  ) {
+    const user = await this.authService.loginGoogle(
+      body.code,
+      query.invited_house_id,
+    );
     // // Set Cookie with user.token
     res.cookie('token', user.token, {
       httpOnly: true,
