@@ -19,13 +19,15 @@ export default function Home() {
 
   if (!todos) {
     return (
-      <NoHouseAlert
-        mainMessage='You are currently not in any house.'
-        // TODO: Replace the linkHref with the actual path
-        linkHref='/create-setting'
-        linkText='Create house'
-        additionalText='or wait for an invitation'
-      />
+      <div className='flex flex-col gap-8 px-4 pb-10 pt-8 text-slate-800 md:px-14 md:pb-20 md:pt-10 '>
+        <NoHouseAlert
+          mainMessage='You are currently not in any house.'
+          // TODO: Replace the linkHref with the actual path
+          linkHref='/create-setting'
+          linkText='Create house'
+          additionalText='or wait for an invitation'
+        />
+      </div>
     )
   }
 
