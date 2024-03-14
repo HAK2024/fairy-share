@@ -87,6 +87,7 @@ export class HouseService {
             userHouses: {
               some: {
                 userId,
+                isAdmin: true,
               },
             },
           },
@@ -96,7 +97,9 @@ export class HouseService {
         });
 
         if (!house) {
-          throw new NotFoundException(`House with ID ${houseId} not found.`);
+          throw new ForbiddenException(
+            `You are not authorized to update this house.`,
+          );
         }
 
         const rulesInHouse = house.rules.map((rule) => rule.id);
