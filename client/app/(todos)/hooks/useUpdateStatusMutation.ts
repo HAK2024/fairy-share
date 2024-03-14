@@ -10,7 +10,7 @@ export const useUpdateStatusMutation = () => {
   const getHouseId = useAuthStore((state) => state.getHouseId)
   const houseId = getHouseId()
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: updateTaskStatusApi,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['todos', houseId] })
@@ -30,5 +30,5 @@ export const useUpdateStatusMutation = () => {
     },
   })
 
-  return { mutate }
+  return { mutate, isPending }
 }

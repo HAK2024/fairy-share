@@ -4,7 +4,7 @@ import { TaskType } from '@/_types'
 import { useUpdateStatusMutation } from '../hooks'
 
 const TaskItem = ({ task }: { task: TaskType }) => {
-  const { mutate: updateStatus } = useUpdateStatusMutation()
+  const { mutate: updateStatus, isPending } = useUpdateStatusMutation()
 
   const handleUpdateTaskStatus = () => {
     updateStatus({ taskId: task.id, isCompleted: !task.isCompleted })
@@ -19,6 +19,7 @@ const TaskItem = ({ task }: { task: TaskType }) => {
         className='h-6 w-6 md:h-8 md:w-8'
         checked={task.isCompleted}
         onClick={handleUpdateTaskStatus}
+        disabled={isPending}
       />
     </li>
   )
