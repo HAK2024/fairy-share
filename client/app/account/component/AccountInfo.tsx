@@ -13,10 +13,12 @@ const AccountInfo = ({ user }: AccountInfoProps) => {
     <div className='flex flex-col gap-6 border border-amber-400'>
       <div className='flex flex-col'>
         <p>Icon</p>
-        <span>
-          {' '}
-          <FiUser className={`${colorMap[userData.icon]} text-4xl`} />
-        </span>
+        <div
+          className={`h-11 w-11 rounded-full ${colorMap[userData.icon]} p-2 text-4xl`}
+        >
+          <FiUser className={`text-4xl text-slate-400`} />
+        </div>
+
         {userData.icon}
       </div>
       <div>
