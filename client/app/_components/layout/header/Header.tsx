@@ -15,7 +15,6 @@ const Header = ({ hasNavigation = true }: HeaderProps) => {
             priority={true}
             src={`/images/logo/logo.png`}
             alt={'logo'}
-            //  Set the exact ratio of the original image so that you can avoid getting a warn
             width={179}
             height={32}
           />
