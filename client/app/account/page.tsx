@@ -12,22 +12,20 @@ export default function Account() {
   if (isLoading || !user) return <Loading />
   /* TODO: error handling */
 
-  // console.log('user>>>', user)
-
   return (
     <>
-      {/* <div className='flex w-[600px] flex-col px-4 pb-10 pt-8 md:rounded md:bg-amber-100 md:px-14 md:pb-20 md:pt-10'> */}
-      {/* <div className='hidden md:block'> */}
       <FormContainer>
-        <Heading
-          title='Account'
-          buttonComponent={<Button variant={'outline'}>Edit</Button>}
-        />
-        <AccountInfo user={[user]} />
-        <Button variant={'destructive'}>Delete your Account</Button>
+        <div className='flex flex-col gap-8 md:gap-6 '>
+          <Heading
+            title='Account'
+            buttonComponent={<Button variant={'outline'}>Edit</Button>}
+          />
+          <AccountInfo user={user} />
+          <div>
+            <Button variant={'destructive'}>Delete your Account</Button>
+          </div>
+        </div>
       </FormContainer>
-      {/* </div> */}
-      {/* </div> */}
     </>
   )
 }
