@@ -10,10 +10,10 @@ type FooterProps = {
 const Footer = ({ hasNavigation = true }: FooterProps) => {
   return (
     // Footer: Visible on devices less wider than "md" breakpoint and hasNavigation is true
-    <div
+    <footer
       className={`${hasNavigation ? 'fixed' : 'hidden'} bottom-0 left-0 right-0 flex h-16 w-screen items-center bg-teal-50 text-white shadow-lg md:hidden`}
     >
-      <div className='flex w-full items-center justify-between px-6'>
+      <nav className='flex w-full items-center justify-between px-6'>
         <Link href={'/'}>
           <div className='flex items-center justify-center rounded-full text-primary transition-transform duration-300 hover:scale-110'>
             <BiHomeAlt2 className='h-7 w-7' />
@@ -30,8 +30,8 @@ const Footer = ({ hasNavigation = true }: FooterProps) => {
             <BiEuro className='h-8 w-8 text-primary' />
           </div>
         </Link>
-      </div>
-    </div>
+      </nav>
+    </footer>
   )
 }
 
