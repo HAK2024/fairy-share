@@ -17,9 +17,9 @@ export default function Home() {
     return <p>Failed to load data.</p>
   }
 
-  if (!todos) {
-    return (
-      <div className='flex flex-col gap-8 px-4 pb-10 pt-8 text-slate-800 md:px-14 md:pb-20 md:pt-10 '>
+  return (
+    <div className='flex flex-col gap-8 px-4 pb-10 pt-8 text-slate-800 md:px-14 md:pb-20 md:pt-10 '>
+      {!todos ? (
         <NoHouseAlert
           mainMessage='You are currently not in any house.'
           // TODO: Replace the linkHref with the actual path
@@ -27,17 +27,15 @@ export default function Home() {
           linkText='Create house'
           additionalText='or wait for an invitation'
         />
-      </div>
-    )
-  }
-
-  return (
-    <div className='flex flex-col gap-8 px-4 pb-10 pt-8 text-slate-800 md:px-14 md:pb-20 md:pt-10 '>
-      <Heading
-        title={todos.houseName}
-        buttonComponent={() => <Button variant={'outline'}>Rules</Button>}
-      />
-      <TodosList todos={todos} />
+      ) : (
+        <>
+          <Heading
+            title={todos.houseName}
+            buttonComponent={() => <Button variant={'outline'}>Rules</Button>}
+          />
+          <TodosList todos={todos} />
+        </>
+      )}
     </div>
   )
 }
