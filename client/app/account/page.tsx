@@ -12,7 +12,7 @@ export default function Account() {
   if (isLoading || !user) return <Loading />
   /* TODO: error handling */
 
-  console.log('user>>>', user)
+  // console.log('user>>>', user)
 
   return (
     <>
