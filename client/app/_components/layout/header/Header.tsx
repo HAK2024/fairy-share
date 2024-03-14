@@ -8,7 +8,7 @@ type HeaderProps = {
 
 const Header = ({ hasNavigation = true }: HeaderProps) => {
   return (
-    <div className='flex h-16 w-full items-center justify-between bg-primary px-4 text-primary-foreground md:h-20 md:px-14'>
+    <header className='flex h-16 w-full items-center justify-between bg-primary px-4 text-primary-foreground md:h-20 md:px-14'>
       {hasNavigation ? (
         <Link href='/'>
           <Image
@@ -32,7 +32,7 @@ const Header = ({ hasNavigation = true }: HeaderProps) => {
         className={`items-center justify-between gap-10 ${hasNavigation ? 'flex' : 'hidden'}`}
       >
         {/* Navigation menu: Visible on devices wider than "md" breakpoint */}
-        <div className='hidden items-center justify-between gap-10 md:flex'>
+        <nav className='hidden items-center justify-between gap-10 md:flex'>
           <Link
             href={'/'}
             className='hover-underline-animation text-lg font-semibold hover:text-teal-800'
@@ -51,11 +51,11 @@ const Header = ({ hasNavigation = true }: HeaderProps) => {
           >
             Expense
           </Link>
-        </div>
+        </nav>
         {/* End of navigation menu */}
         <SettingDropdown />
       </div>
-    </div>
+    </header>
   )
 }
 
