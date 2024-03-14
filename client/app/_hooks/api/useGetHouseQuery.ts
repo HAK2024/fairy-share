@@ -8,6 +8,10 @@ export const useGetHouseQuery = () => {
   const houseId = getHouseId()
 
   const getHouse = async () => {
+    if (!houseId) {
+      throw new Error('houseId is not found')
+    }
+
     const response = await getHouseApi(houseId)
     return response
   }
