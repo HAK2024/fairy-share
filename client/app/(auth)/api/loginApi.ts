@@ -2,9 +2,12 @@ import apiClient from '@/_api/base'
 import { UserType } from '@/_types'
 import { LoginSchema } from '../schema'
 
-export const loginApi = async (data: LoginSchema) => {
+export const loginApi = async (
+  data: LoginSchema,
+  invitedHouseId: string | null,
+) => {
   const response = await apiClient.post<Omit<UserType, 'houses'>>(
-    '/auth/login',
+    `/auth/login${invitedHouseId && `?invitedHouseId=${invitedHouseId}`}`,
     data,
   )
   return response.data
