@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import { MdAccountCircle } from 'react-icons/md'
 import { Loading } from '@/_components/layout'
 import { colorMap } from '@/_consts/iconColor'
@@ -27,6 +28,12 @@ const AccountInfo = () => {
         <h2 className='font-semibold'>Email</h2>
         <p className='text-lg'>{user.email}</p>
       </div>
+      {/* <div>
+        <h2 className='font-semibold'>Password</h2>
+        <Link href='/edit-password'>
+          <a className='text-lg'>Change Password</a>
+        </Link>
+      </div> */}
     </div>
   )
 }
