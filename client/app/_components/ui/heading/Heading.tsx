@@ -9,7 +9,7 @@ interface HeadingProps {
 const Heading = ({ title, buttonComponent }: HeadingProps) => {
   return (
     <div className='flex justify-between'>
-      <p className='text-2xl font-bold text-teal-800 md:text-4xl'>{title}</p>
+      <h1 className='text-2xl font-bold text-teal-800 md:text-4xl'>{title}</h1>
       {buttonComponent && buttonComponent}
     </div>
   )
