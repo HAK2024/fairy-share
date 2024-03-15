@@ -6,7 +6,7 @@ export const loginGoogleApi = async (
   invitedHouseId: string | null,
 ) => {
   const response = await apiClient.post<Omit<UserType, 'houses'>>(
-    `/auth/login/google${invitedHouseId && `?invited_house_id=${invitedHouseId}`}`,
+    `/auth/login/google${invitedHouseId ? `?invited_house_id=${invitedHouseId}` : ''}`,
     {
       code,
     },

@@ -37,8 +37,6 @@ export class AuthService {
 
         // If user is invited to a house, add user to house
         if (invitedHouseId) {
-          console.log('add house!');
-
           const house = await tx.house.findUnique({
             where: { id: Number(invitedHouseId) },
           });
