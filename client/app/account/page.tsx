@@ -13,19 +13,17 @@ export default function Account() {
   /* TODO: error handling */
 
   return (
-    <>
-      <FormContainer>
-        <div className='flex flex-col gap-8 md:gap-6 '>
-          <Heading
-            title='Account'
-            buttonComponent={<Button variant={'outline'}>Edit</Button>}
-          />
-          <AccountInfo user={user} />
-          <div>
-            <Button variant={'destructive'}>Delete your Account</Button>
-          </div>
+    <FormContainer>
+      <div className='flex flex-col gap-8 md:gap-6 '>
+        <Heading
+          title='Account'
+          buttonComponent={<Button variant={'outline'}>Edit</Button>}
+        />
+        <AccountInfo user={user} />
+        <div>
+          <Button variant={'destructive'}>Delete your Account</Button>
         </div>
-      </FormContainer>
-    </>
+      </div>
+    </FormContainer>
   )
 }

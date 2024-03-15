@@ -11,7 +11,6 @@ const AccountInfo = ({ user }: AccountInfoProps) => {
   return (
     <div className='flex flex-col gap-6 font-semibold'>
       <div className='flex flex-col'>
-        <div></div>
         <p>Icon</p>
         <MdAccountCircle
           className={`text-4xl ${colorMap[user.icon]}`}

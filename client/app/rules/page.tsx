@@ -13,11 +13,9 @@ export default function Rules() {
   /* TODO: error handling */
 
   return (
-    <>
-      <div className='px-4 pb-10 pt-8 md:px-14 md:pb-20 md:pt-10'>
-        <Heading title={`${house.name}'s Rules`} />
-        <RuleList rules={house.rules} />
-      </div>
-    </>
+    <div className='px-4 pb-10 pt-8 md:px-14 md:pb-20 md:pt-10'>
+      <Heading title={`${house.name}'s Rules`} />
+      <RuleList rules={house.rules} />
+    </div>
   )
 }
