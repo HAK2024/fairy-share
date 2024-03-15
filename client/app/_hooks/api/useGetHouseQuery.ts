@@ -1,17 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
 import { getHouseApi } from '@/_api'
-import { useAuthStore } from '@/_stores'
 import { HouseType } from '@/_types'
+import { useGetHouseId } from '..'
 
 export const useGetHouseQuery = () => {
-  const getHouseId = useAuthStore((state) => state.getHouseId)
-  const houseId = getHouseId()
+  const { houseId } = useGetHouseId()
 
   const getHouse = async () => {
-    if (!houseId) {
-      throw new Error('houseId is not found')
-    }
-
     const response = await getHouseApi(houseId)
     return response
   }

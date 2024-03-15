@@ -161,6 +161,7 @@ describe('AuthController (e2e)', () => {
       const userHouse = await prismaService.userHouse.findFirst({
         where: {
           userId: response.body.id,
+          houseId: houseId,
         },
       });
 

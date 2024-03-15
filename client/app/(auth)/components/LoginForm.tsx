@@ -100,7 +100,7 @@ const LoginForm = () => {
             Don&apos;t have account yet?
           </span>
           <RouterLink
-            href={`/register${invitedHouseId && `?${INVITED_HOUSE_ID}=${invitedHouseId}`}`}
+            href={`/register${invitedHouseId ? `?${INVITED_HOUSE_ID}=${invitedHouseId}` : ''}`}
             className='text-sm'
           >
             Create an account

@@ -5,27 +5,30 @@ import { useRouter, usePathname } from 'next/navigation'
 import { Loading } from '@/_components/layout'
 import { Header, Footer } from '@/_components/layout'
 import { AUTH_PUBLIC_PATH } from '@/_consts'
+import { useGetHouseId } from '@/_hooks'
 import { useGetMeQuery, useGetCsrfTokenQuery } from '@/_hooks/api'
 import { useAuthStore } from '@/_stores'
 
-const CheckAuth = ({ children }: { children: React.ReactNode }) => {
+const CheckAuth = ({
+  children,
+  userToken,
+}: {
+  children: React.ReactNode
+  userToken?: string
+}) => {
   const router = useRouter()
   const pathname = usePathname()
-  const csrfToken = useAuthStore((state) => state.csrfToken)
   const setCsrfToken = useAuthStore((state) => state.setCsrfToken)
-  const currentUser = useAuthStore((state) => state.currentUser)
-  const getHouseId = useAuthStore((state) => state.getHouseId)
-  const setCurrentUser = useAuthStore((state) => state.setCurrentUser)
+  const setAccessToken = useAuthStore((state) => state.setAccessToken)
+  const accessToken = useAuthStore((state) => state.accessToken)
 
   const isAccessingAuthPages = AUTH_PUBLIC_PATH.includes(pathname)
 
   const { data: csrfTokenData } = useGetCsrfTokenQuery()
 
-  const {
-    data: meData,
-    isLoading: isMeLoading,
-    isError: isMeError,
-  } = useGetMeQuery(!!csrfToken)
+  const { data: meData } = useGetMeQuery()
+
+  const { houseId } = useGetHouseId()
 
   useEffect(() => {
     if (csrfTokenData) {
@@ -34,52 +37,58 @@ const CheckAuth = ({ children }: { children: React.ReactNode }) => {
   }, [csrfTokenData, setCsrfToken])
 
   useEffect(() => {
+    if (userToken) {
+      setAccessToken(userToken)
+    }
     // Redirect to login if the user doesn't have token when accessing private pages.
-    if (isMeError && !isAccessingAuthPages) {
+
+    if (!userToken && !accessToken && !isAccessingAuthPages) {
       router.push('/login')
     }
+  }, [userToken, accessToken, router, isAccessingAuthPages, setAccessToken])
 
+  useEffect(() => {
     // Redirect to home if the user has token when accessing auth pages.
-    if (currentUser && isAccessingAuthPages) {
+    if (meData && isAccessingAuthPages) {
       router.push('/')
     }
+  }, [meData, isAccessingAuthPages, router])
 
-    if (meData) {
-      return setCurrentUser(meData)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [meData, isMeLoading, isMeError, router, currentUser, setCurrentUser])
+  /*
+   * 1. If the user is accessing auth pages and does not have token on cookie, show auth pages.
+   * 2. If the user is accessing auth pages and has token on cookie, and has user Data, redirect to top page.
+   * 3. If the user is accessing private pages and has token on cookie and has houseId, show private pages.
+   */
+  const showPages =
+    (isAccessingAuthPages && !userToken) ||
+    (isAccessingAuthPages && userToken && (!!meData || accessToken)) ||
+    (!!houseId && !!accessToken)
 
-  // Show LoadingUI until finish checking if the user has token when accessing auth pages.
-  if (isAccessingAuthPages && (!isMeError || isMeLoading)) {
-    return <Loading isCenter />
-  }
+  const noUserHouseId = meData && !houseId
 
-  // Show LoadingUI until finish checking if the user has token when accessing private pages.
-  if (!currentUser && !isAccessingAuthPages) {
-    return <Loading isCenter />
-  }
-
-  // Redirect to house setting page if the user doesn't create any house yet.
-  if (currentUser && !getHouseId()) {
+  if (showPages) {
     return (
-      <div className='min-h-svh'>
-        <Header hasNavigation={false} />
-        <div>House Setting form</div>
-        <Footer hasNavigation={false} />
-      </div>
+      <>
+        {noUserHouseId ? (
+          <div className='min-h-svh'>
+            <Header hasNavigation={false} />
+            <div>House Setting form</div>
+            <Footer hasNavigation={false} />
+          </div>
+        ) : (
+          <div
+            className={`${meData ? 'min-h-svh-minus-24 mb-24 md:mb-0 md:min-h-svh' : 'min-h-svh'}`}
+          >
+            {!isAccessingAuthPages && <Header />}
+            {children}
+            {!isAccessingAuthPages && <Footer />}
+          </div>
+        )}
+      </>
     )
+  } else {
+    return <Loading isCenter />
   }
-
-  return (
-    <div
-      className={`${currentUser ? 'min-h-svh-minus-24 mb-24 md:mb-0 md:min-h-svh' : 'min-h-svh'}`}
-    >
-      {currentUser && <Header />}
-      {children}
-      {currentUser && <Footer />}
-    </div>
-  )
 }
 
 export { CheckAuth }

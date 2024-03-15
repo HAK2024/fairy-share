@@ -4,6 +4,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { INVITED_HOUSE_ID } from '@/_consts'
 import { useToast } from '@/_hooks'
+import { useAuthStore } from '@/_stores'
 import { isErrorWithMessage } from '@/_utils'
 import { useLoginMutation, useLoginGoogleMutation } from './api'
 import { loginResolver, LoginSchema } from '../schema'
@@ -13,6 +14,8 @@ export const useLogin = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { toast } = useToast()
+
+  const setAccessToken = useAuthStore((state) => state.setAccessToken)
 
   const invitedHouseId = searchParams.get(INVITED_HOUSE_ID)
 
@@ -28,12 +31,14 @@ export const useLogin = () => {
   const { mutate: googleLoginMutate, isPending: isGoogleLoginPending } =
     useLoginGoogleMutation(invitedHouseId)
 
-  const redirectUrl = `/${invitedHouseId && `?invitedHouseId=${invitedHouseId}`}`
+  const redirectUrl = `/${invitedHouseId ? `?invitedHouseId=${invitedHouseId}` : ''}`
 
   const onLogin = (data: LoginSchema) => {
     mutate(data, {
-      onSuccess: () => {
+      onSuccess: (res) => {
+        setAccessToken(res.accessToken)
         queryClient.invalidateQueries({ queryKey: ['me'] })
+
         router.push(redirectUrl)
       },
       onError: (error) => {

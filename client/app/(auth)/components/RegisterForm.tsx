@@ -114,7 +114,7 @@ const RegisterForm = () => {
         <div className='mt-10 flex flex-col items-center gap-2'>
           <span className='text-sm md:text-base'>Already have an account?</span>
           <RouterLink
-            href={`/login${invitedHouseId && `?${INVITED_HOUSE_ID}=${invitedHouseId}`}`}
+            href={`/login${invitedHouseId ? `?${INVITED_HOUSE_ID}=${invitedHouseId}` : ''}`}
             className='text-sm'
           >
             Login

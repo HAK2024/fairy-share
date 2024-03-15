@@ -10,7 +10,7 @@ export const useCheckInvitedHouse = () => {
 
   if (invitedHouseId) {
     if (me?.houses && me.houses[0].houseId !== Number(invitedHouseId)) {
-      console.log('show Modal!')
+      // console.log('show Modal!')
     }
   }
 }

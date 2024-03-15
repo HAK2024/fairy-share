@@ -35,7 +35,7 @@ export class AuthController {
       maxAge: 24 * 60 * 60 * 1000, // 24H
     });
 
-    return res.send(user.user);
+    return res.send({ user: user.user, accessToken: user.token });
   }
 
   @HttpCode(HttpStatus.OK)
@@ -54,7 +54,7 @@ export class AuthController {
       maxAge: 24 * 60 * 60 * 1000, // 24H
     });
 
-    return res.send(user.user);
+    return res.send({ user: user.user, accessToken: user.token });
   }
 
   @Post('login/google')
@@ -74,7 +74,7 @@ export class AuthController {
       maxAge: 24 * 60 * 60 * 1000, // 24H
     });
 
-    return res.send(user.user);
+    return res.send({ user: user.user, accessToken: user.token });
   }
 
   @HttpCode(HttpStatus.OK)
