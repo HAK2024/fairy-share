@@ -13,7 +13,7 @@ export default function Home() {
   useCheckInvitedHouse()
 
   if (isLoading) {
-    return <Loading isCenter />
+    return <Loading />
   }
 
   // TODO: Replace this with the error component

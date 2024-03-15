@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { INVITED_HOUSE_ID } from '@/_consts'
 import { useToast } from '@/_hooks'
+import { useAuthStore } from '@/_stores'
 import { isErrorWithMessage } from '@/_utils'
 import { useRegisterMutation } from './api'
 import { registerResolver, RegisterSchema } from '../schema'
@@ -12,6 +13,8 @@ export const useRegister = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { toast } = useToast()
+
+  const setAccessToken = useAuthStore((state) => state.setAccessToken)
 
   const invitedHouseId = searchParams.get(INVITED_HOUSE_ID)
 
@@ -28,7 +31,8 @@ export const useRegister = () => {
 
   const onRegister = (data: RegisterSchema) => {
     mutate(data, {
-      onSuccess: () => {
+      onSuccess: (res) => {
+        setAccessToken(res.accessToken)
         queryClient.invalidateQueries({ queryKey: ['me'] })
         invitedHouseId ? router.push('/') : router.push('/house/create')
 
