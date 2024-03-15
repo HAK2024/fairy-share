@@ -4,7 +4,7 @@ import React from 'react'
 import { Loading } from '@/_components/layout'
 import { Heading } from '@/_components/ui'
 import { useGetHouseQuery } from '@/_hooks/api'
-import { RuleList } from './component/RuleList'
+import { RuleList } from './component'
 
 export default function Rules() {
   const { data: house, isLoading } = useGetHouseQuery()

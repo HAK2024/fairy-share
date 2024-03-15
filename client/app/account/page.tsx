@@ -3,7 +3,7 @@
 import React from 'react'
 import { FormContainer } from '@/_components/layout'
 import { Button, Heading } from '@/_components/ui'
-import { AccountInfo } from './component/AccountInfo'
+import { AccountInfo } from './component'
 
 export default function Account() {
   return (
