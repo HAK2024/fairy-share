@@ -63,11 +63,11 @@ const CheckAuth = ({ children }: { children: React.ReactNode }) => {
   // Redirect to house setting page if the user doesn't create any house yet.
   if (currentUser && !getHouseId()) {
     return (
-      <>
+      <div className='min-h-svh'>
         <Header hasNavigation={false} />
         <div>House Setting form</div>
         <Footer hasNavigation={false} />
-      </>
+      </div>
     )
   }
 

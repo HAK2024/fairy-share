@@ -28,11 +28,13 @@ export const useLogin = () => {
   const { mutate: googleLoginMutate, isPending: isGoogleLoginPending } =
     useLoginGoogleMutation(invitedHouseId)
 
+  const redirectUrl = `/${invitedHouseId && `?invitedHouseId=${invitedHouseId}`}`
+
   const onLogin = (data: LoginSchema) => {
     mutate(data, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['me'] })
-        router.push('/')
+        router.push(redirectUrl)
       },
       onError: (error) => {
         console.error(error)
@@ -56,7 +58,7 @@ export const useLogin = () => {
       googleLoginMutate(codeResponse.code, {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ['me'] })
-          router.push('/')
+          router.push(redirectUrl)
         },
         onError: (error) => {
           console.error(error)

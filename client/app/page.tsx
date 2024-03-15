@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { useCheckInvitedHouse } from '@/_hooks'
 import { TodosList } from './(todos)/components'
 import { useGetTodosQuery } from './(todos)/hooks'
 import { Loading } from './_components/layout'
@@ -9,6 +10,7 @@ import { Button, Heading } from './_components/ui'
 export default function Home() {
   const { data: todos, isError, isLoading } = useGetTodosQuery()
   const router = useRouter()
+  useCheckInvitedHouse()
 
   if (isLoading) {
     return <Loading isCenter />
