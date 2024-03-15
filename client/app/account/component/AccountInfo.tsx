@@ -1,13 +1,15 @@
 import React from 'react'
 import { MdAccountCircle } from 'react-icons/md'
+import { Loading } from '@/_components/layout'
 import { colorMap } from '@/_consts/iconColor'
-import { UserType } from '@/_types'
+import { useGetMeQuery } from '@/_hooks/api'
 
-type AccountInfoProps = {
-  user: UserType
-}
+const AccountInfo = () => {
+  const { data: user, isLoading } = useGetMeQuery()
 
-const AccountInfo = ({ user }: AccountInfoProps) => {
+  if (isLoading || !user) return <Loading />
+  /* TODO: error handling */
+
   return (
     <div className='flex flex-col gap-6 '>
       <div className='flex flex-col'>
