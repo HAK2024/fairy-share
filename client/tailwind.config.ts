@@ -20,6 +20,9 @@ module.exports = {
       fontSize: {
         '2xs': '0.625rem',
       },
+      minHeight: {
+        'svh-minus-mb-24': 'calc(100vh - 6rem)', // This is the calculated height for the mobile screen since footer doesn't have height
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

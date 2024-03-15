@@ -87,6 +87,7 @@ export class HouseService {
             userHouses: {
               some: {
                 userId,
+                isAdmin: true,
               },
             },
           },
@@ -96,7 +97,9 @@ export class HouseService {
         });
 
         if (!house) {
-          throw new NotFoundException(`House with ID ${houseId} not found.`);
+          throw new ForbiddenException(
+            `You are not authorized to update this house.`,
+          );
         }
 
         const rulesInHouse = house.rules.map((rule) => rule.id);
@@ -230,10 +233,16 @@ export class HouseService {
             },
           ],
         },
+        orderBy: [{ date: 'asc' }, { id: 'asc' }],
       });
 
-      const oneWeekLater = new Date(currentDate);
-      oneWeekLater.setDate(currentDate.getDate() + 7); // Add 7 days to the current Date
+      // Set the start date to the next day
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() + 1);
+      startDate.setHours(0, 0, 0, 0); // Set the start of the day for the next day
+
+      const oneWeekLater = new Date(startDate);
+      oneWeekLater.setDate(oneWeekLater.getDate() + 6); // Add 6 more days to cover a total of 7 days, including the next day
 
       // Find the tasks for coming one week
       const weekTasks = await this.prisma.task.findMany({
@@ -243,12 +252,13 @@ export class HouseService {
             { houseId: houseId },
             {
               date: {
-                gte: new Date(currentDate.setDate(currentDate.getDate() + 1)), // Set the start date to the next day
+                gte: startDate,
                 lt: oneWeekLater,
               },
             },
           ],
         },
+        orderBy: [{ date: 'asc' }, { id: 'asc' }],
       });
 
       // Find the expense that the user hasn't paid
