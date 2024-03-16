@@ -20,3 +20,4 @@ export {
 } from './Form'
 export { Input } from './Input'
 export { Toaster } from './Toaster'
+export { InvitedHouseAlertDialog } from './dialog/InvitedHouseAlertDialog'
