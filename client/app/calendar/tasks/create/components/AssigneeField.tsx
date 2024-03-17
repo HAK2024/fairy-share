@@ -65,8 +65,13 @@ export const AssigneeField = <TFormValues extends FieldValues>({
                         key={member.id}
                         checked={field.value === member.id}
                         onCheckedChange={() => {
-                          field.onChange(member.id)
-                          setSelectedAssigneeName(member.name)
+                          if (field.value !== member.id) {
+                            field.onChange(member.id)
+                            setSelectedAssigneeName(member.name)
+                          } else {
+                            field.onChange(undefined)
+                            setSelectedAssigneeName(undefined)
+                          }
                         }}
                         className={`${
                           field.value === member.id
