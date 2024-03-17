@@ -56,4 +56,12 @@ export class HouseController {
   ) {
     return this.houseService.getTodos(userId, houseId);
   }
+
+  @Post(':houseId/add-user')
+  addUser(
+    @GetUser('id') userId: number,
+    @Param('houseId', ParseIntPipe) houseId: number,
+  ) {
+    return this.houseService.addUserToHouse(userId, houseId);
+  }
 }

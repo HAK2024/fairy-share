@@ -1,4 +1,5 @@
 export type { HouseType } from './house'
+export type { UserHouse } from './userHouse'
 export type { UserType } from './user'
 export type { TodoType } from './todo'
 export type { TaskType } from './task'

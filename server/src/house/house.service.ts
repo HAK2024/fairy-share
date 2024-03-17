@@ -2,6 +2,7 @@ import {
   ForbiddenException,
   Injectable,
   NotFoundException,
+  ConflictException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateHouseDto, UpdateHouseDto } from './dto';
@@ -295,6 +296,33 @@ export class HouseService {
       };
     } catch (error) {
       console.error('Error fetching todos:', error);
+      throw error;
+    }
+  }
+
+  async addUserToHouse(userId: number, houseId: number) {
+    try {
+      const userHouse = await this.prisma.userHouse.findFirst({
+        where: {
+          userId,
+        },
+      });
+
+      if (userHouse) {
+        throw new ConflictException('User already has a house.');
+      }
+
+      const createdUserHouse = await this.prisma.userHouse.create({
+        data: {
+          userId,
+          houseId,
+          isAdmin: false,
+        },
+      });
+
+      return { createdUserHouse };
+    } catch (error) {
+      console.error('Error adding user to house:', error);
       throw error;
     }
   }

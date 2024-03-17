@@ -186,6 +186,22 @@ describe('HouseController (e2e)', () => {
     });
   });
 
+  describe('POST /houses/:houseId/add-user', () => {
+    const houseId = 106;
+
+    it('should return 401 if not authenticated', async () => {
+      await request(app.getHttpServer())
+        .post(`/houses/${houseId}/add-user`)
+        .expect(401);
+    });
+
+    it('should return 409 if user already has a house', async () => {
+      await request(app.getHttpServer())
+        .post(`/houses/${houseId}/add-user`)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`]);
+    });
+  });
+
   describe('DELETE /houses/:houseId', () => {
     const houseId = 106;
 

@@ -10,8 +10,8 @@ export const useCheckInvitedHouse = (onOpen: () => void) => {
   const { data: me } = useGetMeQuery()
 
   useEffect(() => {
-    if (invitedHouseId) {
-      if (me?.houses && me.houses[0].houseId !== Number(invitedHouseId)) {
+    if (invitedHouseId && me?.houses.length) {
+      if (me.houses[0].houseId !== Number(invitedHouseId)) {
         onOpen()
       }
     }
