@@ -61,7 +61,7 @@ const CheckAuth = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div
-      className={`${currentUser ? 'min-h-svh-minus-24 mb-24 md:mb-0 md:min-h-svh' : 'min-h-svh'}`}
+      className={`${currentUser ? 'min-h-svh-minus-24 mb-24 md:mb-10 md:min-h-svh' : 'min-h-svh'}`}
     >
       {currentUser && <Header />}
       {children}
