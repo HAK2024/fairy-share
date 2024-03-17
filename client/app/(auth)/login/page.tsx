@@ -13,7 +13,7 @@ export default function LoginPage() {
   const invitedHouseId = searchParams.get(INVITED_HOUSE_ID)
 
   useEffect(() => {
-    // Redirect to home if the user has token when accessing auth pages.
+    // Redirect to home if the user has token when accessing this page.
     if (accessToken) {
       router.push(
         `/${invitedHouseId ? `?${INVITED_HOUSE_ID}=${invitedHouseId}` : ''}`,

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { getMeApi } from '@/_api'
+import { useAuthStore } from '@/_stores'
 import { UserType } from '@/_types'
-import { useAuthStore } from '../../_stores'
 
 export const useGetMeQuery = () => {
   const csrfToken = useAuthStore((state) => state.csrfToken)
