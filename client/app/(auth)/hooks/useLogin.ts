@@ -61,7 +61,8 @@ export const useLogin = () => {
     flow: 'auth-code',
     onSuccess: async (codeResponse) => {
       googleLoginMutate(codeResponse.code, {
-        onSuccess: () => {
+        onSuccess: (res) => {
+          setAccessToken(res.accessToken)
           queryClient.invalidateQueries({ queryKey: ['me'] })
           router.push(redirectUrl)
         },

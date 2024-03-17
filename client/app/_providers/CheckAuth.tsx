@@ -49,34 +49,21 @@ const CheckAuth = ({
     if (userToken) {
       setAccessToken(userToken)
     }
-    // Redirect to login if the user doesn't have token when accessing private pages.
-    if (!userToken && !accessToken && !isAccessingAuthPage) {
+
+    if (!userToken && !isAccessingAuthPage) {
       router.push('/login')
     }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userToken])
+
+  useEffect(() => {
     if (noUserHouseId && !isAccessingAuthPage) {
       router.push(
         `/house/create${invitedHouseId ? `?${INVITED_HOUSE_ID}=${invitedHouseId}` : ''}`,
       )
     }
-  }, [
-    userToken,
-    accessToken,
-    router,
-    isAccessingAuthPage,
-    setAccessToken,
-    noUserHouseId,
-    invitedHouseId,
-  ])
-
-  useEffect(() => {
-    // Redirect to home if the user has token when accessing auth pages.
-    if (meData && isAccessingAuthPage) {
-      router.push(
-        `/${invitedHouseId ? `?${INVITED_HOUSE_ID}=${invitedHouseId}` : ''}`,
-      )
-    }
-  }, [meData, isAccessingAuthPage, router, invitedHouseId])
+  }, [router, isAccessingAuthPage, noUserHouseId, invitedHouseId])
 
   /*
    * 1. If the user is accessing auth pages and does not have token on cookie, show auth pages.
@@ -85,8 +72,8 @@ const CheckAuth = ({
    * 4. If the user is accessing setting page and has token on cookie, show setting page.
    */
   const showPages =
-    (isAccessingAuthPage && !userToken) ||
-    (isAccessingAuthPage && userToken && (!!meData || accessToken)) ||
+    (isAccessingAuthPage && !accessToken) ||
+    (isAccessingAuthPage && userToken && (!!meData || !!accessToken)) ||
     (!isAccessingSettingPage && !!accessToken && !!houseId) ||
     (isAccessingSettingPage && !!accessToken)
 
