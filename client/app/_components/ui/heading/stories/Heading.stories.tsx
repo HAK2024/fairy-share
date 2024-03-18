@@ -25,7 +25,7 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   args: {
     title: 'Heading',
-    buttonComponent: () => <Button variant={'default'}>Button</Button>,
+    buttonComponent: <Button variant={'default'}>Button</Button>,
   },
 }
 
@@ -38,6 +38,6 @@ export const HeadingWithoutButton: Story = {
 export const HeadingWithRulesButton: Story = {
   args: {
     title: 'Fairy Share',
-    buttonComponent: () => <Button variant={'outline'}>Rules</Button>,
+    buttonComponent: <Button variant={'outline'}>Rules</Button>,
   },
 }

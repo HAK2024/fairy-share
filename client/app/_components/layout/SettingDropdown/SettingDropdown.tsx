@@ -39,11 +39,11 @@ const SettingDropdown = () => {
           asChild
         >
           <button
-            onClick={() => router.push('/profile')}
+            onClick={() => router.push('/account')}
             className='flex w-full items-center gap-2'
           >
             <RxPerson className='h-4 w-4' />
-            <span>Profile</span>
+            <span>Account</span>
           </button>
         </DropdownMenuItem>
         <DropdownMenuItem
