@@ -15,7 +15,7 @@ function InvitedHouseAlertDialog() {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className=''>
+      <DialogContent>
         <div className='flex gap-4'>
           <FiAlertTriangle className='h-6 w-6 flex-shrink-0 text-red-800' />
           <div className='flex flex-col gap-4'>
