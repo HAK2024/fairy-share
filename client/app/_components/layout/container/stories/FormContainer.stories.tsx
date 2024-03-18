@@ -26,7 +26,7 @@ export const FormContainerWithHeading: Story = {
       <>
         <Heading
           title='Account'
-          buttonComponent={() => <Button variant={'outline'}>Edit</Button>}
+          buttonComponent={<Button variant={'outline'}>Edit</Button>}
         />
         <div className='pt-8'>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta aut

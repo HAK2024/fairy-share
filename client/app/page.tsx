@@ -26,11 +26,11 @@ export default function Home() {
         <div className='flex flex-col gap-8 px-4 pb-10 pt-8 text-slate-800 md:px-14 md:pb-20 md:pt-10 '>
           <Heading
             title={todos.houseName}
-            buttonComponent={() => (
+            buttonComponent={
               <Button variant={'outline'} onClick={() => router.push('/rules')}>
                 Rules
               </Button>
-            )}
+            }
           />
           <TodosList todos={todos} />
         </div>
