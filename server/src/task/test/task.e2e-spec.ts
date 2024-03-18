@@ -3,7 +3,7 @@ import * as request from 'supertest';
 import * as cookieParser from 'cookie-parser';
 import { TestingModule, Test } from '@nestjs/testing';
 import { AuthGuard } from '../../auth/guard';
-import { authSetTokens, buildDefaultModules } from '../../../test';
+import { authSetTokens, buildDefaultModules, resetData } from '../../../test';
 import { TaskModule } from '../task.module';
 import {
   validCreateTaskField,
@@ -20,6 +20,8 @@ describe('TaskController (e2e)', () => {
   let csrfToken: string;
 
   beforeAll(async () => {
+    await resetData();
+
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [...buildDefaultModules(), TaskModule],
       providers: [AuthGuard],
