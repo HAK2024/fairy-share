@@ -10,7 +10,7 @@ export default function Home() {
     <div className='px-4 pb-10 pt-8 md:px-14 md:pb-20 md:pt-10'>
       <Heading
         title='Fairy share'
-        buttonComponent={() => <Button variant={'outline'}>Rules</Button>}
+        buttonComponent={<Button variant={'outline'}>Rules</Button>}
       />
 
       <div>{data?.name}</div>
