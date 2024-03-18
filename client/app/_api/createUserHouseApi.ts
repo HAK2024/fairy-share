@@ -4,8 +4,8 @@ import { UserHouse } from '@/_types'
 export const createUserHouseApi = async (
   houseId: string,
 ): Promise<UserHouse> => {
-  const response = await apiClient.post<UserHouse>(
-    `/houses/${houseId}/add-user`,
-  )
+  const response = await apiClient.post<UserHouse>('/user-houses', {
+    houseId,
+  })
   return response.data
 }
