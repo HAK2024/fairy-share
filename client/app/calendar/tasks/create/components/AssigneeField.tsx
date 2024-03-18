@@ -16,20 +16,19 @@ import { DropdownMenuCheckboxItem } from '@/_components/ui/DropdownMenu'
 type AssigneeFieldProps<TFormValues extends FieldValues> = {
   control: Control<TFormValues>
   name: Path<TFormValues>
+  houseMembers: { id: number; name: string }[]
 }
-
-const houseMembers = [
-  { id: 101, name: 'Alice' },
-  { id: 102, name: 'Bob' },
-]
 
 export const AssigneeField = <TFormValues extends FieldValues>({
   control,
   name,
+  houseMembers,
 }: AssigneeFieldProps<TFormValues>) => {
   const [selectedAssigneeName, setSelectedAssigneeName] = useState<
     string | undefined
   >(undefined)
+
+  const [isDropdownOpen, setDropdownOpen] = useState(false)
 
   return (
     <FormField
@@ -45,10 +44,17 @@ export const AssigneeField = <TFormValues extends FieldValues>({
               control={control}
               name={name}
               render={({ field }) => (
-                <DropdownMenu>
+                <DropdownMenu
+                  open={isDropdownOpen}
+                  onOpenChange={setDropdownOpen}
+                >
                   <DropdownMenuTrigger asChild>
                     <button
-                      className={`flex h-10 w-full items-center justify-between rounded-md border border-input bg-slate-50 px-3 py-2 text-left text-sm ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${!field.value && ' text-slate-400'}`}
+                      className={`flex h-10 w-full items-center justify-between rounded-md border border-input bg-slate-50 px-3 py-2 text-left text-sm ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${!field.value ? 'text-slate-400' : ''} ${
+                        isDropdownOpen
+                          ? 'border border-input ring-2 ring-ring ring-offset-2 ring-offset-background'
+                          : ''
+                      }`}
                     >
                       {selectedAssigneeName || 'Select assignee'}
                       <CaretSortIcon className='h-6 w-6 opacity-50' />
@@ -60,7 +66,7 @@ export const AssigneeField = <TFormValues extends FieldValues>({
                       width: 'var(--radix-dropdown-menu-trigger-width)',
                     }}
                   >
-                    {houseMembers.map((member) => (
+                    {houseMembers?.map((member) => (
                       <DropdownMenuCheckboxItem
                         key={member.id}
                         checked={field.value === member.id}

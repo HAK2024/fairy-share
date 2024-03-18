@@ -55,7 +55,10 @@ export class HouseService {
           rules: true,
           userHouses: {
             where: { userId },
-            select: { isAdmin: true },
+            select: {
+              isAdmin: true,
+              user: { select: { id: true, name: true } },
+            },
           },
         },
       });
@@ -64,12 +67,18 @@ export class HouseService {
         throw new NotFoundException(`House with ID ${houseId} not found.`);
       }
 
+      const houseMembers = house.userHouses.map(({ user }) => ({
+        id: user.id,
+        name: user.name,
+      }));
+
       const houseResponse = {
         houseId: house.id,
         name: house.name,
         isExpensePerTime: house.isExpensePerTime,
         rules: house.rules,
         isAdmin: house.userHouses[0]?.isAdmin,
+        houseMembers,
       };
       return houseResponse;
     } catch (error) {

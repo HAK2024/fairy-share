@@ -23,7 +23,7 @@ export const DateField = <TFormValues extends FieldValues>({
   control,
   name,
 }: DateFieldProps<TFormValues>) => {
-  const [calendarOpen, setCalendarOpen] = useState(false)
+  const [isCalendarOpen, setCalendarOpen] = useState(false)
 
   return (
     <FormField
@@ -39,11 +39,15 @@ export const DateField = <TFormValues extends FieldValues>({
               control={control}
               name={name}
               render={({ field }) => (
-                <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
+                <Popover open={isCalendarOpen} onOpenChange={setCalendarOpen}>
                   <PopoverTrigger asChild>
                     <button
                       className={`flex h-10 w-full cursor-pointer rounded-md border border-input bg-slate-50 px-3 py-2 text-sm ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${
                         !field.value && 'text-slate-400'
+                      } ${
+                        isCalendarOpen
+                          ? 'border border-input ring-2 ring-ring ring-offset-2 ring-offset-background'
+                          : ''
                       }`}
                     >
                       {field.value ? format(field.value, 'PPP') : 'Pick a date'}
