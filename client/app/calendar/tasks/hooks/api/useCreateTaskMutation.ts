@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { createTaskApi } from '../../api'
-import { taskSchema } from '../../../_schema'
+import { taskSchema } from '../../schema'
 
 export const useCreateTaskMutation = () => {
   const { mutate, isPending } = useMutation({
