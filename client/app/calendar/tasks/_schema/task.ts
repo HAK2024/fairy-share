@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 
-const createTaskSchema = z.object({
+const taskSchema = z.object({
   title: z
     .string()
     .trim()
@@ -19,5 +19,5 @@ const createTaskSchema = z.object({
     .optional(),
 })
 
-export type createTaskSchema = z.infer<typeof createTaskSchema>
-export const createTaskResolver = zodResolver(createTaskSchema)
+export type taskSchema = z.infer<typeof taskSchema>
+export const createTaskResolver = zodResolver(taskSchema)

@@ -4,9 +4,9 @@ import React from 'react'
 import { FormContainer, Loading } from '@/_components/layout'
 import { Button, Form, Heading } from '@/_components/ui'
 import { useGetHouseQuery } from '@/_hooks/api'
-import { AssigneeField, DateField, NoteField, TitleField } from './components'
 import { useCreateTask } from './hooks'
-import { TaskFormType } from './types'
+import { AssigneeField, DateField, NoteField, TitleField } from '../_components'
+import { TaskFormType } from '../_types'
 
 export default function CreateTask() {
   const { form, onSubmit: onCreateTask, isPending } = useCreateTask()

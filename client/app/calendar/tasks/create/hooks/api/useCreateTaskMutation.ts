@@ -1,10 +1,10 @@
 import { useMutation } from '@tanstack/react-query'
 import { createTaskApi } from '../../api'
-import { createTaskSchema } from '../../schema'
+import { taskSchema } from '../../../_schema'
 
 export const useCreateTaskMutation = () => {
   const { mutate, isPending } = useMutation({
-    mutationFn: (req: createTaskSchema) => {
+    mutationFn: (req: taskSchema) => {
       return createTaskApi(req)
     },
   })

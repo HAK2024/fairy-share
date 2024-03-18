@@ -4,7 +4,7 @@ import { useToast } from '@/_hooks'
 import { useAuthStore } from '@/_stores'
 import { isErrorWithMessage } from '@/_utils'
 import { useCreateTaskMutation } from './api'
-import { createTaskResolver, createTaskSchema } from '../schema'
+import { createTaskResolver, taskSchema } from '../../_schema'
 
 export const useCreateTask = () => {
   const queryClient = useQueryClient()
@@ -12,7 +12,7 @@ export const useCreateTask = () => {
   const houseId = getHouseId()
   const { toast } = useToast()
 
-  const form = useForm<createTaskSchema>({
+  const form = useForm<taskSchema>({
     resolver: createTaskResolver,
     defaultValues: {
       title: '',
@@ -44,7 +44,7 @@ export const useCreateTask = () => {
     })
   }
 
-  const onCreateTask = (data: createTaskSchema) => {
+  const onCreateTask = (data: taskSchema) => {
     const updatedData = {
       ...data,
       houseId,
