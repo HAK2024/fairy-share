@@ -10,12 +10,14 @@ import {
   RadioGroup,
   RadioGroupItem,
 } from '@/_components/ui'
+import { DynamicRuleField } from './DynamicRuleField'
 import { useCreateHouse } from '../hooks/useCreateHouse'
 
 const HouseCreateForm = () => {
   const { form, onSubmit, isPending } = useCreateHouse()
 
   console.log('errors', form.formState.errors)
+  console.log('watch', form.watch('rules'))
 
   return (
     <Form {...form}>
@@ -34,6 +36,8 @@ const HouseCreateForm = () => {
               </FormItem>
             )}
           />
+
+          <DynamicRuleField />
 
           <FormField
             control={form.control}
