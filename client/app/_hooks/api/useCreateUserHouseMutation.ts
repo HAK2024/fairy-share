@@ -25,6 +25,9 @@ export const useCreateUserHouseMutation = () => {
         title: 'Failed to create house..',
         description: message,
       })
+
+      // TODO: Check if the error boundary catch the error
+      throw new Error(message)
     },
   })
 
