@@ -13,7 +13,7 @@ type NoteFieldProps<TFormValues extends FieldValues> = {
   name: Path<TFormValues>
 }
 
-export const NoteField = <TFormValues extends FieldValues>({
+const NoteField = <TFormValues extends FieldValues>({
   control,
   name,
 }: NoteFieldProps<TFormValues>) => (
@@ -31,3 +31,5 @@ export const NoteField = <TFormValues extends FieldValues>({
     )}
   />
 )
+
+export { NoteField }

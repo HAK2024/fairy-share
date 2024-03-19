@@ -19,7 +19,7 @@ type DateFieldProps<TFormValues extends FieldValues> = {
   name: Path<TFormValues>
 }
 
-export const DateField = <TFormValues extends FieldValues>({
+const DateField = <TFormValues extends FieldValues>({
   control,
   name,
 }: DateFieldProps<TFormValues>) => {
@@ -80,3 +80,5 @@ export const DateField = <TFormValues extends FieldValues>({
     />
   )
 }
+
+export { DateField }

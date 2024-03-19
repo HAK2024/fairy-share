@@ -13,7 +13,7 @@ type TitleFieldProps<TFormValues extends FieldValues> = {
   name: Path<TFormValues>
 }
 
-export const TitleField = <TFormValues extends FieldValues>({
+const TitleField = <TFormValues extends FieldValues>({
   control,
   name,
 }: TitleFieldProps<TFormValues>) => (
@@ -33,3 +33,5 @@ export const TitleField = <TFormValues extends FieldValues>({
     )}
   />
 )
+
+export { TitleField }

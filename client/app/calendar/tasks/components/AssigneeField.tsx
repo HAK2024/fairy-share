@@ -19,7 +19,7 @@ type AssigneeFieldProps<TFormValues extends FieldValues> = {
   houseMembers: { id: number; name: string }[]
 }
 
-export const AssigneeField = <TFormValues extends FieldValues>({
+const AssigneeField = <TFormValues extends FieldValues>({
   control,
   name,
   houseMembers,
@@ -99,3 +99,5 @@ export const AssigneeField = <TFormValues extends FieldValues>({
     />
   )
 }
+
+export { AssigneeField }
