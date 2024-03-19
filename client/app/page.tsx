@@ -11,10 +11,6 @@ export default function Home() {
   const { data: todos, isError, isLoading } = useGetTodosQuery()
   const router = useRouter()
 
-  if (isLoading) {
-    return <Loading />
-  }
-
   // TODO: Replace this with the error component
   if (isError) {
     return <p>Failed to load data.</p>
@@ -32,7 +28,7 @@ export default function Home() {
               </Button>
             }
           />
-          <TodosList todos={todos} />
+          {isLoading ? <Loading /> : <TodosList todos={todos} />}
         </div>
       )}
 

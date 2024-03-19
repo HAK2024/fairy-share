@@ -14,7 +14,7 @@ import { Textarea } from '@/_components/ui/Textarea'
 import { useGetHouseQuery } from '@/_hooks/api'
 import { AssigneeField } from '../components'
 import { useCreateTask } from '../hooks'
-import { TaskFormType } from '../types'
+import { taskSchema } from '../schema'
 
 const CreateTaskForm = () => {
   const { form, onSubmit: onCreateTask, isPending } = useCreateTask()
@@ -40,8 +40,8 @@ const CreateTaskForm = () => {
               </FormItem>
             )}
           />
-          <DateField<TaskFormType> control={form.control} name='date' />
-          <AssigneeField<TaskFormType>
+          <DateField<taskSchema> control={form.control} name='date' />
+          <AssigneeField<taskSchema>
             control={form.control}
             name='assigneeId'
             houseMembers={houseMembers}
