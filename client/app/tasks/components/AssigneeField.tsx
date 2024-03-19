@@ -83,7 +83,7 @@ const AssigneeField = <TFormValues extends FieldValues>({
                           field.value === member.id
                             ? 'w-full bg-primary text-primary-foreground focus:bg-primary focus:text-primary-foreground'
                             : ''
-                        }`}
+                        } ${!field.value ? 'pl-2' : ''}`}
                       >
                         {member.name}
                       </DropdownMenuCheckboxItem>
