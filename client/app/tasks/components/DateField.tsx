@@ -6,12 +6,12 @@ import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-  Calendar,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
+  CustomDayPicker,
 } from '@/_components/ui'
 
 type DateFieldProps<TFormValues extends FieldValues> = {
@@ -55,7 +55,7 @@ const DateField = <TFormValues extends FieldValues>({
                     </button>
                   </PopoverTrigger>
                   <PopoverContent className='w-auto p-0' align='start'>
-                    <Calendar
+                    <CustomDayPicker
                       mode='single'
                       selected={field.value}
                       onSelect={(date) => {
