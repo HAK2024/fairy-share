@@ -1,5 +1,6 @@
 import { Montserrat } from 'next/font/google'
 import './globals.css'
+import { cookies } from 'next/headers'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import {
   ReactQueryProvider,
@@ -20,13 +21,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const userToken = cookies().get('token')?.value
+
   return (
     <html lang='en'>
       <body className={inter.className}>
         <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID || ''}>
           <ReactQueryProvider>
             <div className='bg-amber-50 text-slate-800'>
-              <CheckAuth>
+              <CheckAuth userToken={userToken}>
                 <main>{children}</main>
               </CheckAuth>
             </div>

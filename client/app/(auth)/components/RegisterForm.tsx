@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { useSearchParams } from 'next/navigation'
 import { FcGoogle } from 'react-icons/fc'
 import logo from '@public/images/logo/logo.png'
 import {
@@ -14,9 +15,13 @@ import {
   Input,
   Button,
 } from '@/_components/ui'
+import { INVITED_HOUSE_ID } from '@/_consts'
 import { useLogin, useRegister } from '../hooks'
 
 const RegisterForm = () => {
+  const searchParams = useSearchParams()
+  const invitedHouseId = searchParams.get(INVITED_HOUSE_ID)
+
   const { form, onSubmit, isPending: isRegisterPending } = useRegister()
   const { googleLogin, isPending: isGoogleLoginPending } = useLogin()
 
@@ -108,7 +113,10 @@ const RegisterForm = () => {
 
         <div className='mt-10 flex flex-col items-center gap-2'>
           <span className='text-sm md:text-base'>Already have an account?</span>
-          <RouterLink href='/login' className='text-sm'>
+          <RouterLink
+            href={`/login${invitedHouseId ? `?${INVITED_HOUSE_ID}=${invitedHouseId}` : ''}`}
+            className='text-sm'
+          >
             Login
           </RouterLink>
         </div>
