@@ -75,7 +75,7 @@ const DynamicRuleField = () => {
         <Button
           type='button'
           variant='outline'
-          className='h-[38px] md:h-10'
+          className='h-[38px] px-4 py-2 text-sm md:h-10 md:px-5 md:text-base'
           onClick={() => append({ text: '' })}
         >
           <span className='mr-1'>
