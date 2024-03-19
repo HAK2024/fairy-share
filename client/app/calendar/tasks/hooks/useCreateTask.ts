@@ -1,15 +1,13 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
-import { useToast } from '@/_hooks'
-import { useAuthStore } from '@/_stores'
+import { useGetHouseId, useToast } from '@/_hooks'
 import { isErrorWithMessage } from '@/_utils'
 import { useCreateTaskMutation } from './api'
 import { createTaskResolver, taskSchema } from '../schema'
 
 export const useCreateTask = () => {
   const queryClient = useQueryClient()
-  const getHouseId = useAuthStore((state) => state.getHouseId)
-  const houseId = getHouseId()
+  const { houseId } = useGetHouseId()
   const { toast } = useToast()
 
   const form = useForm<taskSchema>({
