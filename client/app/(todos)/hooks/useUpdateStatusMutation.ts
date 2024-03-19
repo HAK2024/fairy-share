@@ -3,7 +3,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useGetHouseId } from '@/_hooks'
 import { toast } from '@/_hooks/useToast'
 import { isErrorWithMessage } from '@/_utils'
-import { updateTaskStatusApi } from './api'
+import { updateTaskStatusApi } from '../api'
 
 export const useUpdateStatusMutation = () => {
   const queryClient = useQueryClient()
