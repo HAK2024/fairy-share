@@ -1,5 +1,3 @@
-// TODO Change the name to css color
-
 export const colorMap = {
   RED: 'text-pink-700',
   ORANGE: 'text-orange-500',
