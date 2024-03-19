@@ -1,8 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
 import { getMeApi } from '@/_api'
+import { useAuthStore } from '@/_stores'
 import { UserType } from '@/_types'
 
-export const useGetMeQuery = (enabled?: boolean) => {
+export const useGetMeQuery = () => {
+  const csrfToken = useAuthStore((state) => state.csrfToken)
+  const accessToken = useAuthStore((state) => state.accessToken)
+
   const getMe = async () => {
     const response = await getMeApi()
     return response
@@ -12,7 +16,7 @@ export const useGetMeQuery = (enabled?: boolean) => {
     queryKey: ['me'],
     queryFn: getMe,
     retry: false,
-    enabled: enabled,
+    enabled: !!csrfToken && !!accessToken,
   })
 
   return {
