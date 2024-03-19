@@ -1,7 +1,7 @@
-import { iconColor } from '@/_consts'
+import { colorMap } from '@/_consts'
 import { HouseType } from '@/_types'
 
-type IconType = (typeof iconColor)[number]['value']
+type IconType = keyof typeof colorMap
 
 export type UserType = {
   id: number

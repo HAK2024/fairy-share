@@ -54,6 +54,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           className={`${cn(
             buttonVariants({ variant, size, className }),
           )} pointer-events-none`}
+          onKeyDown={(e) => e.preventDefault()}
           ref={ref}
           {...props}
         >
