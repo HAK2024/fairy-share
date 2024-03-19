@@ -14,7 +14,7 @@ import {
   CustomDayPicker,
 } from '@/_components/ui'
 
-type DateFieldProps<TFormValues extends FieldValues> = {
+export type DateFieldProps<TFormValues extends FieldValues> = {
   control: Control<TFormValues>
   name: Path<TFormValues>
 }
