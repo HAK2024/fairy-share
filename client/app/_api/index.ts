@@ -1,4 +1,5 @@
 export { default as apiClient } from './base'
+export { createUserHouseApi } from './createUserHouseApi'
 export { getCsrfTokenApi } from './getCsrfTokenApi'
 export { getMeApi } from './getMeApi'
 export { getHouseApi } from './getHouseApi'

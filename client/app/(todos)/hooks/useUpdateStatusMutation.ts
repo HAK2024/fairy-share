@@ -1,14 +1,14 @@
 import { useMutation } from '@tanstack/react-query'
 import { useQueryClient } from '@tanstack/react-query'
+import { useGetHouseId } from '@/_hooks'
 import { toast } from '@/_hooks/useToast'
-import { useAuthStore } from '@/_stores'
 import { isErrorWithMessage } from '@/_utils'
 import { updateTaskStatusApi } from './api'
 
 export const useUpdateStatusMutation = () => {
   const queryClient = useQueryClient()
-  const getHouseId = useAuthStore((state) => state.getHouseId)
-  const houseId = getHouseId()
+
+  const { houseId } = useGetHouseId()
 
   const { mutate, isPending } = useMutation({
     mutationFn: updateTaskStatusApi,

@@ -20,6 +20,7 @@ const SettingDropdown = () => {
       onSuccess: () => {
         resetAllStores()
         queryClient.clear()
+        queryClient.invalidateQueries({ queryKey: ['me'] })
         router.push('/login')
       },
     })
