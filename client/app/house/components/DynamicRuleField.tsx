@@ -13,10 +13,7 @@ import {
 import { CreateHouseSchema } from '../schema'
 
 const DynamicRuleField = () => {
-  const {
-    control,
-    formState: { errors },
-  } = useFormContext<CreateHouseSchema>()
+  const { control } = useFormContext<CreateHouseSchema>()
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -28,16 +25,14 @@ const DynamicRuleField = () => {
     control,
   })
 
-  const emptyArrayErrorMessage = errors?.rules?.root?.message
-
   return (
-    <div>
+    <div className='flex flex-col gap-4'>
       <FormField
         control={control}
         name='rules'
         render={() => (
           <FormItem>
-            <FormLabel isRequired>Rules</FormLabel>
+            <FormLabel>Rules</FormLabel>
 
             <div className='flex flex-col gap-2'>
               {fields.map((_, index) => (
@@ -76,21 +71,16 @@ const DynamicRuleField = () => {
         )}
       />
 
-      {/* Error Message for empty array */}
-      {emptyArrayErrorMessage && (
-        <p className='mt-1 text-sm font-medium text-destructive'>
-          {emptyArrayErrorMessage}
-        </p>
-      )}
-
-      <div className='mt-4 text-right'>
+      <div className='text-right'>
         <Button
           type='button'
           variant='outline'
-          className=''
+          className='h-[38px] md:h-10'
           onClick={() => append({ text: '' })}
         >
-          <FiPlus />
+          <span className='mr-1'>
+            <FiPlus />
+          </span>
           Add
         </Button>
       </div>

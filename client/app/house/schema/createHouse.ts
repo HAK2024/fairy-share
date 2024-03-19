@@ -15,7 +15,9 @@ const createHouseSchema = z.object({
       text: z
         .string()
         .trim()
-        .min(1, { message: 'Rule is required' })
+        .min(1, {
+          message: 'Rule text is required or please delete it with X button',
+        })
         .max(200, { message: 'Rule must be less than 100 characters' }),
     }),
   ),

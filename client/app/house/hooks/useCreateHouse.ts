@@ -1,8 +1,7 @@
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { useToast } from '@/_hooks'
-import { useAuthStore } from '@/_stores'
 import { isErrorWithMessage } from '@/_utils'
 import { useCreateHouseMutation } from './api'
 import { CreateHouseSchema, createHouseResolver } from '../schema'
@@ -10,7 +9,6 @@ import { CreateHouseSchema, createHouseResolver } from '../schema'
 export const useCreateHouse = () => {
   const queryClient = useQueryClient()
   const router = useRouter()
-  const searchParams = useSearchParams()
   const { toast } = useToast()
 
   const { mutate, isPending } = useCreateHouseMutation()
@@ -20,12 +18,36 @@ export const useCreateHouse = () => {
     defaultValues: {
       name: '',
       isExpensePerTime: undefined,
-      rules: [],
+      rules: [
+        {
+          text: '',
+        },
+      ],
     },
   })
 
   const onCreate = (data: CreateHouseSchema) => {
-    console.log('onSubmit!', data)
+    mutate(data, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['me'] })
+        toast({
+          variant: 'success',
+          title: 'Your house has been created successfully',
+        })
+        router.push('/')
+      },
+      onError: (error) => {
+        let message = 'Please try again later.'
+        if (isErrorWithMessage(error) && error.response) {
+          message = error.response.data.message
+          toast({
+            variant: 'destructive',
+            title: 'Failed to create house..',
+            description: message,
+          })
+        }
+      },
+    })
   }
 
   return {

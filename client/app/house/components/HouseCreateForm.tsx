@@ -16,9 +16,6 @@ import { useCreateHouse } from '../hooks/useCreateHouse'
 const HouseCreateForm = () => {
   const { form, onSubmit, isPending } = useCreateHouse()
 
-  console.log('errors', form.formState.errors)
-  console.log('watch', form.watch('rules'))
-
   return (
     <Form {...form}>
       <form onSubmit={onSubmit} className='mt-8 md:mt-10'>
