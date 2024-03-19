@@ -61,7 +61,7 @@ const CreateTaskForm = () => {
           />
         </div>
         <div className='mt-10 text-center'>
-          <Button type='submit' isLoading={isPending} disabled={isPending}>
+          <Button type='submit' isLoading={isPending}>
             Create
           </Button>
         </div>
