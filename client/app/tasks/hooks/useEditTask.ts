@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { useToast } from '@/_hooks'
 import { isErrorWithMessage } from '@/_utils'
 import { useEditTaskMutation, useGetTaskQuery } from './api'
-import { createTaskResolver, taskSchema } from '../schema'
+import { taskResolver, taskSchema } from '../schema'
 
 export const useEditTask = (taskId: number) => {
   const queryClient = useQueryClient()
@@ -15,7 +15,7 @@ export const useEditTask = (taskId: number) => {
   const { data: task } = useGetTaskQuery(taskId)
 
   const form = useForm<taskSchema>({
-    resolver: createTaskResolver,
+    resolver: taskResolver,
     defaultValues: {
       title: '',
       date: null,

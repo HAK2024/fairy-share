@@ -27,4 +27,4 @@ const taskSchema = z.object({
 })
 
 export type taskSchema = z.infer<typeof taskSchema>
-export const createTaskResolver = zodResolver(taskSchema)
+export const taskResolver = zodResolver(taskSchema)

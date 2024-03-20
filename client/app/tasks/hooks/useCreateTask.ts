@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { useGetHouseId, useToast } from '@/_hooks'
 import { isErrorWithMessage } from '@/_utils'
 import { useCreateTaskMutation } from './api'
-import { createTaskResolver, taskSchema } from '../schema'
+import { taskResolver, taskSchema } from '../schema'
 
 export const useCreateTask = () => {
   const queryClient = useQueryClient()
@@ -13,7 +13,7 @@ export const useCreateTask = () => {
   const router = useRouter()
 
   const form = useForm<taskSchema>({
-    resolver: createTaskResolver,
+    resolver: taskResolver,
     defaultValues: {
       title: '',
       date: null,
