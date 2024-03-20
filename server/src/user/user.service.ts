@@ -15,6 +15,16 @@ export class UserService {
               house: {
                 include: {
                   rules: true,
+                  userHouses: {
+                    include: {
+                      user: {
+                        select: {
+                          id: true,
+                          name: true,
+                        },
+                      },
+                    },
+                  },
                 },
               },
             },
@@ -38,6 +48,10 @@ export class UserService {
             isExpensePerTime: userHouse.house.isExpensePerTime,
             isAdmin: userHouse.isAdmin,
             rules: userHouse.house.rules,
+            houseMembers: userHouse.house.userHouses.map(({ user }) => ({
+              id: user.id,
+              name: user.name,
+            })),
           };
         }),
       };
