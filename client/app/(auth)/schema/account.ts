@@ -12,7 +12,7 @@ const accountSchema = z.object({
     .trim()
     .email('This is not valid email address')
     .max(50, { message: 'Email must be less than 50 characters' }),
-  image_icon: z.string().nullable(),
+  icon: z.string(),
 })
 
 export type AccountSchema = z.infer<typeof accountSchema>

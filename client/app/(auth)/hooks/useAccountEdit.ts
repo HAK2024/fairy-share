@@ -2,40 +2,33 @@ import { useRouter } from 'next/navigation'
 import { useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { useToast } from '@/_hooks'
-import { useGetMeQuery } from '@/_hooks/api'
+import { UserType } from '@/_types'
 import { isErrorWithMessage } from '@/_utils'
 import { useAccountMutation } from './api'
 import { AccountSchema, accountResolver } from '../schema'
 
-export const useAccount = () => {
+export const useAccountEdit = (user: UserType) => {
   const queryClient = useQueryClient()
   const router = useRouter()
   const { toast } = useToast()
 
-  const { data: user } = useGetMeQuery()
-
-  // Get currect user's info
-  // how to handle user undefinded??
   const form = useForm<AccountSchema>({
     resolver: accountResolver,
     defaultValues: {
-      name: user?.name,
-      email: user?.email,
+      name: user.name,
+      email: user.email,
+      icon: user.icon,
     },
   })
 
   const { mutate, isPending } = useAccountMutation()
 
   const onEditAccount = (data: AccountSchema) => {
+    // console.log('submit!', data)
     mutate(data, {
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['account'] })
+        queryClient.invalidateQueries({ queryKey: ['me'] })
         router.push('/account')
-
-        toast({
-          variant: 'success',
-          title: 'Successfully edited the account',
-        })
       },
       onError: (error) => {
         console.error(error)

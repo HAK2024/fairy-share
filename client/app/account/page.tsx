@@ -4,7 +4,7 @@ import React from 'react'
 import { FiEdit } from 'react-icons/fi'
 import { FormContainer } from '@/_components/layout'
 import { Button, Heading } from '@/_components/ui'
-import { AccountInfo, EditAccountForm } from './component'
+import { AccountInfo } from './component'
 
 export default function Account() {
   return (
@@ -25,10 +25,6 @@ export default function Account() {
             <Button variant={'destructive'}>Delete your Account</Button>
           </div>
         </div>
-      </FormContainer>
-      {/* only temporary to see UI */}
-      <FormContainer>
-        <EditAccountForm />
       </FormContainer>
     </>
   )
