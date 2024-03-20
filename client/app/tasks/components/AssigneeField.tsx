@@ -44,9 +44,7 @@ const AssigneeField = <TFormValues extends FieldValues>({
       name={name}
       render={() => (
         <FormItem className='flex w-full flex-col'>
-          <FormLabel>
-            Assignee <span className='text-destructive'>*</span>
-          </FormLabel>
+          <FormLabel isRequired>Assignee</FormLabel>
           <FormControl>
             <Controller
               control={control}
@@ -80,7 +78,7 @@ const AssigneeField = <TFormValues extends FieldValues>({
                         checked={field.value === member.id}
                         onCheckedChange={() =>
                           field.onChange(
-                            field.value === member.id ? undefined : member.id,
+                            field.value === member.id ? null : member.id,
                           )
                         }
                         className={`${
