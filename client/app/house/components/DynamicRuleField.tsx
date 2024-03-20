@@ -47,7 +47,6 @@ const DynamicRuleField = () => {
                             placeholder='Clean the kitchen after you cook'
                             {...field}
                             value={value[index]?.text || ''}
-                            className=''
                           />
                         </FormControl>
                         <FormMessage />
