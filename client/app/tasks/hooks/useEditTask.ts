@@ -11,18 +11,9 @@ export const useEditTask = (taskId: number) => {
   const queryClient = useQueryClient()
   const { toast } = useToast()
   const router = useRouter()
-
   const { data: task } = useGetTaskQuery(taskId)
 
-  const form = useForm<taskSchema>({
-    resolver: taskResolver,
-    defaultValues: {
-      title: '',
-      date: null,
-      assigneeId: null,
-      note: '',
-    },
-  })
+  const form = useForm<taskSchema>({ resolver: taskResolver })
 
   useEffect(() => {
     if (task) {
@@ -33,9 +24,8 @@ export const useEditTask = (taskId: number) => {
         note: task.note,
       })
     }
-  }, [form, task])
-
-  const { mutate, isPending } = useEditTaskMutation()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [task])
 
   const handleSuccess = () => {
     toast({ variant: 'success', title: 'Successfully edited a task!' })
@@ -62,6 +52,8 @@ export const useEditTask = (taskId: number) => {
   const onEditTask = (data: taskSchema) => {
     mutate({ taskId, data }, { onSuccess: handleSuccess, onError: handleError })
   }
+
+  const { mutate, isPending } = useEditTaskMutation()
 
   return {
     form,
