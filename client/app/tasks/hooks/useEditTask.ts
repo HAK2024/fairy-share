@@ -11,9 +11,18 @@ export const useEditTask = (taskId: number) => {
   const queryClient = useQueryClient()
   const { toast } = useToast()
   const router = useRouter()
+
   const { data: task } = useGetTaskQuery(taskId)
 
-  const form = useForm<taskSchema>({ resolver: taskResolver })
+  const form = useForm<taskSchema>({
+    resolver: taskResolver,
+    defaultValues: {
+      title: task?.title || '',
+      date: task ? new Date(task.date) : null,
+      assigneeId: task?.assigneeId || null,
+      note: task?.note || '',
+    },
+  })
 
   useEffect(() => {
     if (task) {
@@ -24,8 +33,7 @@ export const useEditTask = (taskId: number) => {
         note: task.note,
       })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [task])
+  }, [form, task])
 
   const handleSuccess = () => {
     toast({ variant: 'success', title: 'Successfully edited a task!' })
