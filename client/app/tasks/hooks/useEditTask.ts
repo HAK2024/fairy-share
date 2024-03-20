@@ -1,16 +1,18 @@
+import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
-import { useGetHouseId, useToast } from '@/_hooks'
+import { useToast } from '@/_hooks'
 import { isErrorWithMessage } from '@/_utils'
-import { useCreateTaskMutation } from './api'
+import { useEditTaskMutation, useGetTaskQuery } from './api'
 import { createTaskResolver, taskSchema } from '../schema'
 
-export const useCreateTask = () => {
+export const useEditTask = (taskId: number) => {
   const queryClient = useQueryClient()
-  const { houseId } = useGetHouseId()
   const { toast } = useToast()
   const router = useRouter()
+
+  const { data: task } = useGetTaskQuery(taskId)
 
   const form = useForm<taskSchema>({
     resolver: createTaskResolver,
@@ -22,10 +24,21 @@ export const useCreateTask = () => {
     },
   })
 
-  const { mutate, isPending } = useCreateTaskMutation()
+  useEffect(() => {
+    if (task) {
+      form.reset({
+        title: task.title,
+        date: new Date(task.date),
+        assigneeId: task.assigneeId,
+        note: task.note,
+      })
+    }
+  }, [form, task])
+
+  const { mutate, isPending } = useEditTaskMutation()
 
   const handleSuccess = () => {
-    toast({ variant: 'success', title: 'Successfully created a task!' })
+    toast({ variant: 'success', title: 'Successfully edited a task!' })
     queryClient.invalidateQueries({
       queryKey: ['todos', 'me', 'house', 'tasks'],
     })
@@ -41,22 +54,18 @@ export const useCreateTask = () => {
     }
     toast({
       variant: 'destructive',
-      title: 'Failed to create a task..',
+      title: 'Failed to edit a task..',
       description: message,
     })
   }
 
-  const onCreateTask = (data: taskSchema) => {
-    const updatedData = {
-      ...data,
-      houseId,
-    }
-    mutate(updatedData, { onSuccess: handleSuccess, onError: handleError })
+  const onEditTask = (data: taskSchema) => {
+    mutate({ taskId, data }, { onSuccess: handleSuccess, onError: handleError })
   }
 
   return {
     form,
-    onSubmit: form.handleSubmit(onCreateTask),
+    onSubmit: form.handleSubmit(onEditTask),
     isPending,
   }
 }
