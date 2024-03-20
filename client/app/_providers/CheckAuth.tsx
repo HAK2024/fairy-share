@@ -9,7 +9,7 @@ import {
   AUTH_PUBLIC_PATH,
   INVITED_HOUSE_ID,
 } from '@/_consts'
-import { useGetHouseId } from '@/_hooks'
+import { useGetHouseInfo } from '@/_hooks'
 import { useGetMeQuery, useGetCsrfTokenQuery } from '@/_hooks/api'
 import { useAuthStore } from '@/_stores'
 
@@ -35,7 +35,7 @@ const CheckAuth = ({
 
   const { data: meData } = useGetMeQuery()
 
-  const { houseId } = useGetHouseId()
+  const { houseId } = useGetHouseInfo()
 
   const noUserHouseId = meData && !houseId
 
