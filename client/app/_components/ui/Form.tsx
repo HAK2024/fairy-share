@@ -85,17 +85,22 @@ FormItem.displayName = 'FormItem'
 
 const FormLabel = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
->(({ className, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> & {
+    isRequired?: boolean
+  }
+>(({ className, isRequired, ...props }, ref) => {
   const { error, formItemId } = useFormField()
 
   return (
-    <Label
-      ref={ref}
-      className={cn(error && 'text-destructive', className)}
-      htmlFor={formItemId}
-      {...props}
-    />
+    <div className='flex-start flex gap-1'>
+      <Label
+        ref={ref}
+        className={cn(error && 'text-destructive', className)}
+        htmlFor={formItemId}
+        {...props}
+      />
+      {isRequired && <span className='leading-none text-red-500'>*</span>}
+    </div>
   )
 })
 FormLabel.displayName = 'FormLabel'
