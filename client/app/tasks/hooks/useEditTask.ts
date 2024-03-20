@@ -18,8 +18,8 @@ export const useEditTask = (taskId: number) => {
     resolver: createTaskResolver,
     defaultValues: {
       title: '',
-      date: undefined,
-      assigneeId: undefined,
+      date: null,
+      assigneeId: null,
       note: '',
     },
   })

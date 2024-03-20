@@ -16,8 +16,8 @@ export const useCreateTask = () => {
     resolver: createTaskResolver,
     defaultValues: {
       title: '',
-      date: undefined,
-      assigneeId: undefined,
+      date: null,
+      assigneeId: null,
       note: '',
     },
   })
