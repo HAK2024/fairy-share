@@ -33,7 +33,8 @@ export const useEditTask = (taskId: number) => {
         note: task.note,
       })
     }
-  }, [form, task])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [task])
 
   const handleSuccess = () => {
     toast({ variant: 'success', title: 'Successfully edited a task!' })
