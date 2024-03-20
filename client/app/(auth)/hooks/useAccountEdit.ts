@@ -24,7 +24,6 @@ export const useAccountEdit = (user: UserType) => {
   const { mutate, isPending } = useAccountMutation()
 
   const onEditAccount = (data: AccountSchema) => {
-    // console.log('submit!', data)
     mutate(data, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['me'] })

@@ -28,8 +28,6 @@ const EditAccountForm = ({ user }: EditAccountFormProps) => {
 
   const iconWatch = form.watch('icon')
 
-  console.log('watch', iconWatch)
-
   return (
     <Form {...form}>
       <form onSubmit={onSubmit} className='mx-auto mt-8 w-full'>
@@ -39,36 +37,40 @@ const EditAccountForm = ({ user }: EditAccountFormProps) => {
             name='icon'
             render={() => (
               <FormItem>
-                <FormLabel>Icon</FormLabel>
                 <FormControl>
-                  <>
-                    <MdAccountCircle
-                      className={`text-4xl ${colorMap[user.icon as keyof typeof colorMap]}`}
-                      size={52}
-                    />
-                    <div className='flex gap-4'>
-                      {colorArray.map((colorValue) => {
-                        return (
-                          <FormItem
-                            className='flex items-center space-x-2 space-y-0'
-                            key={colorValue.value}
-                          >
-                            <FormLabel
-                              className={`cursor-pointer rounded-full border border-primary ring-offset-background ${iconWatch === colorValue.value && 'ring-2 ring-ring ring-offset-2 '}`}
-                              onClick={() =>
-                                form.setValue('icon', colorValue.value)
-                              }
-                            >
-                              <MdAccountCircle
-                                className={`text-4xl ${colorValue.color}`}
-                                size={52}
-                              />
-                            </FormLabel>
-                          </FormItem>
-                        )
-                      })}
+                  <div className='flex'>
+                    <div className='flex h-full columns-1 flex-col'>
+                      <FormLabel className=' font-semibold'>Icon</FormLabel>
+                      <MdAccountCircle
+                        className={`mt-12 text-4xl ${colorMap[user.icon as keyof typeof colorMap]}`}
+                        size={52}
+                      />
                     </div>
-                  </>
+                    <div className='flex w-full columns-11 items-center justify-center'>
+                      <div className='grid grid-cols-3 items-center justify-center gap-4'>
+                        {colorArray.map((colorValue) => {
+                          return (
+                            <FormItem
+                              className='flex items-center space-x-2 space-y-0'
+                              key={colorValue.value}
+                            >
+                              <FormLabel
+                                className={`cursor-pointer rounded-full border border-primary ring-offset-background ${iconWatch === colorValue.value && 'ring-2 ring-ring ring-offset-2 '}`}
+                                onClick={() =>
+                                  form.setValue('icon', colorValue.value)
+                                }
+                              >
+                                <MdAccountCircle
+                                  className={`text-4xl ${colorValue.color}`}
+                                  size={52}
+                                />
+                              </FormLabel>
+                            </FormItem>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -80,9 +82,13 @@ const EditAccountForm = ({ user }: EditAccountFormProps) => {
             name='name'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel className='font-semibold'>Name</FormLabel>
                 <FormControl>
-                  <Input placeholder='Your name' {...field} />
+                  <Input
+                    className='text-base'
+                    placeholder='Your name'
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -94,9 +100,13 @@ const EditAccountForm = ({ user }: EditAccountFormProps) => {
             name='email'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel className='font-semibold'>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder='example@gmail.com' {...field} />
+                  <Input
+                    className='text-base'
+                    placeholder='example@gmail.com'
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

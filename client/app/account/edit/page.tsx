@@ -8,8 +8,8 @@ import { EditAccountForm } from './component'
 
 export default function Account() {
   const { data: user, isLoading } = useGetMeQuery()
-  /* TODO: error handling */
-  console.log('user>>>', user)
+  // TODO: error handling
+
   return (
     <FormContainer>
       <div className='flex flex-col gap-8 md:gap-6 '>
