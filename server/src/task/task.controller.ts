@@ -1,3 +1,4 @@
+import { GetUser } from 'src/auth/decorator';
 import { AuthGuard } from '../auth/guard';
 import { CreateTaskDto, UpdateTaskDto, UpdateTaskStatusDto } from './dto';
 
@@ -33,10 +34,11 @@ export class TaskController {
 
   @Put(':taskId')
   updateTask(
+    @GetUser('id') userId: number,
     @Param('taskId', ParseIntPipe) taskId: number,
     @Body() updateTaskDto: UpdateTaskDto,
   ) {
-    return this.taskService.updateTask(taskId, updateTaskDto);
+    return this.taskService.updateTask(userId, taskId, updateTaskDto);
   }
 
   @Put(':taskId/status')
@@ -49,7 +51,10 @@ export class TaskController {
 
   @Delete(':taskId')
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteTask(@Param('taskId', ParseIntPipe) taskId: number) {
-    return this.taskService.deleteTask(taskId);
+  deleteTask(
+    @GetUser('id') userId: number,
+    @Param('taskId', ParseIntPipe) taskId: number,
+  ) {
+    return this.taskService.deleteTask(userId, taskId);
   }
 }

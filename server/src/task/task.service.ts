@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateTaskDto, UpdateTaskDto, UpdateTaskStatusDto } from './dto';
 
@@ -38,20 +42,37 @@ export class TaskService {
     }
   }
 
-  async updateTask(taskId: number, dto: UpdateTaskDto) {
+  async updateTask(userId: number, taskId: number, dto: UpdateTaskDto) {
     try {
-      const task = await this.prisma.task.update({
-        where: {
-          id: taskId,
-        },
+      const userHouse = await this.prisma.userHouse.findFirst({
+        where: { userId },
+      });
+
+      if (!userHouse) {
+        throw new UnauthorizedException('You do not belong to any house.');
+      }
+
+      const task = await this.prisma.task.findUnique({
+        where: { id: taskId },
+      });
+
+      if (!task) {
+        throw new NotFoundException(`Task with ID ${taskId} not found.`);
+      }
+
+      if (task.houseId !== userHouse.houseId) {
+        throw new UnauthorizedException(
+          'You do not have permission to update this task.',
+        );
+      }
+
+      const updatedTask = await this.prisma.task.update({
+        where: { id: taskId },
         data: dto,
       });
 
-      return task;
+      return updatedTask;
     } catch (error) {
-      if (error.code === 'P2025') {
-        throw new NotFoundException(`Task with ID ${taskId} not found.`);
-      }
       console.error('Error updating task:', error);
       throw error;
     }
@@ -76,17 +97,36 @@ export class TaskService {
     }
   }
 
-  async deleteTask(taskId: number) {
+  async deleteTask(userId: number, taskId: number) {
     try {
+      const userHouse = await this.prisma.userHouse.findFirst({
+        where: { userId },
+      });
+
+      if (!userHouse) {
+        throw new UnauthorizedException('You do not belong to any house.');
+      }
+
+      const task = await this.prisma.task.findUnique({
+        where: { id: taskId },
+      });
+
+      if (!task) {
+        throw new NotFoundException(`Task with ID ${taskId} not found.`);
+      }
+
+      if (task.houseId !== userHouse.houseId) {
+        throw new UnauthorizedException(
+          'You do not have permission to delete this task.',
+        );
+      }
+
       await this.prisma.task.delete({
         where: {
           id: taskId,
         },
       });
     } catch (error) {
-      if (error.code === 'P2025') {
-        throw new NotFoundException(`Task with ID ${taskId} not found.`);
-      }
       console.error('Error deleting task:', error);
       throw error;
     }
