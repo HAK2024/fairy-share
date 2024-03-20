@@ -2,7 +2,11 @@
 
 import { useState } from 'react'
 import { FiAlertTriangle } from 'react-icons/fi'
-import { Dialog, DialogContent, DialogTitle } from '@/_components/ui/Dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+} from '@/_components/ui/dialog/Dialog'
 import { useCheckInvitedHouse } from '@/_hooks'
 
 function InvitedHouseAlertDialog() {
