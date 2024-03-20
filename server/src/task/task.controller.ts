@@ -1,7 +1,6 @@
-import { GetUser } from 'src/auth/decorator';
+import { GetUser } from '../auth/decorator';
 import { AuthGuard } from '../auth/guard';
 import { CreateTaskDto, UpdateTaskDto, UpdateTaskStatusDto } from './dto';
-
 import { TaskService } from './task.service';
 import {
   Body,

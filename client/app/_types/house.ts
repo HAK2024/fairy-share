@@ -1,4 +1,4 @@
-import { RuleType } from '@/_types'
+import { RuleType, TaskType } from '@/_types'
 
 export type HouseType = {
   houseId: number
@@ -6,5 +6,6 @@ export type HouseType = {
   isExpensePerTime: boolean
   isAdmin: boolean
   rules: RuleType[]
+  tasks: TaskType[]
   houseMembers: { id: number; name: string }[]
 }
