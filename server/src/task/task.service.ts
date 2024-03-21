@@ -23,8 +23,16 @@ export class TaskService {
     }
   }
 
-  async getTask(taskId: number) {
+  async getTask(userId: number, taskId: number) {
     try {
+      const userHouse = await this.prisma.userHouse.findFirst({
+        where: { userId },
+      });
+
+      if (!userHouse) {
+        throw new UnauthorizedException('You do not belong to any house.');
+      }
+
       const task = await this.prisma.task.findUnique({
         where: {
           id: taskId,
@@ -33,6 +41,12 @@ export class TaskService {
 
       if (!task) {
         throw new NotFoundException(`Task with ID ${taskId} not found.`);
+      }
+
+      if (task.houseId !== userHouse.houseId) {
+        throw new UnauthorizedException(
+          'You do not have permission to get this task.',
+        );
       }
 
       return task;

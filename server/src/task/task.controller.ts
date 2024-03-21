@@ -27,8 +27,11 @@ export class TaskController {
   }
 
   @Get(':taskId')
-  GetTask(@Param('taskId', ParseIntPipe) taskId: number) {
-    return this.taskService.getTask(taskId);
+  GetTask(
+    @GetUser('id') userId: number,
+    @Param('taskId', ParseIntPipe) taskId: number,
+  ) {
+    return this.taskService.getTask(userId, taskId);
   }
 
   @Put(':taskId')
