@@ -1,5 +1,16 @@
 export { Button, type ButtonProps } from './button/Button'
 export { Checkbox } from './checkbox/Checkbox'
+export {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from './dialog/AlertDialog'
 export { InvitedHouseAlertDialog } from './dialog/InvitedHouseAlertDialog'
 export { DateField } from './field/DateField'
 export { Heading } from './heading/Heading'
