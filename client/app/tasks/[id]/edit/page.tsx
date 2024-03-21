@@ -15,7 +15,6 @@ export default function EditTask({ params }: { params: { id: string } }) {
     isLoading: isLoadingTask,
   } = useGetTaskQuery(taskId)
 
-  // If the user tries to access to the url that has invalid taskId, show an error component
   // TODO: Replace this with the error component
   if (isTaskError) {
     return <p>Failed to load data.</p>
