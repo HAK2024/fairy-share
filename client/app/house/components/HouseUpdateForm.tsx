@@ -10,11 +10,16 @@ import {
   RadioGroup,
   RadioGroupItem,
 } from '@/_components/ui'
+import { HouseType } from '@/_types'
 import { DynamicRuleField } from './DynamicRuleField'
-import { useCreateHouse } from '../hooks'
+import { useUpdateHouse } from '../hooks'
 
-const HouseCreateForm = () => {
-  const { form, onSubmit, isPending } = useCreateHouse()
+type HouseUpdateFormProps = {
+  defaultData: HouseType
+}
+
+const HouseUpdateForm = ({ defaultData }: HouseUpdateFormProps) => {
+  const { form, onSubmit, isPending } = useUpdateHouse(defaultData)
 
   return (
     <Form {...form}>
@@ -34,7 +39,7 @@ const HouseCreateForm = () => {
             )}
           />
 
-          <DynamicRuleField />
+          <DynamicRuleField defaultData={defaultData} />
 
           <FormField
             control={form.control}
@@ -46,7 +51,9 @@ const HouseCreateForm = () => {
                   <RadioGroup
                     onValueChange={field.onChange}
                     className='flex flex-col'
-                    defaultValue='monthly'
+                    defaultValue={
+                      defaultData.isExpensePerTime ? 'eachTime' : 'monthly'
+                    }
                   >
                     <FormItem className='flex items-center space-x-2 space-y-0'>
                       <FormControl>
@@ -75,7 +82,7 @@ const HouseCreateForm = () => {
 
         <div className='mt-8 text-center md:mt-10'>
           <Button type='submit' isLoading={isPending}>
-            Create
+            Save
           </Button>
         </div>
       </form>
@@ -83,4 +90,4 @@ const HouseCreateForm = () => {
   )
 }
 
-export { HouseCreateForm }
+export { HouseUpdateForm }

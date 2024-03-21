@@ -1,14 +1,14 @@
 import { useRouter } from 'next/navigation'
 import { useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
-import { useGetHouseId, useToast } from '@/_hooks'
+import { useGetHouseInfo, useToast } from '@/_hooks'
 import { isErrorWithMessage } from '@/_utils'
 import { useCreateTaskMutation } from './api'
 import { createTaskResolver, taskSchema } from '../schema'
 
 export const useCreateTask = () => {
   const queryClient = useQueryClient()
-  const { houseId } = useGetHouseId()
+  const { houseId } = useGetHouseInfo()
   const { toast } = useToast()
   const router = useRouter()
 

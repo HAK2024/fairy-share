@@ -6,7 +6,7 @@ import { Loading } from '@/_components/layout'
 import { FormContainer } from '@/_components/layout'
 import { Heading } from '@/_components/ui'
 import { INVITED_HOUSE_ID } from '@/_consts'
-import { useGetHouseId } from '@/_hooks'
+import { useGetHouseInfo } from '@/_hooks'
 import { useCreateUserHouseMutation } from '@/_hooks/api'
 import { HouseCreateForm } from '../components'
 
@@ -18,7 +18,7 @@ export default function HouseCreatePage() {
 
   const hasMutated = useRef(false)
 
-  const { houseId } = useGetHouseId()
+  const { houseId } = useGetHouseInfo()
   const { mutate, isPending } = useCreateUserHouseMutation()
 
   useEffect(() => {

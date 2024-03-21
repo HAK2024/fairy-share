@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 
-const createHouseSchema = z.object({
+const updateHouseSchema = z.object({
   name: z
     .string()
     .trim()
@@ -10,6 +10,7 @@ const createHouseSchema = z.object({
   isExpensePerTime: z.union([z.literal('eachTime'), z.literal('monthly')]),
   rules: z.array(
     z.object({
+      id: z.number().nullable(),
       text: z
         .string()
         .trim()
@@ -21,5 +22,5 @@ const createHouseSchema = z.object({
   ),
 })
 
-export type CreateHouseSchema = z.infer<typeof createHouseSchema>
-export const createHouseResolver = zodResolver(createHouseSchema)
+export type UpdateHouseSchema = z.infer<typeof updateHouseSchema>
+export const updateHouseResolver = zodResolver(updateHouseSchema)
