@@ -42,7 +42,7 @@ const EditAccountForm = ({ user }: EditAccountFormProps) => {
                     <div className='flex h-full columns-1 flex-col'>
                       <FormLabel className=' font-semibold'>Icon</FormLabel>
                       <MdAccountCircle
-                        className={`mt-12 text-4xl ${colorMap[user.icon as keyof typeof colorMap]}`}
+                        className={`mt-12 text-4xl ${colorMap[iconWatch as keyof typeof colorMap]}`}
                         size={52}
                       />
                     </div>
