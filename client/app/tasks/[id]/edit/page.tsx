@@ -14,8 +14,11 @@ export default function EditTask({ params }: { params: { id: string } }) {
   const router = useRouter()
 
   const { isLoading: isLoadingHouse } = useGetHouseQuery()
-  const { isError: isTaskError, isLoading: isLoadingTask } =
-    useGetTaskQuery(taskId)
+  const {
+    data: task,
+    isError: isTaskError,
+    isLoading: isLoadingTask,
+  } = useGetTaskQuery(taskId)
   const { isAuthorized, isCheckingAuthorization } =
     useCheckAuthorizedTask(taskId)
 
@@ -26,10 +29,6 @@ export default function EditTask({ params }: { params: { id: string } }) {
     }
   }, [isAuthorized, isCheckingAuthorization, router])
 
-  if (isLoadingHouse || isLoadingTask || isCheckingAuthorization) {
-    return <Loading />
-  }
-
   // If the user tries to access to the url that has invalid taskId, show an error component
   // TODO: Replace this with the error component
   if (isTaskError) {
@@ -39,7 +38,11 @@ export default function EditTask({ params }: { params: { id: string } }) {
   return (
     <FormContainer>
       <Heading title='Edit Task' />
-      <EditTaskForm taskId={taskId} />
+      {isLoadingHouse || isLoadingTask || isCheckingAuthorization || !task ? (
+        <Loading />
+      ) : (
+        <EditTaskForm defaultData={task} />
+      )}
     </FormContainer>
   )
 }

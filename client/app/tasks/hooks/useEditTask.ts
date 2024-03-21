@@ -1,40 +1,28 @@
-import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { useToast } from '@/_hooks'
+import { TaskType } from '@/_types'
 import { isErrorWithMessage } from '@/_utils'
-import { useEditTaskMutation, useGetTaskQuery } from './api'
+import { useEditTaskMutation } from './api'
 import { taskResolver, taskSchema } from '../schema'
 
-export const useEditTask = (taskId: number) => {
+export const useEditTask = (defaultData: TaskType) => {
   const queryClient = useQueryClient()
   const { toast } = useToast()
   const router = useRouter()
 
-  const { data: task } = useGetTaskQuery(taskId)
+  const { mutate, isPending } = useEditTaskMutation()
 
   const form = useForm<taskSchema>({
     resolver: taskResolver,
     defaultValues: {
-      title: task?.title || '',
-      date: task ? new Date(task.date) : null,
-      assigneeId: task?.assigneeId || null,
-      note: task?.note || '',
+      title: defaultData.title,
+      date: defaultData.date,
+      assigneeId: defaultData.assigneeId,
+      note: defaultData.note,
     },
   })
-
-  useEffect(() => {
-    if (task) {
-      form.reset({
-        title: task.title,
-        date: new Date(task.date),
-        assigneeId: task.assigneeId,
-        note: task.note,
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [task])
 
   const handleSuccess = () => {
     toast({ variant: 'success', title: 'Successfully edited a task!' })
@@ -59,10 +47,11 @@ export const useEditTask = (taskId: number) => {
   }
 
   const onEditTask = (data: taskSchema) => {
-    mutate({ taskId, data }, { onSuccess: handleSuccess, onError: handleError })
+    mutate(
+      { taskId: defaultData.id, data },
+      { onSuccess: handleSuccess, onError: handleError },
+    )
   }
-
-  const { mutate, isPending } = useEditTaskMutation()
 
   return {
     form,
