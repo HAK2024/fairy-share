@@ -13,9 +13,8 @@ export const useDeleteTask = () => {
 
   const handleSuccess = () => {
     toast({ variant: 'success', title: 'Successfully deleted a task!' })
-    queryClient.invalidateQueries({
-      queryKey: ['todos', 'me', 'house', 'tasks'],
-    })
+    // TODO: Add the query key "tasks" when you need
+    queryClient.invalidateQueries({ queryKey: ['todos'] })
     router.push('/tasks')
   }
 
