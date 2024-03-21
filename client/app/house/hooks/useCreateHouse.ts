@@ -17,7 +17,7 @@ export const useCreateHouse = () => {
     resolver: createHouseResolver,
     defaultValues: {
       name: '',
-      isExpensePerTime: undefined,
+      isExpensePerTime: 'monthly',
       rules: [
         {
           text: '',
@@ -27,7 +27,12 @@ export const useCreateHouse = () => {
   })
 
   const onCreate = (data: CreateHouseSchema) => {
-    mutate(data, {
+    const formattedData = {
+      ...data,
+      isExpensePerTime: data.isExpensePerTime === 'eachTime' ? true : false,
+    }
+
+    mutate(formattedData, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['me'] })
         toast({

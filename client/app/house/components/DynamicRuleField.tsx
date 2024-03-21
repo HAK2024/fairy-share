@@ -10,10 +10,15 @@ import {
   Input,
   Button,
 } from '@/_components/ui'
-import { CreateHouseSchema } from '../schema'
+import { HouseType } from '@/_types'
+import { CreateHouseSchema, UpdateHouseSchema } from '../schema'
 
-const DynamicRuleField = () => {
-  const { control } = useFormContext<CreateHouseSchema>()
+type DynamicRuleFieldProps = {
+  defaultData?: HouseType
+}
+
+const DynamicRuleField = ({ defaultData }: DynamicRuleFieldProps) => {
+  const { control } = useFormContext<CreateHouseSchema | UpdateHouseSchema>()
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -75,7 +80,13 @@ const DynamicRuleField = () => {
           type='button'
           variant='outline'
           className='h-[38px] px-4 py-2 text-sm md:h-10 md:px-5 md:text-base'
-          onClick={() => append({ text: '' })}
+          onClick={() =>
+            append(
+              defaultData
+                ? ({ id: null, text: '' } as { id: null; text: string })
+                : { text: '' },
+            )
+          }
         >
           <span className='mr-1'>
             <FiPlus />
