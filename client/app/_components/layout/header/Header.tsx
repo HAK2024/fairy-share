@@ -40,7 +40,7 @@ const Header = ({ hasNavigation = true }: HeaderProps) => {
             Home
           </Link>
           <Link
-            href={'/calendar'}
+            href={'/tasks'}
             className='hover-underline-animation text-lg font-semibold hover:text-teal-800'
           >
             Calendar

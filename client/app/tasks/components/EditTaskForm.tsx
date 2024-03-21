@@ -12,12 +12,13 @@ import {
 } from '@/_components/ui'
 import { Textarea } from '@/_components/ui/Textarea'
 import { useGetHouseQuery } from '@/_hooks/api'
+import { TaskType } from '@/_types'
 import { AssigneeField } from '../components'
 import { useEditTask } from '../hooks'
 import { taskSchema } from '../schema'
 
-const EditTaskForm = ({ taskId }: { taskId: number }) => {
-  const { form, onSubmit: onEditTask, isPending } = useEditTask(taskId)
+const EditTaskForm = ({ defaultData }: { defaultData: TaskType }) => {
+  const { form, onSubmit: onEditTask, isPending } = useEditTask(defaultData)
 
   const { data: house } = useGetHouseQuery()
   const houseMembers = house?.houseMembers || []

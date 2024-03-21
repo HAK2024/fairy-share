@@ -4,7 +4,7 @@ import { getTaskApi } from '@/tasks/api'
 
 export const useGetTaskQuery = (taskId: number) => {
   const { data, isLoading, isError } = useQuery<TaskType>({
-    queryKey: ['tasks', taskId],
+    queryKey: ['task', taskId],
     queryFn: () => getTaskApi(taskId),
     enabled: !!taskId,
   })
