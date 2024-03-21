@@ -6,9 +6,11 @@ import { TodosList } from './(todos)/components'
 import { useGetTodosQuery } from './(todos)/hooks'
 import { Loading } from './_components/layout'
 import { Button, Heading } from './_components/ui'
+import { useGetHouseInfo } from './_hooks'
 
 export default function Home() {
   const { data: todos, isError, isLoading } = useGetTodosQuery()
+  const { houseName } = useGetHouseInfo()
   const router = useRouter()
 
   if (isLoading) {
@@ -25,7 +27,7 @@ export default function Home() {
       {todos && (
         <div className='flex flex-col gap-8 px-4 pb-10 pt-8 text-slate-800 md:px-14 md:pb-20 md:pt-10 '>
           <Heading
-            title={todos.houseName}
+            title={houseName}
             buttonComponent={
               <Button variant={'outline'} onClick={() => router.push('/rules')}>
                 Rules

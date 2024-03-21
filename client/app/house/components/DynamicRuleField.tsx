@@ -40,8 +40,8 @@ const DynamicRuleField = ({ defaultData }: DynamicRuleFieldProps) => {
             <FormLabel>Rules</FormLabel>
 
             <div className='flex flex-col gap-2'>
-              {fields.map((_, index) => (
-                <div key={index} className='flex gap-4'>
+              {fields.map((field, index) => (
+                <div key={field.id} className='flex gap-4'>
                   <FormField
                     control={control}
                     name={`rules.${index}.text`}
