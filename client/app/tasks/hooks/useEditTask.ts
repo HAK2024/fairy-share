@@ -18,7 +18,7 @@ export const useEditTask = (defaultData: TaskType) => {
     resolver: taskResolver,
     defaultValues: {
       title: defaultData.title,
-      date: defaultData.date,
+      date: new Date(defaultData.date),
       assigneeId: defaultData.assigneeId,
       note: defaultData.note,
     },
