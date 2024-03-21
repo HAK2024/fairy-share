@@ -1,5 +1,4 @@
 import { MdAccountCircle } from 'react-icons/md'
-import { useAccountEdit } from '@/(auth)/hooks/useAccountEdit'
 import {
   Form,
   FormControl,
@@ -12,6 +11,7 @@ import {
 } from '@/_components/ui'
 import { colorMap } from '@/_consts'
 import { UserType } from '@/_types'
+import { useAccountEdit } from '@/account/hooks'
 
 type EditAccountFormProps = {
   user: UserType
