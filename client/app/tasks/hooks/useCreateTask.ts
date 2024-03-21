@@ -27,7 +27,8 @@ export const useCreateTask = () => {
   const handleSuccess = () => {
     toast({ variant: 'success', title: 'Successfully created a task!' })
     queryClient.invalidateQueries({
-      queryKey: ['todos', 'me', 'house', 'tasks'],
+      // TODO: Add the query key "tasks" when you need
+      queryKey: ['todos'],
     })
     form.reset()
     router.push('/tasks')
