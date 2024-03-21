@@ -60,7 +60,7 @@ const DynamicRuleField = ({ defaultData }: DynamicRuleFieldProps) => {
                   />
 
                   <Button
-                    variant='destructive'
+                    variant='destructiveOutline'
                     size='icon'
                     className='flex-shrink-0'
                     type='button'
