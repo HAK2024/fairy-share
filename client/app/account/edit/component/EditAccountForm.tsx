@@ -55,7 +55,8 @@ const EditAccountForm = ({ user }: EditAccountFormProps) => {
                               key={colorValue.value}
                             >
                               <FormLabel
-                                className={`cursor-pointer rounded-full border border-primary ring-offset-background ${iconWatch === colorValue.value && 'ring-2 ring-ring ring-offset-2 '}`}
+                                aria-label={`Select ${colorValue.value} color`}
+                                className={`cursor-pointer rounded-full ring-offset-background ${iconWatch === colorValue.value && 'ring-2 ring-ring ring-offset-0'}`}
                                 onClick={() =>
                                   form.setValue('icon', colorValue.value)
                                 }
