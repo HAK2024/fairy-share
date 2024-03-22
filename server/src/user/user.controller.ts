@@ -18,10 +18,10 @@ export class UserController {
   @Put(':userId')
   async updateUser(
     @GetUser('id') userId: number,
-    @Body() updateUserDto: UpdateUserDto,
+    @Body() dto: UpdateUserDto,
     @Res() res: Response,
   ) {
-    const user = await this.userService.updateUser(userId, updateUserDto);
+    const user = await this.userService.updateUser(userId, dto);
     // Set Cookie with user.token
     res.cookie('token', user.token, {
       httpOnly: true,
@@ -29,6 +29,6 @@ export class UserController {
       maxAge: 24 * 60 * 60 * 1000, // 24H
     });
 
-    return this.userService.updateUser(userId, updateUserDto);
+    return user;
   }
 }
