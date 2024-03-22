@@ -1,23 +1,23 @@
 import { useRouter } from 'next/navigation'
 import { useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
-import { useGetHouseId, useToast } from '@/_hooks'
+import { useGetHouseInfo, useToast } from '@/_hooks'
 import { isErrorWithMessage } from '@/_utils'
 import { useCreateTaskMutation } from './api'
-import { createTaskResolver, taskSchema } from '../schema'
+import { taskResolver, taskSchema } from '../schema'
 
 export const useCreateTask = () => {
   const queryClient = useQueryClient()
-  const { houseId } = useGetHouseId()
+  const { houseId } = useGetHouseInfo()
   const { toast } = useToast()
   const router = useRouter()
 
   const form = useForm<taskSchema>({
-    resolver: createTaskResolver,
+    resolver: taskResolver,
     defaultValues: {
       title: '',
-      date: undefined,
-      assigneeId: undefined,
+      date: null,
+      assigneeId: null,
       note: '',
     },
   })
@@ -25,9 +25,11 @@ export const useCreateTask = () => {
   const { mutate, isPending } = useCreateTaskMutation()
 
   const handleSuccess = () => {
-    // TODO: Need to invalidate queryKey that is related to tasks
     toast({ variant: 'success', title: 'Successfully created a task!' })
-    queryClient.invalidateQueries({ queryKey: ['todos'] })
+    queryClient.invalidateQueries({
+      // TODO: Add the query key "tasks" when you need
+      queryKey: ['todos'],
+    })
     form.reset()
     router.push('/tasks')
   }

@@ -1,1 +1,1 @@
-export { createTaskResolver, type taskSchema } from './task'
+export { taskResolver, type taskSchema } from './task'

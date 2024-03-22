@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { useRouter } from 'next/navigation'
-import { FiEdit } from 'react-icons/fi'
+import { FiEdit, FiTrash } from 'react-icons/fi'
 import { FormContainer } from '@/_components/layout'
 import { Button, Heading } from '@/_components/ui'
 import { AccountInfo } from './components'
@@ -27,7 +27,14 @@ export default function Account() {
         />
         <AccountInfo />
         <div>
-          <Button variant={'destructive'}>Delete your Account</Button>
+          <Button
+            variant={'destructiveOutline'}
+            size='sm'
+            className='flex gap-1'
+          >
+            <FiTrash />
+            Delete Your Account
+          </Button>
         </div>
       </div>
     </FormContainer>

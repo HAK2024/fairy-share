@@ -1,3 +1,3 @@
 export { useCheckInvitedHouse } from './useCheckInvitedHouse'
-export { useGetHouseId } from './useGetHouseId'
+export { useGetHouseInfo } from './useGetHouseInfo'
 export { useToast } from './useToast'

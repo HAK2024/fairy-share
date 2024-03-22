@@ -15,7 +15,7 @@ export function Toaster() {
   const { toasts } = useToast()
 
   return (
-    <ToastProvider duration={5000}>
+    <ToastProvider duration={3000}>
       {toasts.map(function ({
         id,
         title,

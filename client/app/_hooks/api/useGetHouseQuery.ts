@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
 import { getHouseApi } from '@/_api'
 import { HouseType } from '@/_types'
-import { useGetHouseId } from '..'
+import { useGetHouseInfo } from '..'
 
 export const useGetHouseQuery = () => {
-  const { houseId } = useGetHouseId()
+  const { houseId } = useGetHouseInfo()
 
   const getHouse = async () => {
     const response = await getHouseApi(houseId)

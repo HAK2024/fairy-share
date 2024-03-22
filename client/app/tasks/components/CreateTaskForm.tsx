@@ -9,8 +9,8 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  Textarea,
 } from '@/_components/ui'
-import { Textarea } from '@/_components/ui/Textarea'
 import { useGetHouseQuery } from '@/_hooks/api'
 import { AssigneeField } from '../components'
 import { useCreateTask } from '../hooks'
@@ -18,9 +18,9 @@ import { taskSchema } from '../schema'
 
 const CreateTaskForm = () => {
   const { form, onSubmit: onCreateTask, isPending } = useCreateTask()
-
   const { data: house } = useGetHouseQuery()
   const houseMembers = house?.houseMembers || []
+
   return (
     <Form {...form}>
       <form onSubmit={onCreateTask} className='mx-auto mt-8 w-full'>
@@ -30,9 +30,7 @@ const CreateTaskForm = () => {
             name='title'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  Title <span className='text-destructive'>*</span>
-                </FormLabel>
+                <FormLabel isRequired>Title</FormLabel>
                 <FormControl>
                   <Input placeholder='Enter task title' {...field} />
                 </FormControl>
