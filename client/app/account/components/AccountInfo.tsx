@@ -9,7 +9,7 @@ const AccountInfo = () => {
   const { data: user, isLoading } = useGetMeQuery()
 
   if (isLoading || !user) return <Loading />
-  /* TODO: error handling */
+  // TODO: error handling
 
   return (
     <div className='flex flex-col gap-6 '>
