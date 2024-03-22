@@ -14,6 +14,7 @@ export class UserService {
             include: {
               house: {
                 include: {
+                  tasks: true,
                   rules: true,
                   userHouses: {
                     include: {
@@ -48,6 +49,7 @@ export class UserService {
             isExpensePerTime: userHouse.house.isExpensePerTime,
             isAdmin: userHouse.isAdmin,
             rules: userHouse.house.rules,
+            tasks: userHouse.house.tasks,
             houseMembers: userHouse.house.userHouses.map(({ user }) => ({
               id: user.id,
               name: user.name,

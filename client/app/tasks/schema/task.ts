@@ -7,11 +7,18 @@ const taskSchema = z.object({
     .trim()
     .min(1, { message: 'Title is required' })
     .max(100, { message: 'Title must be less than 100 characters' }),
-  date: z.date({ required_error: 'Date is required.' }),
-  assigneeId: z.number({
-    required_error: 'Assignee is required',
-  }),
-
+  date: z
+    .date()
+    .nullable()
+    .refine((date) => date !== null, {
+      message: 'Date is required.',
+    }),
+  assigneeId: z
+    .number()
+    .nullable()
+    .refine((id) => id !== null, {
+      message: 'Assignee is required.',
+    }),
   note: z
     .string()
     .trim()
@@ -20,4 +27,4 @@ const taskSchema = z.object({
 })
 
 export type taskSchema = z.infer<typeof taskSchema>
-export const createTaskResolver = zodResolver(taskSchema)
+export const taskResolver = zodResolver(taskSchema)

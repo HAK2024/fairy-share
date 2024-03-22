@@ -1,6 +1,12 @@
 import React, { useState } from 'react'
 import { CaretSortIcon } from '@radix-ui/react-icons'
-import { Control, Controller, FieldValues, Path } from 'react-hook-form'
+import {
+  Control,
+  Controller,
+  FieldValues,
+  Path,
+  useController,
+} from 'react-hook-form'
 import {
   FormControl,
   FormField,
@@ -24,9 +30,11 @@ const AssigneeField = <TFormValues extends FieldValues>({
   name,
   houseMembers,
 }: AssigneeFieldProps<TFormValues>) => {
-  const [selectedAssigneeName, setSelectedAssigneeName] = useState<
-    string | undefined
-  >(undefined)
+  const { field } = useController({ name, control })
+
+  const selectedAssigneeName =
+    houseMembers.find((member) => member.id === field.value)?.name ||
+    'Select assignee'
 
   const [isDropdownOpen, setDropdownOpen] = useState(false)
 
@@ -36,9 +44,7 @@ const AssigneeField = <TFormValues extends FieldValues>({
       name={name}
       render={() => (
         <FormItem className='flex w-full flex-col'>
-          <FormLabel>
-            Assignee <span className='text-destructive'>*</span>
-          </FormLabel>
+          <FormLabel isRequired>Assignee</FormLabel>
           <FormControl>
             <Controller
               control={control}
@@ -56,7 +62,7 @@ const AssigneeField = <TFormValues extends FieldValues>({
                           : ''
                       }`}
                     >
-                      {selectedAssigneeName || 'Select assignee'}
+                      {selectedAssigneeName}
                       <CaretSortIcon className='h-6 w-6 opacity-50' />
                     </button>
                   </DropdownMenuTrigger>
@@ -70,15 +76,11 @@ const AssigneeField = <TFormValues extends FieldValues>({
                       <DropdownMenuCheckboxItem
                         key={member.id}
                         checked={field.value === member.id}
-                        onCheckedChange={() => {
-                          if (field.value !== member.id) {
-                            field.onChange(member.id)
-                            setSelectedAssigneeName(member.name)
-                          } else {
-                            field.onChange(undefined)
-                            setSelectedAssigneeName(undefined)
-                          }
-                        }}
+                        onCheckedChange={() =>
+                          field.onChange(
+                            field.value === member.id ? null : member.id,
+                          )
+                        }
                         className={`${
                           field.value === member.id
                             ? 'w-full bg-primary text-primary-foreground focus:bg-primary focus:text-primary-foreground'
