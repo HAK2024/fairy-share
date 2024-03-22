@@ -28,11 +28,11 @@ const Header = ({ hasNavigation = true }: HeaderProps) => {
           height={32}
         />
       )}
-      <div
-        className={`items-center justify-between gap-10 ${hasNavigation ? 'flex' : 'hidden'}`}
-      >
+      <div className={'flex items-center justify-between gap-10'}>
         {/* Navigation menu: Visible on devices wider than "md" breakpoint */}
-        <nav className='hidden items-center justify-between gap-10 md:flex'>
+        <nav
+          className={`hidden items-center justify-between gap-10 ${hasNavigation ? 'md:flex' : 'md:hidden'}`}
+        >
           <Link
             href={'/'}
             className='hover-underline-animation text-lg font-semibold hover:text-teal-800'

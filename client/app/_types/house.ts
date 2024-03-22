@@ -6,4 +6,5 @@ export type HouseType = {
   isExpensePerTime: boolean
   isAdmin: boolean
   rules: RuleType[]
+  houseMembers: { id: number; name: string }[]
 }

@@ -2,9 +2,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import { buildDefaultModules, resetData } from '../../../test';
+import { PrismaService } from '../../prisma/prisma.service';
 
 describe('AuthController (e2e)', () => {
   let app: INestApplication;
+  let prismaService: PrismaService;
 
   beforeAll(async () => {
     await resetData();
@@ -16,15 +18,18 @@ describe('AuthController (e2e)', () => {
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(new ValidationPipe());
 
+    prismaService = moduleFixture.get<PrismaService>(PrismaService);
+
     await app.init();
     app.setGlobalPrefix('api');
   });
 
-  afterAll(() => {
+  afterAll(async () => {
+    await prismaService.$disconnect();
     app.close();
   });
 
-  const user = {
+  const user1 = {
     name: 'Test1',
     email: 'Test1@test.com',
     password: 'password',
@@ -36,11 +41,17 @@ describe('AuthController (e2e)', () => {
     password: 'password',
   };
 
+  const user3 = {
+    name: 'Test3',
+    email: 'Test3@test.com',
+    password: 'password',
+  };
+
   describe('POST /auth/register', () => {
     it('should return 201 and create new user', async () => {
       await request(app.getHttpServer())
         .post('/auth/register')
-        .send(user)
+        .send(user1)
         .expect(201);
     });
 
@@ -55,7 +66,7 @@ describe('AuthController (e2e)', () => {
     it('should return 403 if user already exists', async () => {
       await request(app.getHttpServer())
         .post('/auth/register')
-        .send(user)
+        .send(user1)
         .expect(403);
     });
 
@@ -79,13 +90,37 @@ describe('AuthController (e2e)', () => {
           .expect(400);
       });
     });
+
+    it('if user is invited to a house that does not exist, should return 404', async () => {
+      await request(app.getHttpServer())
+        .post('/auth/register?invited_house_id=999')
+        .send(user3)
+        .expect(404);
+    });
+
+    it('if user is invited to a house, should add user to house after creating user account', async () => {
+      const houseId = 106;
+      const response = await request(app.getHttpServer())
+        .post('/auth/register?invited_house_id=' + houseId)
+        .send(user3);
+
+      expect(response.status).toBe(201);
+
+      const userHouse = await prismaService.userHouse.findFirst({
+        where: {
+          userId: response.body.id,
+        },
+      });
+
+      expect(userHouse.houseId).toBe(houseId);
+    });
   });
 
   describe('POST /auth/login', () => {
     it('should return 200 and JWT token cookie', async () => {
       const response = await request(app.getHttpServer())
         .post('/auth/login')
-        .send({ email: user.email, password: user.password })
+        .send({ email: user1.email, password: user1.password })
         .expect(200);
       expect(response.headers['set-cookie'][0]).toContain('token');
     });
@@ -93,7 +128,7 @@ describe('AuthController (e2e)', () => {
     it('should return 401 for invalid credentials', async () => {
       await request(app.getHttpServer())
         .post('/auth/login')
-        .send({ email: user.email, password: 'invalid' })
+        .send({ email: user1.email, password: 'invalid' })
         .expect(401);
     });
 
@@ -113,6 +148,24 @@ describe('AuthController (e2e)', () => {
           .send(userFields)
           .expect(400);
       });
+    });
+
+    it('if user does not have any house yet and is invited to a house, add user to house', async () => {
+      const houseId = 107;
+      const response = await request(app.getHttpServer())
+        .post('/auth/login?invited_house_id=' + houseId)
+        .send({ email: user2.email, password: user2.password });
+
+      expect(response.status).toBe(200);
+
+      const userHouse = await prismaService.userHouse.findFirst({
+        where: {
+          userId: response.body.id,
+          houseId: houseId,
+        },
+      });
+
+      expect(userHouse.houseId).toBe(houseId);
     });
   });
 

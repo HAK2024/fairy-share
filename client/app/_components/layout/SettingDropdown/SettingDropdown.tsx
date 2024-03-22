@@ -7,6 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/_components/ui'
+import { useGetHouseInfo } from '@/_hooks'
 import { useLogoutMutation } from '@/_hooks/api'
 import { resetAllStores } from '@/_stores'
 
@@ -15,11 +16,14 @@ const SettingDropdown = () => {
   const { mutate, isPending } = useLogoutMutation()
   const router = useRouter()
 
+  const { isAdmin } = useGetHouseInfo()
+
   const logoutHandler = () => {
     mutate(undefined, {
       onSuccess: () => {
         resetAllStores()
         queryClient.clear()
+        queryClient.invalidateQueries({ queryKey: ['me'] })
         router.push('/login')
       },
     })
@@ -33,31 +37,32 @@ const SettingDropdown = () => {
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='m-4 w-52 font-medium'>
-        {/* TODO: Change URL */}
         <DropdownMenuItem
           className='cursor-pointer focus:bg-primary focus:text-primary-foreground'
           asChild
         >
           <button
-            onClick={() => router.push('/profile')}
+            onClick={() => router.push('/account')}
             className='flex w-full items-center gap-2'
           >
             <RxPerson className='h-4 w-4' />
-            <span>Profile</span>
+            <span>Account</span>
           </button>
         </DropdownMenuItem>
-        <DropdownMenuItem
-          className='cursor-pointer focus:bg-primary focus:text-primary-foreground'
-          asChild
-        >
-          <button
-            onClick={() => router.push(`/house/[id]/edit`)}
-            className='flex w-full items-center gap-2'
+        {isAdmin && (
+          <DropdownMenuItem
+            className='cursor-pointer focus:bg-primary focus:text-primary-foreground'
+            asChild
           >
-            <RxGear className='h-4 w-4' />
-            <span>House setting</span>
-          </button>
-        </DropdownMenuItem>
+            <button
+              onClick={() => router.push(`/house/edit`)}
+              className='flex w-full items-center gap-2'
+            >
+              <RxGear className='h-4 w-4' />
+              <span>House setting</span>
+            </button>
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem
           className='cursor-pointer focus:bg-primary focus:text-primary-foreground'
           asChild

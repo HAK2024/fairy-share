@@ -1,11 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
-import { useAuthStore } from '@/_stores'
+import { useGetHouseInfo } from '@/_hooks'
 import { TodoType } from '@/_types'
-import { getTodosApi } from './api'
+import { getTodosApi } from '../api'
 
 export const useGetTodosQuery = () => {
-  const getHouseId = useAuthStore((state) => state.getHouseId)
-  const houseId = getHouseId()
+  const { houseId } = useGetHouseInfo()
 
   const { data, isLoading, isError } = useQuery<TodoType>({
     queryKey: ['todos', houseId],
