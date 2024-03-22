@@ -3,7 +3,7 @@ import { UserType } from '@/_types'
 import { AccountSchema } from '../schema'
 
 export const accountUpdateApi = async (data: AccountSchema) => {
-  const response = await apiClient.post<Omit<UserType, 'houses'>>(
+  const response = await apiClient.put<Omit<UserType, 'houses'>>(
     '/account',
     data,
   )
