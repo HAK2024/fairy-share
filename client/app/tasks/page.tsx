@@ -1,14 +1,33 @@
 'use client'
 
 import React from 'react'
-import { RouterLink } from '@/_components/ui'
+import { Button } from '@/_components/ui'
+import { useDeleteTask } from './hooks'
 
 const TasksCalendar = () => {
-  // TODO: This is just for a test to see if when you create or update a task, it properly invalidates the cache, so I'll delete it after it's approved
+  // TODO: This is just an example of how deleting a task works, so please change it
+  const taskIds = [
+    126 /* success if userId is 101 */, 10000 /* not found */,
+    128 /* not permission */,
+  ]
+  const { onDeleteTask, isPending: isDeleting } = useDeleteTask()
+
+  const handleDeleteTask = (taskId: number) => {
+    onDeleteTask(taskId)
+  }
+
   return (
-    <div>
-      <RouterLink href='tasks/127/edit'>edit task</RouterLink>
-      <RouterLink href='tasks/create'>create task</RouterLink>
+    <div className='flex gap-3 p-10'>
+      {taskIds.map((taskId) => (
+        <Button
+          key={taskId}
+          variant={'destructive'}
+          onClick={() => handleDeleteTask(taskId)}
+          isLoading={isDeleting}
+        >
+          Delete taskId: {taskId}
+        </Button>
+      ))}
     </div>
   )
 }
