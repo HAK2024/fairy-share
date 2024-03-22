@@ -1,35 +1,35 @@
 import { useRouter } from 'next/navigation'
 import { useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
-import { useGetHouseInfo, useToast } from '@/_hooks'
+import { useToast } from '@/_hooks'
+import { TaskType } from '@/_types'
 import { isErrorWithMessage } from '@/_utils'
-import { useCreateTaskMutation } from './api'
+import { useEditTaskMutation } from './api'
 import { taskResolver, taskSchema } from '../schema'
 
-export const useCreateTask = () => {
+export const useEditTask = (defaultData: TaskType) => {
   const queryClient = useQueryClient()
-  const { houseId } = useGetHouseInfo()
   const { toast } = useToast()
   const router = useRouter()
+
+  const { mutate, isPending } = useEditTaskMutation()
 
   const form = useForm<taskSchema>({
     resolver: taskResolver,
     defaultValues: {
-      title: '',
-      date: null,
-      assigneeId: null,
-      note: '',
+      title: defaultData.title,
+      date: new Date(defaultData.date),
+      assigneeId: defaultData.assigneeId,
+      note: defaultData.note,
     },
   })
 
-  const { mutate, isPending } = useCreateTaskMutation()
-
   const handleSuccess = () => {
-    toast({ variant: 'success', title: 'Successfully created a task!' })
+    toast({ variant: 'success', title: 'Successfully edited a task!' })
     queryClient.invalidateQueries({
-      // TODO: Add the query key "tasks" when you need
-      queryKey: ['todos'],
+      queryKey: ['tasks', { id: defaultData.id }],
     })
+    queryClient.invalidateQueries({ queryKey: ['todos'] })
     form.reset()
     router.push('/tasks')
   }
@@ -42,22 +42,21 @@ export const useCreateTask = () => {
     }
     toast({
       variant: 'destructive',
-      title: 'Failed to create a task..',
+      title: 'Failed to edit a task..',
       description: message,
     })
   }
 
-  const onCreateTask = (data: taskSchema) => {
-    const updatedData = {
-      ...data,
-      houseId,
-    }
-    mutate(updatedData, { onSuccess: handleSuccess, onError: handleError })
+  const onEditTask = (data: taskSchema) => {
+    mutate(
+      { taskId: defaultData.id, data },
+      { onSuccess: handleSuccess, onError: handleError },
+    )
   }
 
   return {
     form,
-    onSubmit: form.handleSubmit(onCreateTask),
+    onSubmit: form.handleSubmit(onEditTask),
     isPending,
   }
 }
