@@ -37,7 +37,7 @@ export default function HouseEditPage() {
         <>
           <HouseUpdateForm defaultData={house} />
           <div className='mt-14'>
-            <DeleteHouse />
+            <DeleteHouse houseId={house.houseId} />
           </div>
         </>
       )}
