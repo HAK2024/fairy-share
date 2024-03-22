@@ -88,4 +88,85 @@ describe('UserHouseController (e2e)', () => {
       expect(response.body.createdUserHouse).toMatchObject({ houseId });
     });
   });
+
+  describe('PUT /user-houses/admin', () => {
+    const houseId = 106;
+
+    it('should return 401 if not authenticated', async () => {
+      await request(app.getHttpServer())
+        .put('/user-houses/admin')
+        .send({
+          houseId,
+          isAdmin: true,
+        })
+        .expect(401);
+    });
+
+    it('should return 400 if user is the only admin in the house', async () => {
+      // Test with the user who is the only admin in the house
+      const loginUser = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: 'alice@example.com',
+          password: 'password',
+        });
+
+      token = await loginUser.body.accessToken;
+
+      await request(app.getHttpServer())
+        .put('/user-houses/admin')
+        .send({
+          houseId,
+          isAdmin: false,
+        })
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(400);
+    });
+
+    it('should return 200 and change admin status to true', async () => {
+      const loginUser = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: 'alice@example.com',
+          password: 'password',
+        });
+
+      token = await loginUser.body.accessToken;
+
+      const response = await request(app.getHttpServer())
+        .put('/user-houses/admin')
+        .send({
+          houseId,
+          isAdmin: true,
+        })
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(200);
+
+      expect(response.body.isAdmin).toBe(true);
+    });
+
+    it('should return 403 if user is not an admin', async () => {
+      // Test with the user who is the admin
+      const loginUser = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: 'bob@example.com',
+          password: 'password',
+        });
+
+      token = await loginUser.body.accessToken;
+
+      await request(app.getHttpServer())
+        .put('/user-houses/admin')
+        .send({
+          houseId,
+          isAdmin: false,
+        })
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(403);
+    });
+  });
 });
