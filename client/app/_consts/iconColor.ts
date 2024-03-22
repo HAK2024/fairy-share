@@ -1,4 +1,4 @@
-export const colorMap = {
+export const colorMap: { [key: string]: string } = {
   RED: 'text-pink-700',
   ORANGE: 'text-orange-500',
   YELLOW: 'text-yellow-500',
