@@ -1,10 +1,21 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { UpdateUserDto } from './dto/update-user-dto';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private jwt: JwtService,
+    private config: ConfigService,
+  ) {}
 
   async getMe(userId: number) {
     try {
@@ -62,10 +73,44 @@ export class UserService {
       if (!user) {
         throw new NotFoundException(`User with ID ${userId} not found.`);
       }
-      return user;
+
+      const token = await this.generateJwtToken(
+        user.id,
+        user.name,
+        user.email,
+        user.icon,
+      );
+      return {
+        token,
+        user,
+      };
     } catch (error) {
-      console.error('Error updating user:', error);
+      console.error(error);
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        // "Unique constraint failed on the {constraint}"
+        if (error.code === 'P2002') {
+          throw new ForbiddenException('Credentials token');
+        }
+      }
       throw error;
     }
+  }
+  async generateJwtToken(
+    id: number,
+    name: string,
+    email: string,
+    icon: string,
+  ) {
+    const payload = { id, name, email, icon };
+
+    const secret = this.config.get('JWT_SECRET');
+    const expiresIn = this.config.get('JWT_EXPIRES_IN');
+
+    const token = await this.jwt.signAsync(payload, {
+      secret,
+      expiresIn,
+    });
+
+    return token;
   }
 }
