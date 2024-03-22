@@ -9,21 +9,23 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  Textarea,
 } from '@/_components/ui'
+import { Textarea } from '@/_components/ui/Textarea'
 import { useGetHouseQuery } from '@/_hooks/api'
+import { TaskType } from '@/_types'
 import { AssigneeField } from '../components'
-import { useCreateTask } from '../hooks'
+import { useEditTask } from '../hooks'
 import { taskSchema } from '../schema'
 
-const CreateTaskForm = () => {
-  const { form, onSubmit: onCreateTask, isPending } = useCreateTask()
+const EditTaskForm = ({ defaultData }: { defaultData: TaskType }) => {
+  const { form, onSubmit: onEditTask, isPending } = useEditTask(defaultData)
+
   const { data: house } = useGetHouseQuery()
   const houseMembers = house?.houseMembers || []
 
   return (
     <Form {...form}>
-      <form onSubmit={onCreateTask} className='mx-auto mt-8 w-full'>
+      <form onSubmit={onEditTask} className='mx-auto mt-8 w-full'>
         <div className='space-y-5'>
           <FormField
             control={form.control}
@@ -60,7 +62,7 @@ const CreateTaskForm = () => {
         </div>
         <div className='mt-10 text-center'>
           <Button type='submit' isLoading={isPending}>
-            Create
+            Save
           </Button>
         </div>
       </form>
@@ -68,4 +70,4 @@ const CreateTaskForm = () => {
   )
 }
 
-export { CreateTaskForm }
+export { EditTaskForm }

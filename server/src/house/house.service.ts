@@ -29,6 +29,7 @@ export class HouseService {
         include: {
           userHouses: true,
           rules: true,
+          tasks: true,
         },
       });
 
@@ -37,6 +38,7 @@ export class HouseService {
         name: house.name,
         isExpensePerTime: house.isExpensePerTime,
         rules: house.rules,
+        tasks: house.tasks,
         isAdmin: house.userHouses[0].isAdmin,
       };
 
@@ -64,6 +66,7 @@ export class HouseService {
               },
             },
           },
+          tasks: true,
         },
       });
 
@@ -85,6 +88,7 @@ export class HouseService {
         name: house.name,
         isExpensePerTime: house.isExpensePerTime,
         rules: house.rules,
+        tasks: house.tasks,
         isAdmin,
         houseMembers,
       };
@@ -165,6 +169,7 @@ export class HouseService {
           include: {
             userHouses: true,
             rules: true,
+            tasks: true,
           },
         });
 
@@ -173,6 +178,7 @@ export class HouseService {
           name: updatedHouse.name,
           isExpensePerTime: updatedHouse.isExpensePerTime,
           rules: updatedHouse.rules,
+          tasks: updatedHouse.tasks,
           isAdmin: updatedHouse.userHouses[0].isAdmin,
         };
 

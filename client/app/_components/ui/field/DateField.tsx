@@ -31,9 +31,7 @@ const DateField = <TFormValues extends FieldValues>({
       name={name}
       render={() => (
         <FormItem className='flex flex-col'>
-          <FormLabel>
-            Date <span className='text-destructive'>*</span>
-          </FormLabel>
+          <FormLabel isRequired>Date</FormLabel>
           <FormControl>
             <Controller
               control={control}
