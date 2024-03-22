@@ -27,8 +27,7 @@ export const useEditTask = (defaultData: TaskType) => {
   const handleSuccess = () => {
     toast({ variant: 'success', title: 'Successfully edited a task!' })
     queryClient.invalidateQueries({
-      // TODO: Add the query key "tasks" when you need
-      queryKey: ['task', defaultData.id],
+      queryKey: ['tasks', { id: defaultData.id }],
     })
     queryClient.invalidateQueries({ queryKey: ['todos'] })
     form.reset()
