@@ -5,16 +5,14 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { UpdateUserDto } from './dto/update-user-dto';
-import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
 import { Prisma } from '@prisma/client';
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class UserService {
   constructor(
     private prisma: PrismaService,
-    private jwt: JwtService,
-    private config: ConfigService,
+    private auth: AuthService,
   ) {}
 
   async getMe(userId: number) {
@@ -88,12 +86,13 @@ export class UserService {
         throw new NotFoundException(`User with ID ${userId} not found.`);
       }
 
-      const token = await this.generateJwtToken(
+      const token = await this.auth.generateJwtToken(
         user.id,
         user.name,
         user.email,
         user.icon,
       );
+
       return {
         token,
         user,
@@ -108,23 +107,5 @@ export class UserService {
       }
       throw error;
     }
-  }
-  async generateJwtToken(
-    id: number,
-    name: string,
-    email: string,
-    icon: string,
-  ) {
-    const payload = { id, name, email, icon };
-
-    const secret = this.config.get('JWT_SECRET');
-    const expiresIn = this.config.get('JWT_EXPIRES_IN');
-
-    const token = await this.jwt.signAsync(payload, {
-      secret,
-      expiresIn,
-    });
-
-    return token;
   }
 }
