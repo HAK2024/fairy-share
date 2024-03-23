@@ -42,55 +42,71 @@ export class UserHouseService {
 
   async updateAdminStatus(
     userId: number,
-    { houseId, isAdmin }: UpdateAdminDto,
+    { userId: targetUserId, houseId, isAdmin }: UpdateAdminDto,
   ) {
-    // Check if user is admin or not
-    const requestingUserAdminStatus = await this.prisma.userHouse.findUnique({
-      where: {
-        userId_houseId: {
-          userId: userId,
-          houseId: houseId,
+    try {
+      // Check if the user is an admin
+      const operatingUserHouse = await this.prisma.userHouse.findUnique({
+        where: {
+          userId_houseId: {
+            userId,
+            houseId,
+          },
         },
-      },
-      select: {
-        isAdmin: true,
-      },
-    });
+      });
 
-    if (!requestingUserAdminStatus || !requestingUserAdminStatus.isAdmin) {
-      throw new ForbiddenException(
-        'You do not have permission to perform this action',
-      );
-    }
+      if (!operatingUserHouse) {
+        throw new NotFoundException(
+          `UserHouse with userId ${userId} and houseId ${houseId} not found.`,
+        );
+      }
 
-    // Check if user is not the only admin or not
-    const adminCount = await this.prisma.userHouse.count({
-      where: {
-        houseId,
-        isAdmin: true,
-      },
-    });
+      if (!operatingUserHouse.isAdmin) {
+        throw new ForbiddenException('Only admins can update admin status.');
+      }
 
-    if (!isAdmin && adminCount <= 1) {
-      throw new BadRequestException('At least one admin is required');
-    }
-
-    const updatedAdminStatus = await this.prisma.userHouse.update({
-      where: {
-        userId_houseId: {
-          userId: userId,
-          houseId: houseId,
+      const targetUserHouse = await this.prisma.userHouse.findUnique({
+        where: {
+          userId_houseId: {
+            userId: targetUserId,
+            houseId,
+          },
         },
-      },
-      data: {
-        isAdmin: isAdmin,
-      },
-      select: {
-        isAdmin: true,
-      },
-    });
+      });
 
-    return updatedAdminStatus;
+      if (!targetUserHouse) {
+        throw new NotFoundException(
+          `UserHouse with userId ${targetUserId} and houseId ${houseId} not found.`,
+        );
+      }
+
+      // Check if the user is not updating their own admin status
+      if (userId === targetUserId) {
+        throw new BadRequestException(
+          'Users cannot update their own admin status.',
+        );
+      }
+
+      const updatedAdminStatus = await this.prisma.userHouse.update({
+        where: {
+          userId_houseId: {
+            userId: targetUserId,
+            houseId: houseId,
+          },
+        },
+        data: {
+          isAdmin,
+        },
+        select: {
+          isAdmin: true,
+        },
+      });
+
+      return updatedAdminStatus;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }
 
   async deleteUserFromHouse(
