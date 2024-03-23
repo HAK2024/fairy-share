@@ -169,4 +169,104 @@ describe('UserHouseController (e2e)', () => {
         .expect(403);
     });
   });
+
+  describe('DELETE /user-houses/:houseId', () => {
+    const houseId = 106; // Default houseId for the tests
+    const userId = 101; // Default userId for the tests
+
+    it('should return 401 if not authenticated', async () => {
+      await request(app.getHttpServer())
+        .delete(`/user-houses/${houseId}`)
+        .send({
+          userId,
+        })
+        .expect(401);
+    });
+
+    it('should return 404 if houseId does not exist', async () => {
+      const houseId = 10000; // An id unlikely to exist
+      await request(app.getHttpServer())
+        .delete(`/user-houses/${houseId}`)
+        .send({
+          userId,
+        })
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(404);
+    });
+
+    it('should return 404 if userId does not exist', async () => {
+      const userId = 10000; // An id unlikely to exist
+      await request(app.getHttpServer())
+        .delete(`/user-houses/${houseId}`)
+        .send({
+          userId,
+        })
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(404);
+    });
+
+    it('should return 403 if user is not an admin', async () => {
+      const loginUser = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: 'bob@example.com', // A user who is not an admin
+          password: 'password',
+        });
+
+      token = await loginUser.body.accessToken;
+
+      await request(app.getHttpServer())
+        .delete(`/user-houses/${houseId}`)
+        .send({
+          userId,
+        })
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(403);
+    });
+
+    it('should return 400 if user is trying to remove themselves', async () => {
+      const loginUser = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: 'alice@example.com', // Assuming this user matches the userId
+          password: 'password',
+        });
+
+      token = await loginUser.body.accessToken;
+
+      await request(app.getHttpServer())
+        .delete(`/user-houses/${houseId}`)
+        .send({
+          userId,
+        })
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(400);
+    });
+
+    it('should return 200', async () => {
+      const loginUser = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: 'diana@example.com', // An admin user
+          password: 'password',
+        });
+
+      token = await loginUser.body.accessToken;
+      const houseId = 109; // A house which has more than two members
+      const userId = 105; // A user which is in house 109
+
+      await request(app.getHttpServer())
+        .delete(`/user-houses/${houseId}`)
+        .send({
+          userId,
+        })
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(200);
+    });
+  });
 });

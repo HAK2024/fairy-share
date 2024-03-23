@@ -3,9 +3,10 @@ import {
   ConflictException,
   ForbiddenException,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateUserHouseDto, UpdateAdminDto } from './dto';
+import { CreateUserHouseDto, DeleteUserHouseDto, UpdateAdminDto } from './dto';
 
 @Injectable()
 export class UserHouseService {
@@ -90,5 +91,68 @@ export class UserHouseService {
     });
 
     return updatedAdminStatus;
+  }
+
+  async deleteUserFromHouse(
+    userId: number,
+    houseId: number,
+    deleteUserHouseDto: DeleteUserHouseDto,
+  ) {
+    try {
+      // Check if the house exists
+      const house = await this.prisma.house.findUnique({
+        where: { id: houseId },
+      });
+
+      if (!house) {
+        throw new NotFoundException(`House with ID ${houseId} not found.`);
+      }
+
+      // Check if the deleted user exists
+      const user = await this.prisma.user.findUnique({
+        where: { id: deleteUserHouseDto.userId },
+      });
+
+      if (!user) {
+        throw new NotFoundException(
+          `User with ID ${deleteUserHouseDto.userId} not found.`,
+        );
+      }
+
+      // Check if the operating user is an admin of the house
+      const operatingUserHouse = await this.prisma.userHouse.findUnique({
+        where: {
+          userId_houseId: {
+            userId,
+            houseId,
+          },
+        },
+      });
+
+      if (!operatingUserHouse || !operatingUserHouse.isAdmin) {
+        throw new ForbiddenException(
+          'Only admins can remove users from a house.',
+        );
+      }
+
+      // Check if the user is not removing themselves
+      if (userId === deleteUserHouseDto.userId) {
+        throw new BadRequestException(
+          'Users cannot remove themselves from a house',
+        );
+      }
+
+      await this.prisma.userHouse.delete({
+        where: {
+          userId_houseId: {
+            userId: deleteUserHouseDto.userId,
+            houseId,
+          },
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }
 }
