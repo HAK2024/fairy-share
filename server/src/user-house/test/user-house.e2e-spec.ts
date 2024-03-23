@@ -221,48 +221,56 @@ describe('UserHouseController (e2e)', () => {
         .expect(401);
     });
 
-    it('should return 404 if houseId does not exist', async () => {
-      const houseId = 10000; // An id unlikely to exist
-      await request(app.getHttpServer())
-        .delete(`/user-houses/${houseId}`)
-        .send({
-          userId,
-        })
-        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
-        .set('x-csrf-token', csrfToken)
-        .expect(404);
-    });
-
-    it('should return 404 if userId does not exist', async () => {
-      const userId = 10000; // An id unlikely to exist
-      await request(app.getHttpServer())
-        .delete(`/user-houses/${houseId}`)
-        .send({
-          userId,
-        })
-        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
-        .set('x-csrf-token', csrfToken)
-        .expect(404);
-    });
-
-    it('should return 403 if user is not an admin', async () => {
+    it('should return 403 if user is not the admin', async () => {
+      // Log in as a non-admin user
       const loginUser = await request(app.getHttpServer())
         .post('/auth/login')
         .send({
-          email: 'bob@example.com', // A user who is not an admin
+          email: 'bob@example.com',
           password: 'password',
         });
 
       token = await loginUser.body.accessToken;
 
+      const houseId = 107; // Logged-in user house
+
       await request(app.getHttpServer())
         .delete(`/user-houses/${houseId}`)
         .send({
           userId,
+          houseId,
+          isAdmin: false,
         })
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
         .expect(403);
+    });
+
+    it('should return 404 if userHouse does not exist', async () => {
+      // Log in as an admin
+      const loginUser = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: 'alice@example.com',
+          password: 'password',
+        });
+
+      token = await loginUser.body.accessToken;
+
+      // Use IDs that are unlikely to exist
+      const houseId = 10000;
+      const userId = 10000;
+
+      await request(app.getHttpServer())
+        .delete(`/user-houses/${houseId}`)
+        .send({
+          userId,
+          houseId,
+          isAdmin: false,
+        })
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(404);
     });
 
     it('should return 400 if user is trying to remove themselves', async () => {
@@ -294,8 +302,8 @@ describe('UserHouseController (e2e)', () => {
         });
 
       token = await loginUser.body.accessToken;
-      const houseId = 109; // A house which has more than two members
-      const userId = 105; // A user which is in house 109
+      const houseId = 109; // Assuming this house is the logged-in user house
+      const userId = 105; // Assuming this user is the member of the logged-in user house
 
       await request(app.getHttpServer())
         .delete(`/user-houses/${houseId}`)
