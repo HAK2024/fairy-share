@@ -3,19 +3,12 @@
 import React from 'react'
 import { useRouter } from 'next/navigation'
 import { FiEdit, FiTrash } from 'react-icons/fi'
-import { FormContainer, Loading } from '@/_components/layout'
+import { FormContainer } from '@/_components/layout'
 import { Button, Heading } from '@/_components/ui'
-import { useGetMeQuery } from '@/_hooks/api'
 import { AccountInfo } from './components'
 
 export default function Account() {
   const router = useRouter()
-  const { data: user, isLoading } = useGetMeQuery()
-  console.log('user>>>', user)
-  console.log('id>>>', user.id)
-
-  if (isLoading || !user) return <Loading />
-  // TODO: error handling
 
   return (
     <FormContainer>
@@ -25,7 +18,7 @@ export default function Account() {
           buttonComponent={
             <Button
               variant={'outline'}
-              onClick={() => router.push(`/account/${user.id}/edit/`)}
+              onClick={() => router.push('/account/edit/')}
             >
               <FiEdit />
               &nbsp;Edit
