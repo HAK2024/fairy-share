@@ -12,37 +12,47 @@ export const useAccountEdit = (user: UserType) => {
   const router = useRouter()
   const { toast } = useToast()
 
+  const iconValue =
+    typeof user.icon === 'number' ? user.icon.toString() : user.icon
+
   const form = useForm<AccountSchema>({
     resolver: accountResolver,
     defaultValues: {
       name: user.name,
       email: user.email,
-      icon: user.icon,
+      icon: iconValue,
     },
   })
 
   const { mutate, isPending } = useAccountMutation()
 
   const onEditAccount = (data: AccountSchema) => {
-    mutate(data, {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['me'] })
-        router.push('/account')
-      },
-      onError: (error) => {
-        console.error(error)
-        let message = 'Please try again later.'
+    mutate(
+      { userId: user.id, data },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['me'] })
+          toast({
+            variant: 'success',
+            title: 'Your profile has been updated successfully',
+          })
+          router.push('/account')
+        },
+        onError: (error) => {
+          console.error(error)
+          let message = 'Please try again later.'
 
-        if (isErrorWithMessage(error) && error.response) {
-          message = error.response.data.message
-        }
-        toast({
-          variant: 'destructive',
-          title: 'Failed to edit the account..',
-          description: message,
-        })
+          if (isErrorWithMessage(error) && error.response) {
+            message = error.response.data.message
+          }
+          toast({
+            variant: 'destructive',
+            title: 'Failed to edit the account..',
+            description: message,
+          })
+        },
       },
-    })
+    )
   }
 
   return {

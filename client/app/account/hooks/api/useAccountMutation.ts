@@ -4,8 +4,8 @@ import { AccountSchema } from '@/account/schema'
 
 export const useAccountMutation = () => {
   const { mutate, isPending, isSuccess, isError, error, reset } = useMutation({
-    mutationFn: (req: AccountSchema) => {
-      return accountUpdateApi(req)
+    mutationFn: ({ userId, data }: { userId: number; data: AccountSchema }) => {
+      return accountUpdateApi(userId, data)
     },
   })
 
