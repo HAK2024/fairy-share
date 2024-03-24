@@ -21,14 +21,14 @@ export class UserController {
     @Body() dto: UpdateUserDto,
     @Res() res: Response,
   ) {
-    const user = await this.userService.updateUser(userId, dto);
+    const { user, token } = await this.userService.updateUser(userId, dto);
     // Set Cookie with user.token
-    res.cookie('token', user.token, {
+    res.cookie('token', token, {
       httpOnly: true,
       secure: true,
       maxAge: 24 * 60 * 60 * 1000, // 24H
     });
 
-    return user;
+    res.send({ user: user });
   }
 }
