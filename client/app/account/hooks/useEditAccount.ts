@@ -31,7 +31,7 @@ export const useEditAccount = (user: UserType) => {
           queryClient.invalidateQueries({ queryKey: ['me'] })
           toast({
             variant: 'success',
-            title: 'Your profile has been updated successfully',
+            title: 'Successfully edited your account!',
           })
           router.push('/account')
         },

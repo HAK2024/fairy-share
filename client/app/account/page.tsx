@@ -18,7 +18,7 @@ export default function Account() {
           buttonComponent={
             <Button
               variant={'outline'}
-              onClick={() => router.push('/account/edit/')}
+              onClick={() => router.push('/account/edit')}
             >
               <FiEdit />
               &nbsp;Edit
