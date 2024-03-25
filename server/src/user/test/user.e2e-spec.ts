@@ -54,5 +54,40 @@ describe('UserController (e2e)', () => {
         email: 'alice@example.com',
       });
     });
+
+    describe('PUT /me/:userId', () => {
+      const userId = 101;
+
+      it('should return 401 if not authenticated', async () => {
+        await request(app.getHttpServer()).put(`/me/${userId}`).expect(401);
+      });
+
+      it('should updated all the data', async () => {
+        const updatedDto = {
+          name: 'User 1',
+          email: 'updatedalice@example.com',
+          icon: 'GREEN',
+        };
+
+        const response = await request(app.getHttpServer())
+          .put(`/me/${userId}`)
+          .send(updatedDto)
+          .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+          .set('x-csrf-token', csrfToken)
+          .expect(200);
+
+        const expectedResponse = {
+          user: {
+            id: 101,
+            name: 'User 1',
+            email: 'updatedalice@example.com',
+            icon: 'GREEN',
+            hashedPassword: expect.any(String), // Use expect.any(String) to match any string value
+          },
+        };
+
+        expect(response.body).toMatchObject(expectedResponse);
+      });
+    });
   });
 });
