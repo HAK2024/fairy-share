@@ -6,7 +6,7 @@ import { Heading } from '@/_components/ui'
 import { useGetMeQuery } from '@/_hooks/api'
 import { EditAccountForm } from '../components'
 
-export default function Account() {
+export default function EditAccount() {
   const { data: user, isLoading } = useGetMeQuery()
   // TODO: error handling
 

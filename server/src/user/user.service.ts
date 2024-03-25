@@ -77,16 +77,12 @@ export class UserService {
 
   async updateUser(userId: number, dto: UpdateUserDto) {
     try {
-      console.log('DTO:', dto); // Log the DTO object to inspect its contents
-
       const user = await this.prisma.user.update({
         where: {
           id: userId,
         },
         data: dto,
       });
-
-      console.log('Updated User:', user);
 
       if (!user) {
         throw new NotFoundException(`User with ID ${userId} not found.`);
@@ -98,8 +94,6 @@ export class UserService {
         user.email,
         user.icon,
       );
-
-      console.log('Generated Token:', token);
 
       return {
         token,

@@ -4,27 +4,24 @@ import { useForm } from 'react-hook-form'
 import { useToast } from '@/_hooks'
 import { UserType } from '@/_types'
 import { isErrorWithMessage } from '@/_utils'
-import { useAccountMutation } from './api'
+import { useEditAccountMutation } from './api'
 import { AccountSchema, accountResolver } from '../schema'
 
-export const useAccountEdit = (user: UserType) => {
+export const useEditAccount = (user: UserType) => {
   const queryClient = useQueryClient()
   const router = useRouter()
   const { toast } = useToast()
-
-  const iconValue =
-    typeof user.icon === 'number' ? user.icon.toString() : user.icon
 
   const form = useForm<AccountSchema>({
     resolver: accountResolver,
     defaultValues: {
       name: user.name,
       email: user.email,
-      icon: iconValue,
+      icon: user.icon.toString(),
     },
   })
 
-  const { mutate, isPending } = useAccountMutation()
+  const { mutate, isPending } = useEditAccountMutation()
 
   const onEditAccount = (data: AccountSchema) => {
     mutate(

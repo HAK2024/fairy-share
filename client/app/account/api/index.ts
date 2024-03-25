@@ -1,1 +1,1 @@
-export { accountUpdateApi } from './accountUpdateApi'
+export { editAccountApi } from './editAccountApi'
