@@ -23,8 +23,6 @@ export default function RootLayout({
 }>) {
   const userToken = cookies().get('token')?.value
 
-  // throw new Error('test')
-
   return (
     <html lang='en'>
       <body className={inter.className}>

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import router from 'next/router'
+import Link from 'next/link'
 import { AxiosError } from 'axios'
 import { Button } from '@/_components/ui'
 import { isErrorWithMessage } from '@/_utils'
@@ -16,8 +16,6 @@ export default function Error({
   useEffect(() => {
     console.error('error:', error)
   }, [error])
-
-  // console.log('error!!!')
 
   let errorStatus = 404
   let errorMessage = 'Please try again later.'
@@ -38,12 +36,8 @@ export default function Error({
       <p className='text-4xl font-semibold'>{errorStatus}</p>
       <p className='text-lg'>{errorMessage}</p>
 
-      <Button
-        variant='outline'
-        className='mt-8'
-        onClick={() => router.push('/')}
-      >
-        Back to Top
+      <Button variant='outline' className='mt-8' asChild>
+        <Link href='/'>Back to Top</Link>
       </Button>
     </div>
   )
