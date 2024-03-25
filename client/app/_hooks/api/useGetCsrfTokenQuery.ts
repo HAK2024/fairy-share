@@ -10,6 +10,7 @@ export const useGetCsrfTokenQuery = () => {
   const { data, isLoading, isError } = useQuery<{ csrfToken: string }>({
     queryKey: ['csrf-token'],
     queryFn: getCsrfToken,
+    throwOnError: true,
   })
 
   return {
