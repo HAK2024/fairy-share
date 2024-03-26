@@ -90,8 +90,19 @@ describe('UserHouseController (e2e)', () => {
   });
 
   describe('PUT /user-houses/admin', () => {
-    const houseId = 106; // Default houseId for the tests
-    const userId = 101; // Default userId for the tests
+    beforeAll(async () => {
+      const loginUser = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: 'diana@example.com',
+          password: 'password',
+        });
+
+      token = await loginUser.body.accessToken;
+    });
+
+    const houseId = 109; // Default houseId for the tests
+    const userId = 104; // Default userId for the tests
 
     it('should return 401 if not authenticated', async () => {
       await request(app.getHttpServer())
@@ -109,13 +120,11 @@ describe('UserHouseController (e2e)', () => {
       const loginUser = await request(app.getHttpServer())
         .post('/auth/login')
         .send({
-          email: 'bob@example.com',
+          email: 'evan@example.com',
           password: 'password',
         });
 
       token = await loginUser.body.accessToken;
-
-      const houseId = 107; // Logged-in user house
 
       await request(app.getHttpServer())
         .put('/user-houses/admin')
@@ -130,16 +139,6 @@ describe('UserHouseController (e2e)', () => {
     });
 
     it('should return 404 if userHouse does not exist', async () => {
-      // Log in as an admin
-      const loginUser = await request(app.getHttpServer())
-        .post('/auth/login')
-        .send({
-          email: 'alice@example.com',
-          password: 'password',
-        });
-
-      token = await loginUser.body.accessToken;
-
       // Use IDs that are unlikely to exist
       const houseId = 10000;
       const userId = 10000;
@@ -157,11 +156,11 @@ describe('UserHouseController (e2e)', () => {
     });
 
     it('should return 400 if user is trying to update their own status', async () => {
-      // Log in as an admin
+      // Log in as an admin user
       const loginUser = await request(app.getHttpServer())
         .post('/auth/login')
         .send({
-          email: 'alice@example.com',
+          email: 'diana@example.com',
           password: 'password',
         });
 
@@ -180,17 +179,6 @@ describe('UserHouseController (e2e)', () => {
     });
 
     it('should return 200 and change admin status to true', async () => {
-      // Log in as an admin
-      const loginUser = await request(app.getHttpServer())
-        .post('/auth/login')
-        .send({
-          email: 'diana@example.com',
-          password: 'password',
-        });
-
-      token = await loginUser.body.accessToken;
-
-      const houseId = 109; // Assuming this house is the logged-in user house
       const userId = 105; // Assuming this user is the member of the logged-in user house
 
       const response = await request(app.getHttpServer())
