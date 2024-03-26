@@ -1,1 +1,1 @@
-export { useEditAccount } from './useEditAccount'
+export { useUpdateAccount } from './useUpdateAccount'

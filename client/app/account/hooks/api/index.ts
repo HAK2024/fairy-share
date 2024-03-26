@@ -1,1 +1,1 @@
-export { useEditAccountMutation } from './useEditAccountMutation'
+export { useUpdateAccountMutation } from './useUpdateAccountMutation'

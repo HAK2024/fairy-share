@@ -4,10 +4,10 @@ import { useForm } from 'react-hook-form'
 import { useToast } from '@/_hooks'
 import { UserType } from '@/_types'
 import { isErrorWithMessage } from '@/_utils'
-import { useEditAccountMutation } from './api'
+import { useUpdateAccountMutation } from './api'
 import { AccountSchema, accountResolver } from '../schema'
 
-export const useEditAccount = (user: UserType) => {
+export const useUpdateAccount = (user: UserType) => {
   const queryClient = useQueryClient()
   const router = useRouter()
   const { toast } = useToast()
@@ -21,7 +21,7 @@ export const useEditAccount = (user: UserType) => {
     },
   })
 
-  const { mutate, isPending } = useEditAccountMutation()
+  const { mutate, isPending } = useUpdateAccountMutation()
 
   const onEditAccount = (data: AccountSchema) => {
     mutate(
