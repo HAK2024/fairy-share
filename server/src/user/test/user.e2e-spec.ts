@@ -78,11 +78,8 @@ describe('UserController (e2e)', () => {
 
         const expectedResponse = {
           user: {
-            id: 101,
-            name: 'User 1',
-            email: 'updatedalice@example.com',
-            icon: 'GREEN',
-            hashedPassword: expect.any(String), // Use expect.any(String) to match any string value
+            id: userId,
+            ...updatedDto,
           },
         };
 
