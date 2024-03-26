@@ -24,32 +24,29 @@ export const useUpdateAccount = (user: UserType) => {
   const { mutate, isPending } = useUpdateAccountMutation()
 
   const onEditAccount = (data: AccountSchema) => {
-    mutate(
-      { userId: user.id, data },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['me'] })
-          toast({
-            variant: 'success',
-            title: 'Successfully edited your account!',
-          })
-          router.push('/account')
-        },
-        onError: (error) => {
-          console.error(error)
-          let message = 'Please try again later.'
-
-          if (isErrorWithMessage(error) && error.response) {
-            message = error.response.data.message
-          }
-          toast({
-            variant: 'destructive',
-            title: 'Failed to edit the account..',
-            description: message,
-          })
-        },
+    mutate(data, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['me'] })
+        toast({
+          variant: 'success',
+          title: 'Successfully edited your account!',
+        })
+        router.push('/account')
       },
-    )
+      onError: (error) => {
+        console.error(error)
+        let message = 'Please try again later.'
+
+        if (isErrorWithMessage(error) && error.response) {
+          message = error.response.data.message
+        }
+        toast({
+          variant: 'destructive',
+          title: 'Failed to edit the account..',
+          description: message,
+        })
+      },
+    })
   }
 
   return {
