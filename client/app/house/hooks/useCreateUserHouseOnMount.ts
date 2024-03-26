@@ -52,10 +52,9 @@ export const useCreateUserHouseOnMount = () => {
 
     // If user had invitedHouse Id then create user house before showing house setting page
     if (invitedHouseId && !houseId && !hasMutated.current) {
-      mutateUserHouse(invitedHouseId)
       hasMutated.current = true
+      mutateUserHouse(invitedHouseId)
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
