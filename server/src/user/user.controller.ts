@@ -15,7 +15,7 @@ export class UserController {
     return this.userService.getMe(userId);
   }
 
-  @Put(':userId')
+  @Put()
   async updateUser(
     @GetUser('id') userId: number,
     @Body() dto: UpdateUserDto,

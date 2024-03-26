@@ -55,11 +55,11 @@ describe('UserController (e2e)', () => {
       });
     });
 
-    describe('PUT /me/:userId', () => {
+    describe('PUT /me', () => {
       const userId = 101;
 
       it('should return 401 if not authenticated', async () => {
-        await request(app.getHttpServer()).put(`/me/${userId}`).expect(401);
+        await request(app.getHttpServer()).put('/me/').expect(401);
       });
 
       it('should updated all the data', async () => {
@@ -70,7 +70,7 @@ describe('UserController (e2e)', () => {
         };
 
         const response = await request(app.getHttpServer())
-          .put(`/me/${userId}`)
+          .put('/me/')
           .send(updatedDto)
           .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
           .set('x-csrf-token', csrfToken)

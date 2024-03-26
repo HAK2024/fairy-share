@@ -6,6 +6,6 @@ export const editAccountApi = async (
   userId: number,
   data: AccountSchema,
 ): Promise<UserType> => {
-  const response = await apiClient.put<UserType>(`/me/${userId}`, data)
+  const response = await apiClient.put<UserType>('/me/', data)
   return response.data
 }

@@ -88,6 +88,8 @@ export class UserService {
         throw new NotFoundException(`User with ID ${userId} not found.`);
       }
 
+      delete user.hashedPassword;
+
       const token = await this.auth.generateJwtToken(
         user.id,
         user.name,
