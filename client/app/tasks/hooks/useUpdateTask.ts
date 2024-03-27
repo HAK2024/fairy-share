@@ -4,15 +4,15 @@ import { useForm } from 'react-hook-form'
 import { useToast } from '@/_hooks'
 import { TaskType } from '@/_types'
 import { isErrorWithMessage } from '@/_utils'
-import { useEditTaskMutation } from './api'
+import { useUpdateTaskMutation } from './api'
 import { taskResolver, taskSchema } from '../schema'
 
-export const useEditTask = (defaultData: TaskType) => {
+export const useUpdateTask = (defaultData: TaskType) => {
   const queryClient = useQueryClient()
   const { toast } = useToast()
   const router = useRouter()
 
-  const { mutate, isPending } = useEditTaskMutation()
+  const { mutate, isPending } = useUpdateTaskMutation()
 
   const form = useForm<taskSchema>({
     resolver: taskResolver,
@@ -25,7 +25,7 @@ export const useEditTask = (defaultData: TaskType) => {
   })
 
   const handleSuccess = () => {
-    toast({ variant: 'success', title: 'Successfully edited a task!' })
+    toast({ variant: 'success', title: 'Successfully updated a task!' })
     queryClient.invalidateQueries({
       queryKey: ['tasks', { id: defaultData.id }],
     })
@@ -42,12 +42,12 @@ export const useEditTask = (defaultData: TaskType) => {
     }
     toast({
       variant: 'destructive',
-      title: 'Failed to edit a task..',
+      title: 'Failed to updated a task..',
       description: message,
     })
   }
 
-  const onEditTask = (data: taskSchema) => {
+  const onUpdateTask = (data: taskSchema) => {
     mutate(
       { taskId: defaultData.id, data },
       { onSuccess: handleSuccess, onError: handleError },
@@ -56,7 +56,7 @@ export const useEditTask = (defaultData: TaskType) => {
 
   return {
     form,
-    onSubmit: form.handleSubmit(onEditTask),
+    onSubmit: form.handleSubmit(onUpdateTask),
     isPending,
   }
 }
