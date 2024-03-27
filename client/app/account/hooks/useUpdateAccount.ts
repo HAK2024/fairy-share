@@ -4,10 +4,10 @@ import { useForm } from 'react-hook-form'
 import { useToast } from '@/_hooks'
 import { UserType } from '@/_types'
 import { isErrorWithMessage } from '@/_utils'
-import { useAccountMutation } from './api'
+import { useUpdateAccountMutation } from './api'
 import { AccountSchema, accountResolver } from '../schema'
 
-export const useAccountEdit = (user: UserType) => {
+export const useUpdateAccount = (user: UserType) => {
   const queryClient = useQueryClient()
   const router = useRouter()
   const { toast } = useToast()
@@ -17,16 +17,20 @@ export const useAccountEdit = (user: UserType) => {
     defaultValues: {
       name: user.name,
       email: user.email,
-      icon: user.icon,
+      icon: user.icon.toString(),
     },
   })
 
-  const { mutate, isPending } = useAccountMutation()
+  const { mutate, isPending } = useUpdateAccountMutation()
 
   const onEditAccount = (data: AccountSchema) => {
     mutate(data, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['me'] })
+        toast({
+          variant: 'success',
+          title: 'Successfully updated your account!',
+        })
         router.push('/account')
       },
       onError: (error) => {

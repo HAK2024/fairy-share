@@ -9,14 +9,13 @@ const AccountInfo = () => {
   const { data: user, isLoading } = useGetMeQuery()
 
   if (isLoading || !user) return <Loading />
-  // TODO: error handling
 
   return (
     <div className='flex flex-col gap-6 '>
       <div className='flex flex-col'>
         <h2 className='font-semibold'>Icon</h2>
         <MdAccountCircle
-          className={`text-4xl ${colorMap[user.icon as keyof typeof colorMap]}`}
+          className={`text-4xl ${colorMap[user.icon]}`}
           size={52}
         />
       </div>
