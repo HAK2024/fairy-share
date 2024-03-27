@@ -30,9 +30,7 @@ const CreateTaskForm = () => {
             name='title'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  Title <span className='text-destructive'>*</span>
-                </FormLabel>
+                <FormLabel isRequired>Title</FormLabel>
                 <FormControl>
                   <Input placeholder='Enter task title' {...field} />
                 </FormControl>
