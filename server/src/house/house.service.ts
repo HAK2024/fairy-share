@@ -62,6 +62,7 @@ export class HouseService {
                 select: {
                   id: true,
                   name: true,
+                  icon: true,
                 },
               },
             },
@@ -74,9 +75,11 @@ export class HouseService {
         throw new NotFoundException(`House with ID ${houseId} not found.`);
       }
 
-      const houseMembers = house.userHouses.map(({ user }) => ({
+      const houseMembers = house.userHouses.map(({ isAdmin, user }) => ({
         id: user.id,
         name: user.name,
+        isAdmin,
+        icon: user.icon,
       }));
 
       const isAdmin = house.userHouses.some(
