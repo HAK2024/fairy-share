@@ -7,7 +7,7 @@ import { FormContainer } from '@/_components/layout'
 import { Button, Heading } from '@/_components/ui'
 import { AccountInfo } from './components'
 
-export default function Account() {
+export default function AccountPage() {
   const router = useRouter()
 
   return (

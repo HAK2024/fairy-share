@@ -54,5 +54,37 @@ describe('UserController (e2e)', () => {
         email: 'alice@example.com',
       });
     });
+
+    describe('PUT /me', () => {
+      const userId = 101;
+
+      it('should return 401 if not authenticated', async () => {
+        await request(app.getHttpServer()).put('/me/').expect(401);
+      });
+
+      it('should updated all the data', async () => {
+        const updatedDto = {
+          name: 'User 1',
+          email: 'updatedalice@example.com',
+          icon: 'GREEN',
+        };
+
+        const response = await request(app.getHttpServer())
+          .put('/me/')
+          .send(updatedDto)
+          .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+          .set('x-csrf-token', csrfToken)
+          .expect(200);
+
+        const expectedResponse = {
+          user: {
+            id: userId,
+            ...updatedDto,
+          },
+        };
+
+        expect(response.body).toMatchObject(expectedResponse);
+      });
+    });
   });
 });
