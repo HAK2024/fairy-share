@@ -17,6 +17,7 @@ export const useGetMeQuery = () => {
     queryFn: getMe,
     retry: false,
     enabled: !!csrfToken && !!accessToken,
+    throwOnError: true,
   })
 
   return {

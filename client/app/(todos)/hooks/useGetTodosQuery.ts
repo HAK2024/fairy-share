@@ -10,6 +10,7 @@ export const useGetTodosQuery = () => {
     queryKey: ['todos', houseId],
     queryFn: () => getTodosApi(houseId),
     enabled: !!houseId, // Send request only when houseId exists
+    throwOnError: true,
   })
 
   return {
