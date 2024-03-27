@@ -42,7 +42,7 @@ export const useUpdateTask = (defaultData: TaskType) => {
     }
     toast({
       variant: 'destructive',
-      title: 'Failed to updated a task..',
+      title: 'Failed to update a task..',
       description: message,
     })
   }
