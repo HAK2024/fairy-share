@@ -7,6 +7,7 @@ export const useGetTaskQuery = (taskId: number) => {
     queryKey: ['tasks', { id: taskId }],
     queryFn: () => getTaskApi(taskId),
     enabled: !!taskId,
+    throwOnError: true,
   })
 
   return { data, isLoading, isError }

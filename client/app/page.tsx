@@ -9,17 +9,12 @@ import { Button, Heading } from './_components/ui'
 import { useGetHouseInfo } from './_hooks'
 
 export default function Home() {
-  const { data: todos, isError, isLoading } = useGetTodosQuery()
+  const { data: todos, isLoading } = useGetTodosQuery()
   const { houseName } = useGetHouseInfo()
   const router = useRouter()
 
   if (isLoading) {
     return <Loading />
-  }
-
-  // TODO: Replace this with the error component
-  if (isError) {
-    return <p>Failed to load data.</p>
   }
 
   return (

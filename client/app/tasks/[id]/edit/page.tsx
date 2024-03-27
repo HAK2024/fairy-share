@@ -9,16 +9,7 @@ import { useGetTaskQuery } from '@/tasks/hooks/api'
 export default function EditTask({ params }: { params: { id: string } }) {
   const taskId = Number(params.id)
   const { isLoading: isLoadingHouse } = useGetHouseQuery()
-  const {
-    data: task,
-    isError: isTaskError,
-    isLoading: isLoadingTask,
-  } = useGetTaskQuery(taskId)
-
-  // TODO: Replace this with the error component
-  if (isTaskError) {
-    return <p>Failed to load data.</p>
-  }
+  const { data: task, isLoading: isLoadingTask } = useGetTaskQuery(taskId)
 
   return (
     <FormContainer>

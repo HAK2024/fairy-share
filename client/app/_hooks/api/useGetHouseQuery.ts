@@ -14,6 +14,7 @@ export const useGetHouseQuery = () => {
   const { data, isLoading, isError } = useQuery<HouseType>({
     queryKey: ['house'],
     queryFn: getHouse,
+    throwOnError: true,
   })
 
   return {

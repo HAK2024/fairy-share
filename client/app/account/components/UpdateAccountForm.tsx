@@ -11,13 +11,13 @@ import {
 } from '@/_components/ui'
 import { colorMap } from '@/_consts'
 import { UserType } from '@/_types'
-import { useAccountEdit } from '@/account/hooks'
+import { useUpdateAccount } from '@/account/hooks'
 
-type EditAccountFormProps = {
+type UpdateAccountFormProps = {
   user: UserType
 }
-const EditAccountForm = ({ user }: EditAccountFormProps) => {
-  const { form, onSubmit, isPending } = useAccountEdit(user)
+const UpdateAccountForm = ({ user }: UpdateAccountFormProps) => {
+  const { form, onSubmit, isPending } = useUpdateAccount(user)
 
   const colorArray = Object.entries(colorMap).map((colorArray) => {
     return {
@@ -125,4 +125,4 @@ const EditAccountForm = ({ user }: EditAccountFormProps) => {
   )
 }
 
-export { EditAccountForm }
+export { UpdateAccountForm }
