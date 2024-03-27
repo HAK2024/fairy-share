@@ -12,6 +12,7 @@ import {
   validUpdateTaskField,
 } from './data';
 import { describe } from 'node:test';
+import { taskData, userData } from '../../prisma/seedData';
 
 describe('TaskController (e2e)', () => {
   let app: INestApplication;
@@ -43,40 +44,39 @@ describe('TaskController (e2e)', () => {
     app.close();
   });
 
-  describe('POST /tasks/create', () => {
+  describe('GET /tasks', () => {
+    const houseId = 106;
+
     it('should return 401 if not authenticated', async () => {
-      await request(app.getHttpServer()).post(`/tasks/create`).expect(401);
+      await request(app.getHttpServer()).get(`/tasks`).expect(401);
     });
 
-    invalidCreateTaskFields.forEach((invalidTaskField, index) => {
-      it(`should return 400 for invalid task fields - case ${index + 1}`, async () => {
-        await request(app.getHttpServer())
-          .post('/tasks/create')
-          .send(invalidTaskField)
-          .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
-          .set('x-csrf-token', csrfToken)
-          .expect(400);
-      });
-    });
+    it('should return 200 and tasks data if authenticated', async () => {
+      const userSeedData = await userData();
+      const taskSeedData = await taskData();
+      const expectedTasksData = taskSeedData
+        .map((task) => {
+          const user = userSeedData.find((user) => user.id === task.assigneeId);
 
-    it('should return 201 and the task data if authenticated', async () => {
-      const expectedTaskData = {
-        id: expect.any(Number),
-        title: 'Valid Title',
-        date: '2023-03-18T12:00:00.000Z',
-        note: 'Valid Note',
-        assigneeId: 101,
-        houseId: 106,
-      };
+          return {
+            ...task,
+            date: task.date.toISOString(),
+            user: {
+              id: user?.id,
+              name: user?.name,
+              icon: user?.icon,
+            },
+          };
+        })
+        .filter((task) => task.houseId === houseId);
 
       const response = await request(app.getHttpServer())
-        .post('/tasks/create')
-        .send(validCreateTaskField)
+        .get('/tasks')
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
-        .expect(201);
+        .expect(200);
 
-      expect(response.body).toMatchObject(expectedTaskData);
+      expect(response.body).toEqual(expect.arrayContaining(expectedTasksData));
     });
   });
 
@@ -102,6 +102,43 @@ describe('TaskController (e2e)', () => {
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
         .expect(200);
+
+      expect(response.body).toMatchObject(expectedTaskData);
+    });
+  });
+
+  describe('POST /tasks', () => {
+    it('should return 401 if not authenticated', async () => {
+      await request(app.getHttpServer()).post(`/tasks`).expect(401);
+    });
+
+    invalidCreateTaskFields.forEach((invalidTaskField, index) => {
+      it(`should return 400 for invalid task fields - case ${index + 1}`, async () => {
+        await request(app.getHttpServer())
+          .post('/tasks')
+          .send(invalidTaskField)
+          .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+          .set('x-csrf-token', csrfToken)
+          .expect(400);
+      });
+    });
+
+    it('should return 201 and the task data if authenticated', async () => {
+      const expectedTaskData = {
+        id: expect.any(Number),
+        title: 'Valid Title',
+        date: '2023-03-18T12:00:00.000Z',
+        note: 'Valid Note',
+        assigneeId: 101,
+        houseId: 106,
+      };
+
+      const response = await request(app.getHttpServer())
+        .post('/tasks')
+        .send(validCreateTaskField)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(201);
 
       expect(response.body).toMatchObject(expectedTaskData);
     });

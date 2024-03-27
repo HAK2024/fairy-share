@@ -21,9 +21,9 @@ import {
 export class TaskController {
   constructor(private taskService: TaskService) {}
 
-  @Post('create')
-  createTask(@Body() createTaskDto: CreateTaskDto) {
-    return this.taskService.createTask(createTaskDto);
+  @Get()
+  getTasks(@GetUser('id') userId: number) {
+    return this.taskService.getTasks(userId);
   }
 
   @Get(':taskId')
@@ -32,6 +32,14 @@ export class TaskController {
     @Param('taskId', ParseIntPipe) taskId: number,
   ) {
     return this.taskService.getTask(userId, taskId);
+  }
+
+  @Post()
+  createTask(
+    @GetUser('id') userId: number,
+    @Body() createTaskDto: CreateTaskDto,
+  ) {
+    return this.taskService.createTask(userId, createTaskDto);
   }
 
   @Put(':taskId')
