@@ -1,13 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Param,
-  ParseIntPipe,
-  Post,
-  Put,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Post, Put, UseGuards } from '@nestjs/common';
 import { UserHouseService } from './user-house.service';
 import { GetUser } from '../auth/decorator';
 import { AuthGuard } from '../auth/guard';
@@ -35,15 +26,13 @@ export class UserHouseController {
     return this.userHouseService.updateAdminStatus(userId, updateAdminDto);
   }
 
-  @Delete('/:houseId')
+  @Delete('')
   deleteUserFromHouse(
     @GetUser('id') userId: number,
-    @Param('houseId', ParseIntPipe) houseId: number,
     @Body() deleteUserHouseDto: DeleteUserHouseDto,
   ) {
     return this.userHouseService.deleteUserFromHouse(
       userId,
-      houseId,
       deleteUserHouseDto,
     );
   }

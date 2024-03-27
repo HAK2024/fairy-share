@@ -196,7 +196,7 @@ describe('UserHouseController (e2e)', () => {
     });
   });
 
-  describe('DELETE /user-houses/:houseId', () => {
+  describe('DELETE /user-houses', () => {
     beforeAll(async () => {
       const loginUser = await request(app.getHttpServer())
         .post('/auth/login')
@@ -213,9 +213,10 @@ describe('UserHouseController (e2e)', () => {
 
     it('should return 401 if not authenticated', async () => {
       await request(app.getHttpServer())
-        .delete(`/user-houses/${houseId}`)
+        .delete('/user-houses')
         .send({
           userId,
+          houseId,
         })
         .expect(401);
     });
@@ -234,7 +235,7 @@ describe('UserHouseController (e2e)', () => {
       const houseId = 107; // Logged-in user house
 
       await request(app.getHttpServer())
-        .delete(`/user-houses/${houseId}`)
+        .delete('/user-houses')
         .send({
           userId,
           houseId,
@@ -251,7 +252,7 @@ describe('UserHouseController (e2e)', () => {
       const userId = 10000;
 
       await request(app.getHttpServer())
-        .delete(`/user-houses/${houseId}`)
+        .delete('/user-houses')
         .send({
           userId,
           houseId,
@@ -273,9 +274,10 @@ describe('UserHouseController (e2e)', () => {
       token = await loginUser.body.accessToken;
 
       await request(app.getHttpServer())
-        .delete(`/user-houses/${houseId}`)
+        .delete('/user-houses')
         .send({
           userId,
+          houseId,
         })
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
@@ -286,9 +288,10 @@ describe('UserHouseController (e2e)', () => {
       const userId = 105; // Assuming this user is the member of the logged-in user house
 
       await request(app.getHttpServer())
-        .delete(`/user-houses/${houseId}`)
+        .delete('/user-houses')
         .send({
           userId,
+          houseId,
         })
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)

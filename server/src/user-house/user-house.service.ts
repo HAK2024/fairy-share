@@ -111,8 +111,7 @@ export class UserHouseService {
 
   async deleteUserFromHouse(
     userId: number,
-    houseId: number,
-    { userId: targetUserId }: DeleteUserHouseDto,
+    { userId: targetUserId, houseId }: DeleteUserHouseDto,
   ) {
     try {
       const operatingUserHouse = await this.prisma.userHouse.findUnique({
