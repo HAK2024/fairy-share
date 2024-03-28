@@ -19,7 +19,7 @@ const Footer = ({ hasNavigation = true }: FooterProps) => {
             <BiHomeAlt2 className='h-7 w-7' />
           </div>
         </Link>
-        <Link href={'/calendar'}>
+        <Link href={'/tasks'}>
           <div className='relative flex -translate-y-8 items-center justify-center'>
             <BiCalendarAlt className='z-10 h-12 w-12 rounded-full bg-primary p-2 shadow-lg shadow-primary transition-transform duration-300 hover:scale-110' />
             <div className='absolute inset-0 z-0 h-16 w-16 -translate-x-2 -translate-y-2 rounded-full bg-teal-50 '></div>
