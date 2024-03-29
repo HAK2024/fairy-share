@@ -6,6 +6,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { HouseModule } from './house/house.module';
 import { TaskModule } from './task/task.module';
 import { UserHouseModule } from './user-house/user-house.module';
+import { ExpenseModule } from './expense/expense.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { UserHouseModule } from './user-house/user-house.module';
     PrismaModule,
     TaskModule,
     UserHouseModule,
+    ExpenseModule,
   ],
 })
 export class AppModule {}
