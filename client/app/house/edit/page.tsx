@@ -7,17 +7,13 @@ import { FormContainer } from '@/_components/layout'
 import { Button, Heading } from '@/_components/ui'
 import { useGetHouseInfo } from '@/_hooks'
 import { useGetHouseQuery } from '@/_hooks/api'
-import {
-  HouseUpdateForm,
-  DeleteHouse,
-  MembersManagementModal,
-} from '../components'
+import { HouseUpdateForm, DeleteHouse, MembersManagement } from '../components'
 
 export default function HouseEditPage() {
   const router = useRouter()
   const { isAdmin } = useGetHouseInfo()
   const { data: house, isLoading } = useGetHouseQuery()
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpenModal, setIsOpenModal] = useState(false)
 
   useEffect(() => {
     if (!isAdmin) {
@@ -34,7 +30,7 @@ export default function HouseEditPage() {
           <Button
             variant={'outline'}
             onClick={() => {
-              setIsOpen(true)
+              setIsOpenModal(true)
             }}
           >
             Members
@@ -51,9 +47,11 @@ export default function HouseEditPage() {
           </div>
         </>
       )}
-      {isOpen && (
-        <MembersManagementModal isOpen={isOpen} setIsOpen={setIsOpen} />
-      )}
+
+      <MembersManagement
+        isOpenModal={isOpenModal}
+        setIsOpenModal={setIsOpenModal}
+      />
     </FormContainer>
   )
 }

@@ -11,28 +11,36 @@ import {
 } from '@/_components/ui/dialog/Dialog'
 import { colorMap } from '@/_consts'
 import { useToast } from '@/_hooks'
-import { useGetHouseQuery, useGetMeQuery } from '@/_hooks/api'
-import { useRemoveMember, useUpdateAdmin } from '../hooks'
+import { useGetMeQuery } from '@/_hooks/api'
+import { HouseType } from '@/_types'
+import { useUpdateAdmin } from '../hooks'
 
 type MembersManagementModalProps = {
-  isOpen: boolean
-  setIsOpen: (isOpen: boolean) => void
+  house: HouseType | undefined
+  isOpenModal: boolean
+  setIsOpenModal: (isOpenModal: boolean) => void
+  isOpenAlert: boolean
+  setIsOpenAlert: (isOpenAlert: boolean) => void
+  removedMemberId: number | null
+  setRemovedMemberId: (removedMemberId: number | null) => void
 }
 
 const MembersManagementModal = ({
-  isOpen,
-  setIsOpen,
+  house,
+  isOpenModal,
+  setIsOpenModal,
+  setIsOpenAlert,
+  setRemovedMemberId,
 }: MembersManagementModalProps) => {
   // TODO: Need to prevent closing modal when clicking toast
   const { toast } = useToast()
-  const { data: house } = useGetHouseQuery()
+
   const userId = useGetMeQuery()?.data?.id
   const houseMembers = house?.houseMembers || []
   const houseId = house?.houseId
   const invitedLink =
     process.env.NEXT_PUBLIC_CLIENT_URL + `/register?invitedHouseId=${houseId}`
   const { onUpdate, isPending: isUpdating } = useUpdateAdmin()
-  const { onRemove, isPending: isRemoving } = useRemoveMember()
 
   const handleUpdateAdmin = (userId: number, isAdmin: boolean) => {
     if (!houseId) return
@@ -45,17 +53,17 @@ const MembersManagementModal = ({
     onUpdate(data)
   }
 
-  const handleRemoveMember = (userId: number) => {
-    if (!houseId) return
-
-    onRemove(userId, houseId)
+  const handleOpenAlert = (userId: number) => {
+    setRemovedMemberId(userId)
+    setIsOpenModal(false)
+    setIsOpenAlert(true)
   }
 
   return (
     <Dialog
-      open={isOpen}
-      onOpenChange={() => {
-        setIsOpen(!isOpen)
+      open={isOpenModal}
+      onOpenChange={(isOpenModal) => {
+        setIsOpenModal(!isOpenModal)
       }}
     >
       <DialogContent>
@@ -107,8 +115,7 @@ const MembersManagementModal = ({
                             className='flex-shrink-0'
                             type='button'
                             aria-label={`Remove roommate ${houseMember.name}`}
-                            onClick={() => handleRemoveMember(houseMember.id)}
-                            isLoading={isRemoving}
+                            onClick={() => handleOpenAlert(houseMember.id)}
                           >
                             <FiX size={18} />
                           </Button>
