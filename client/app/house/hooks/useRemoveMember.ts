@@ -14,6 +14,7 @@ export const useRemoveMember = () => {
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ['house'] })
+
           toast({
             variant: 'success',
             title: 'The member has been successfully removed from the house',

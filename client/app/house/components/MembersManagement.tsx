@@ -1,41 +1,39 @@
 import { useState } from 'react'
-import { useGetHouseQuery } from '@/_hooks/api'
-import { MembersManagementModal } from './MembersManagementModal'
-import { RemoveMemberAlert } from '.'
+import { HouseType } from '@/_types'
+import { MembersManagementModal, RemoveMemberAlertModal } from '.'
 
 type MembersManagementProps = {
+  house: HouseType
   isOpenModal: boolean
-  setIsOpenModal: (isOpen: boolean) => void
+  setIsOpenModal: (isOpenModal: boolean) => void
 }
 
 const MembersManagement = ({
+  house,
   isOpenModal,
   setIsOpenModal,
 }: MembersManagementProps) => {
-  const { data: house } = useGetHouseQuery()
-  const [isOpenAlert, setIsOpenAlert] = useState(false)
-  const [removedMemberId, setRemovedMemberId] = useState(null)
+  const [isOpenAlert, setIsOpenAlert] = useState<boolean>(false)
+  const [removedMemberId, setRemovedMemberId] = useState<number | null>(null)
 
   return (
     <>
-      {isOpenModal && (
-        <MembersManagementModal
-          house={house}
-          isOpenModal={isOpenModal}
-          setIsOpenModal={setIsOpenModal}
-          setIsOpenAlert={setIsOpenAlert}
-          setRemovedMemberId={setRemovedMemberId}
-        />
-      )}
-      {isOpenAlert && (
-        <RemoveMemberAlert
-          house={house}
-          isOpenAlert={isOpenAlert}
-          setIsOpenAlert={setIsOpenAlert}
-          removedMemberId={removedMemberId}
-          setIsOpenModal={setIsOpenModal}
-        />
-      )}
+      <MembersManagementModal
+        house={house}
+        isOpenModal={isOpenModal}
+        setIsOpenModal={setIsOpenModal}
+        isOpenAlert={isOpenAlert}
+        setIsOpenAlert={setIsOpenAlert}
+        removedMemberId={removedMemberId}
+        setRemovedMemberId={setRemovedMemberId}
+      />
+      <RemoveMemberAlertModal
+        house={house}
+        isOpenAlert={isOpenAlert}
+        setIsOpenAlert={setIsOpenAlert}
+        setIsOpenModal={setIsOpenModal}
+        removedMemberId={removedMemberId}
+      />
     </>
   )
 }

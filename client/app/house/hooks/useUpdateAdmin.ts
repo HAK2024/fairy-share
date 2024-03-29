@@ -7,7 +7,6 @@ import { UpdateAdminSchema } from '../schema'
 export const useUpdateAdmin = () => {
   const queryClient = useQueryClient()
   const { toast } = useToast()
-
   const { mutate, isPending } = useUpdateAdminMutation()
 
   const onUpdate = (data: UpdateAdminSchema) => {

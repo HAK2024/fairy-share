@@ -3,6 +3,7 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -10,47 +11,51 @@ import {
 import { HouseType } from '@/_types'
 import { useRemoveMember } from '../hooks'
 
-type RemoveMemberAlertProps = {
+type RemoveMemberAlertModalProps = {
   house: HouseType
   isOpenAlert: boolean
   setIsOpenAlert: (isOpenAlert: boolean) => void
-  removedMemberId: number | null
   setIsOpenModal: (isOpenModal: boolean) => void
+  removedMemberId: number | null
 }
 
-const RemoveMemberAlert = ({
+const RemoveMemberAlertModal = ({
   house,
   isOpenAlert,
   setIsOpenAlert,
-  removedMemberId,
   setIsOpenModal,
-}: RemoveMemberAlertProps) => {
+  removedMemberId,
+}: RemoveMemberAlertModalProps) => {
   const { onRemove, isPending: isRemoving } = useRemoveMember()
-  const houseId = house?.houseId
+  const houseId = house.houseId
 
   const handleRemoveMember = () => {
-    if (!removedMemberId || !houseId) return
+    if (!removedMemberId) return
     onRemove(removedMemberId, houseId)
+
     setIsOpenAlert(false)
     setIsOpenModal(true)
   }
 
+  const handleCancel = () => {
+    setIsOpenModal(false)
+    setIsOpenModal(true)
+  }
+
   return (
-    <AlertDialog
-      open={isOpenAlert}
-      onOpenChange={(isOpen) => setIsOpenAlert(!isOpen)}
-    >
+    <AlertDialog open={isOpenAlert} onOpenChange={() => setIsOpenAlert(false)}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Are you certain you wish to remove the member?
+            Are you certain you wish to remove this member?
           </AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. All data associated with this member
+            will be permanently deleted.
+          </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel
-            disabled={isRemoving}
-            onClick={() => setIsOpenAlert(false)}
-          >
+          <AlertDialogCancel disabled={isRemoving} onClick={handleCancel}>
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction
@@ -65,4 +70,4 @@ const RemoveMemberAlert = ({
   )
 }
 
-export { RemoveMemberAlert }
+export { RemoveMemberAlertModal }

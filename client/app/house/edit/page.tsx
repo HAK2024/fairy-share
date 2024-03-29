@@ -21,12 +21,15 @@ export default function HouseEditPage() {
     }
   }, [isAdmin, router])
 
+  if (isLoading || !house) {
+    return <Loading />
+  }
+
   return (
     <FormContainer>
       <Heading
         title='House Setting'
         buttonComponent={
-          // TODO: Open Modal for management members
           <Button
             variant={'outline'}
             onClick={() => {
@@ -37,18 +40,12 @@ export default function HouseEditPage() {
           </Button>
         }
       />
-      {isLoading || !house ? (
-        <Loading />
-      ) : (
-        <>
-          <HouseUpdateForm defaultData={house} />
-          <div className='mt-14'>
-            <DeleteHouse houseId={house.houseId} />
-          </div>
-        </>
-      )}
-
+      <HouseUpdateForm defaultData={house} />
+      <div className='mt-14'>
+        <DeleteHouse houseId={house.houseId} />
+      </div>
       <MembersManagement
+        house={house}
         isOpenModal={isOpenModal}
         setIsOpenModal={setIsOpenModal}
       />
