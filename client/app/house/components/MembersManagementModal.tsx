@@ -27,11 +27,10 @@ const MembersManagementModal = ({
   const { toast } = useToast()
   const { data: house } = useGetHouseQuery()
   const userId = useGetMeQuery()?.data?.id
-  const houseMembers = house?.houseMembers || [] // Sorted by id o fix the order even after updating admin status
+  const houseMembers = house?.houseMembers || []
   const houseId = house?.houseId
   const invitedLink =
     process.env.NEXT_PUBLIC_CLIENT_URL + `/register?invitedHouseId=${houseId}`
-
   const { onUpdate, isPending: isUpdating } = useUpdateAdmin()
   const { onRemove, isPending: isRemoving } = useRemoveMember()
 
@@ -67,7 +66,7 @@ const MembersManagementModal = ({
             <DialogHeader className='pb-2'>
               <DialogTitle className='text-xl'>Members management</DialogTitle>
             </DialogHeader>
-            <div className='hide-scrollbar flex max-h-96  flex-col overflow-scroll'>
+            <div className='hide-scrollbar flex max-h-96 flex-col overflow-scroll'>
               <div className='flex items-center justify-end gap-12 pb-2 text-lg font-semibold'>
                 <span>Role</span>
                 <span>Remove</span>
