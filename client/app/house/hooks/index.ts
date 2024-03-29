@@ -1,5 +1,6 @@
 export { useCreateUserHouseOnMount } from './useCreateUserHouseOnMount'
 export { useCreateHouse } from './useCreateHouse'
 export { useDeleteHouse } from './useDeleteHouse'
+export { useRemoveMember } from './useRemoveMember'
 export { useUpdateAdmin } from './useUpdateAdmin'
 export { useUpdateHouse } from './useUpdateHouse'

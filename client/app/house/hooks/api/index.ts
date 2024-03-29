@@ -1,4 +1,5 @@
 export { useCreateHouseMutation } from './useCreateHouseMutation'
 export { useDeleteHouseMutation } from './useDeleteHouseMutation'
+export { useRemoveMemberMutation } from './useRemoveMemberMutation'
 export { useUpdateAdminMutation } from './useUpdateAdminMutation'
 export { useUpdateHouseMutation } from './useUpdateHouseMutation'
