@@ -15,7 +15,6 @@ export const useGetHouseQuery = () => {
     queryKey: ['house'],
     queryFn: getHouse,
     throwOnError: true,
-    enabled: !!houseId,
   })
 
   return {
