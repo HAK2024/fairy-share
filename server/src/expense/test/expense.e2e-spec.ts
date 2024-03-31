@@ -94,8 +94,8 @@ describe('ExpenseController (e2e)', () => {
   });
 
   describe('PUT /expenses/:expenseId', () => {
-    const expenseId = 114;
-    const paymentId = 119;
+    const expenseId = 114; // Assume this expense matches the logged-in user expenseId
+    const paymentId = 119; // Assume this payment matches the expenseId of the expense above
 
     const dto = {
       itemName: 'Updated Groceries',
@@ -105,19 +105,19 @@ describe('ExpenseController (e2e)', () => {
 
     const expectedExpenseData = {
       expense: {
-        id: expenseId,
+        id: expenseId, // No change
         itemName: 'Updated Groceries',
         fee: 80,
         date: '2024-03-18T12:00:00.000Z',
-        houseId: 109, // Assuming this house matches the logged-in user houseId
-        buyerId: 104, // Assuming this user matches the logged-in userId
+        houseId: 109, // No change
+        buyerId: 104, // No change
         payments: [
           {
-            id: paymentId,
-            fee: 40, // Fee is split evenly among 2 members
+            id: paymentId, // No change
+            fee: 40,
             paidDate: '2023-04-30T00:00:00.000Z',
-            expenseId: expenseId,
-            payerId: 105, // Assuming this user matches the house member userId
+            expenseId: expenseId, // No change
+            payerId: 105, // No change
           },
         ],
       },
