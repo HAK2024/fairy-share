@@ -64,7 +64,7 @@ describe('ExpenseController (e2e)', () => {
         payments: [
           {
             id: expect.any(Number),
-            fee: 45, // fee / numberOfMember (90 / 2)
+            fee: 45, // Fee is split evenly among 2 members
             paidDate: null,
             expenseId: expect.any(Number),
             payerId: 105, // Assuming this user matches the house member userId
@@ -87,6 +87,67 @@ describe('ExpenseController (e2e)', () => {
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
         .expect(201)
+        .then((res) => {
+          expect(res.body).toMatchObject(expectedExpenseData);
+        });
+    });
+  });
+
+  describe('PUT /expenses/:expenseId', () => {
+    const expenseId = 114;
+    const paymentId = 119;
+
+    const dto = {
+      itemName: 'Updated Groceries',
+      fee: 80,
+      date: '2024-03-18T12:00:00.000Z',
+    };
+
+    const expectedExpenseData = {
+      expense: {
+        id: expenseId,
+        itemName: 'Updated Groceries',
+        fee: 80,
+        date: '2024-03-18T12:00:00.000Z',
+        houseId: 109, // Assuming this house matches the logged-in user houseId
+        buyerId: 104, // Assuming this user matches the logged-in userId
+        payments: [
+          {
+            id: paymentId,
+            fee: 40, // Fee is split evenly among 2 members
+            paidDate: '2023-04-30T00:00:00.000Z',
+            expenseId: expenseId,
+            payerId: 105, // Assuming this user matches the house member userId
+          },
+        ],
+      },
+    };
+
+    it('should return 401 if not authenticated', async () => {
+      await request(app.getHttpServer())
+        .put(`/expenses/${expenseId}`)
+        .send(dto)
+        .expect(401);
+    });
+
+    it('should return 404 if expense does not exist', async () => {
+      const expenseId = 10000; // Expense IDs that are unlikely to exist
+
+      await request(app.getHttpServer())
+        .put(`/expenses/${expenseId}`)
+        .send(dto)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(404);
+    });
+
+    it('should return 200 and updated expense data if authenticated', async () => {
+      await request(app.getHttpServer())
+        .put(`/expenses/${expenseId}`)
+        .send(dto)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(200)
         .then((res) => {
           expect(res.body).toMatchObject(expectedExpenseData);
         });

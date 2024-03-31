@@ -22,7 +22,7 @@ export const paymentData = async () => [
   },
   {
     id: 119,
-    fee: 200.75,
+    fee: 100,
     paidDate: new Date(2023, 3, 30),
     expenseId: 114,
     payerId: 105,

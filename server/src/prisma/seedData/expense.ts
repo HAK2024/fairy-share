@@ -26,7 +26,7 @@ export const expenseData = async () => [
   {
     id: 114,
     itemName: 'Groceries',
-    fee: 200.75,
+    fee: 200,
     date: new Date(2023, 3, 25),
     houseId: 109,
     buyerId: 104,

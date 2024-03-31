@@ -1,8 +1,16 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '../auth/guard';
 import { ExpenseService } from './expense.service';
 import { GetUser } from '../auth/decorator';
-import { CreateExpenseDto } from './dto';
+import { CreateExpenseDto, UpdateExpenseDto } from './dto';
 
 @UseGuards(AuthGuard)
 @Controller('expenses')
@@ -12,5 +20,13 @@ export class ExpenseController {
   @Post()
   createExpense(@GetUser('id') userId: number, @Body() dto: CreateExpenseDto) {
     return this.expenseService.createExpense(userId, dto);
+  }
+
+  @Put(':expenseId')
+  updateExpense(
+    @Param('expenseId', ParseIntPipe) expenseId: number,
+    @Body() updateExpenseDto: UpdateExpenseDto,
+  ) {
+    return this.expenseService.updateExpense(expenseId, updateExpenseDto);
   }
 }
