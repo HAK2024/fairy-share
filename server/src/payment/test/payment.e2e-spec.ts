@@ -82,4 +82,111 @@ describe('PaymentController (e2e)', () => {
         });
     });
   });
+
+  describe('PUT /payments/status', () => {
+    const dto1 = {
+      year: 2023,
+      month: 4,
+      buyerId: 104,
+      payerId: 105,
+      isPaid: false,
+    };
+
+    const expectedResponse1 = [
+      {
+        id: 119,
+        fee: 100,
+        paidDate: null,
+        expenseId: 114,
+        payerId: 105,
+      },
+      {
+        id: 120,
+        fee: 150,
+        paidDate: null,
+        expenseId: 115,
+        payerId: 105,
+      },
+    ];
+
+    const dto2 = {
+      year: 2023,
+      month: 4,
+      buyerId: 104,
+      payerId: 105,
+      isPaid: false,
+    };
+
+    const expectedResponse2 = [
+      {
+        id: 119,
+        fee: 100,
+        paidDate: new Date(),
+        expenseId: 114,
+        payerId: 105,
+      },
+      {
+        id: 120,
+        fee: 150,
+        paidDate: new Date(),
+        expenseId: 115,
+        payerId: 105,
+      },
+    ];
+
+    it('should return 401 if not authenticated', async () => {
+      await request(app.getHttpServer())
+        .put('/payments/status')
+        .send(dto1)
+        .expect(401);
+    });
+
+    it('should return 200 and updated payments with paidDate null', async () => {
+      const response = await request(app.getHttpServer())
+        .put('/payments/status')
+        .send(dto1)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(200);
+
+      response.body.forEach(
+        (
+          payment: {
+            id: number;
+            fee: number;
+            paidDate: null;
+            expenseId: number;
+            payerId: number;
+          },
+          index: number,
+        ) => {
+          expect(payment).toMatchObject(expectedResponse1[index]);
+        },
+      );
+    });
+
+    it('should return 200 and updated payments with paidDate not null', async () => {
+      const response = await request(app.getHttpServer())
+        .put('/payments/status')
+        .send(dto2)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(200);
+
+      response.body.forEach(
+        (
+          payment: {
+            id: number;
+            fee: number;
+            paidDate: Date;
+            expenseId: number;
+            payerId: number;
+          },
+          index: number,
+        ) => {
+          expect(payment).toMatchObject(expectedResponse2[index]);
+        },
+      );
+    });
+  });
 });
