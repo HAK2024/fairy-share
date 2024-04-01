@@ -7,6 +7,7 @@ import { HouseModule } from './house/house.module';
 import { TaskModule } from './task/task.module';
 import { UserHouseModule } from './user-house/user-house.module';
 import { ExpenseModule } from './expense/expense.module';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ExpenseModule } from './expense/expense.module';
     TaskModule,
     UserHouseModule,
     ExpenseModule,
+    PaymentModule,
   ],
 })
 export class AppModule {}
