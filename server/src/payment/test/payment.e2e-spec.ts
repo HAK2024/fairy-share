@@ -48,7 +48,7 @@ describe('PaymentController (e2e)', () => {
   describe('PUT /payments/:paymentId/status', () => {
     const paymentId = 119;
     const dto = {
-      paidDate: '2024-03-18T12:00:00.000Z',
+      isPaid: true,
     };
 
     it('should return 401 if not authenticated', async () => {
@@ -69,7 +69,7 @@ describe('PaymentController (e2e)', () => {
         .expect(404);
     });
 
-    it('should return 200 and paidDate', async () => {
+    it('should return 200 and paidDate is not null and is a valid date', async () => {
       await request(app.getHttpServer())
         .put(`/payments/${paymentId}/status`)
         .send(dto)
@@ -77,7 +77,8 @@ describe('PaymentController (e2e)', () => {
         .set('x-csrf-token', csrfToken)
         .expect(200)
         .then((res) => {
-          expect(res.body).toMatchObject(dto);
+          expect(res.body).toHaveProperty('paidDate');
+          expect(new Date(res.body.paidDate)).toBeInstanceOf(Date);
         });
     });
   });

@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '../auth/guard';
 import { PaymentService } from './payment.service';
-import { UpdatePaymentStatusDto } from './dto';
+import { UpdatePaymentStatusDto, UpdatePaymentsForMonthStatusDto } from './dto';
 
 @UseGuards(AuthGuard)
 @Controller('payments')
@@ -24,5 +24,10 @@ export class PaymentController {
       paymentId,
       updatePaymentStatusDto,
     );
+  }
+
+  @Put('/status')
+  updatePaymentsForMonthStatus(@Body() dto: UpdatePaymentsForMonthStatusDto) {
+    return this.paymentService.updatePaymentsForMonthStatus(dto);
   }
 }
