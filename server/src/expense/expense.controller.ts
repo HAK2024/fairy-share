@@ -1,6 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
+  HttpCode,
+  HttpStatus,
   Param,
   ParseIntPipe,
   Post,
@@ -28,5 +31,14 @@ export class ExpenseController {
     @Body() updateExpenseDto: UpdateExpenseDto,
   ) {
     return this.expenseService.updateExpense(expenseId, updateExpenseDto);
+  }
+
+  @Delete(':expenseId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  deleteExpense(
+    @GetUser('id') userId: number,
+    @Param('expenseId', ParseIntPipe) expenseId: number,
+  ) {
+    return this.expenseService.deleteExpense(userId, expenseId);
   }
 }

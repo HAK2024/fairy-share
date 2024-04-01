@@ -131,7 +131,7 @@ describe('ExpenseController (e2e)', () => {
     });
 
     it('should return 404 if expense does not exist', async () => {
-      const expenseId = 10000; // Expense IDs that are unlikely to exist
+      const expenseId = 10000; // Expense ID that is unlikely to exist
 
       await request(app.getHttpServer())
         .put(`/expenses/${expenseId}`)
@@ -151,6 +151,60 @@ describe('ExpenseController (e2e)', () => {
         .then((res) => {
           expect(res.body).toMatchObject(expectedExpenseData);
         });
+    });
+  });
+
+  describe('DELETE /tasks/:expenseId', () => {
+    const expenseId = 114;
+
+    it('should return 401 if not authenticated', async () => {
+      await request(app.getHttpServer())
+        .delete(`/expenses/${expenseId}`)
+        .expect(401);
+    });
+
+    it('should return 404 if expense does not exist', async () => {
+      const expenseId = 10000; // Expense ID that is unlikely to exist
+
+      return request(app.getHttpServer())
+        .delete(`/expenses/${expenseId}`)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(404);
+    });
+
+    it('should return 401 if user is not the buyer', async () => {
+      // Log in with the user who is not the buyer
+      const loginUser = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: 'alice@example.com',
+          password: 'password',
+        });
+
+      token = await loginUser.body.accessToken;
+
+      return request(app.getHttpServer())
+        .delete(`/expenses/${expenseId}`)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(401);
+    });
+
+    it('should return 204 and deleted the expense if authenticated', async () => {
+      const loginUser = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: 'diana@example.com',
+          password: 'password',
+        });
+
+      token = await loginUser.body.accessToken;
+      return request(app.getHttpServer())
+        .delete(`/expenses/${expenseId}`)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(204);
     });
   });
 });

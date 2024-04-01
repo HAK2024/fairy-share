@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateExpenseDto, UpdateExpenseDto } from './dto';
 
@@ -113,7 +117,34 @@ export class ExpenseService {
         };
       });
     } catch (error) {
-      console.error('Error creating expense:', error);
+      console.error('Error updating expense:', error);
+      throw error;
+    }
+  }
+
+  async deleteExpense(userId: number, expenseId: number) {
+    try {
+      const expense = await this.prisma.expense.findUnique({
+        where: { id: expenseId },
+      });
+
+      if (!expense) {
+        throw new NotFoundException(`Expense with ID ${expenseId} not found.`);
+      }
+
+      if (expense.buyerId !== userId) {
+        throw new UnauthorizedException(
+          'You do not have permission to delete this expense.',
+        );
+      }
+
+      await this.prisma.expense.delete({
+        where: {
+          id: expenseId,
+        },
+      });
+    } catch (error) {
+      console.error('Error deleting expense:', error);
       throw error;
     }
   }
