@@ -32,8 +32,6 @@ export class PaymentService {
         },
       });
 
-      console.log(payments);
-
       const updatePromises = payments.map((payment) =>
         this.prisma.payment.update({
           where: { id: payment.id },
