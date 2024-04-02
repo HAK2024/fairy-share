@@ -38,11 +38,4 @@ export const userData = async () => [
     hashedPassword: await hash('password', 10),
     icon: IconColor.VIOLET,
   },
-  {
-    id: 106,
-    name: 'Felip',
-    email: 'felip@example.com',
-    hashedPassword: await hash('password', 10),
-    icon: IconColor.RED,
-  },
 ];

@@ -1,4 +1,5 @@
 import {
+  ForbiddenException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -10,15 +11,34 @@ import { CreateTaskDto, UpdateTaskDto, UpdateTaskStatusDto } from './dto';
 export class TaskService {
   constructor(private prisma: PrismaService) {}
 
-  async createTask(dto: CreateTaskDto) {
+  async getTasks(userId: number) {
     try {
-      const task = await this.prisma.task.create({
-        data: dto,
+      const userHouse = await this.prisma.userHouse.findFirst({
+        where: { userId },
       });
 
-      return task;
+      if (!userHouse) {
+        throw new UnauthorizedException('You do not belong to any house.');
+      }
+
+      const tasks = await this.prisma.task.findMany({
+        where: {
+          houseId: userHouse.houseId,
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              icon: true,
+            },
+          },
+        },
+      });
+
+      return tasks;
     } catch (error) {
-      console.error('Error creating task:', error);
+      console.error('Error getting tasks:', error);
       throw error;
     }
   }
@@ -52,6 +72,27 @@ export class TaskService {
       return task;
     } catch (error) {
       console.error('Error getting task:', error);
+      throw error;
+    }
+  }
+
+  async createTask(userId: number, dto: CreateTaskDto) {
+    try {
+      const userHouse = await this.prisma.userHouse.findFirst({
+        where: { userId, houseId: dto.houseId },
+      });
+
+      if (!userHouse) {
+        throw new ForbiddenException('You do not belong to the house');
+      }
+
+      const task = await this.prisma.task.create({
+        data: dto,
+      });
+
+      return task;
+    } catch (error) {
+      console.error('Error creating task:', error);
       throw error;
     }
   }
