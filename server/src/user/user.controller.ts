@@ -3,9 +3,9 @@ import {
   Controller,
   Delete,
   Get,
-  Param,
   ParseIntPipe,
   Put,
+  Query,
   Res,
   UseGuards,
 } from '@nestjs/common';
@@ -42,10 +42,10 @@ export class UserController {
     res.send({ user: user });
   }
 
-  @Delete(':houseId')
+  @Delete()
   async deleteUser(
     @GetUser('id') userId: number,
-    @Param('houseId', ParseIntPipe) houseId: number,
+    @Query('houseId', ParseIntPipe) houseId: number,
     @Res() res: Response,
   ) {
     try {

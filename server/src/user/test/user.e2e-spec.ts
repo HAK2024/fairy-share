@@ -88,15 +88,37 @@ describe('UserController (e2e)', () => {
     });
   });
 
-  describe('DELETE /me/:houseId', () => {
+  describe('DELETE /me/?houseId=:houseId', () => {
+    // const userId = 106;
     const houseId = 106;
+
     it('should return 401 if not authenticated', async () => {
-      await request(app.getHttpServer()).delete(`/me/${houseId}`).expect(401);
+      await request(app.getHttpServer())
+        .delete(`/me/?houseId=${houseId}`)
+        .expect(401);
+    });
+
+    it('should return 403 if a user is only admin', async () => {
+      await request(app.getHttpServer())
+        .delete(`/me/?houseId=${houseId}`)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(403);
     });
 
     it('should return success message with 200', async () => {
+      const nonAdminUser = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          name: 'Felip',
+          email: 'felip@example.com',
+          password: 'password',
+        });
+
+      token = await nonAdminUser.body.accessToken;
+
       await request(app.getHttpServer())
-        .delete(`/me/${houseId}`)
+        .delete(`/me/?houseId=${houseId}`)
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
         .expect(200)

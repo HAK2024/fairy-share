@@ -118,9 +118,6 @@ export class UserService {
       const userHouse = await this.prisma.userHouse.findFirst({
         where: { userId, houseId },
       });
-      // const userHouse = await this.prisma.userHouse.findUnique({
-      //   where: { userId_houseId: { userId, houseId } },
-      // });
 
       if (!userHouse) {
         throw new NotFoundException(
@@ -128,7 +125,7 @@ export class UserService {
         );
       }
 
-      console.log('use House>>', userHouse);
+      // console.log('use House>>', userHouse);
 
       if (userHouse.isAdmin) {
         const otherAdminsCount = await this.prisma.userHouse.count({
@@ -148,7 +145,7 @@ export class UserService {
         where: { id: userId },
       });
 
-      return { message: 'Account deleted successfully.' };
+      return { message: 'User deleted successfully.' };
     } catch (error) {
       console.error('Error deleting user:', error);
       throw error;
