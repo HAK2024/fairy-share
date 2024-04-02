@@ -1,6 +1,7 @@
 import { useRouter } from 'next/navigation'
 import { useQueryClient } from '@tanstack/react-query'
 import { useToast } from '@/_hooks'
+import { resetAllStores } from '@/_stores'
 import { isErrorWithMessage } from '@/_utils'
 import { useDeleteAccountMutation } from './api/useDeleteAccountMutation'
 
@@ -13,12 +14,13 @@ export const useDeleteAccount = () => {
   const onDelete = (houseId: number) => {
     mutate(houseId, {
       onSuccess: () => {
+        resetAllStores()
+        queryClient.clear()
         router.push('/register')
         toast({
           variant: 'success',
           title: 'Your account has been deleted successfully',
         })
-        queryClient.clear()
       },
       onError: (error) => {
         console.error(error)

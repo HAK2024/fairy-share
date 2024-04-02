@@ -49,11 +49,11 @@ export class UserController {
     @Res() res: Response,
   ) {
     try {
-      await this.userService.deleteUser(userId, houseId);
+      const response = await this.userService.deleteUser(userId, houseId);
 
       res.clearCookie('token', { httpOnly: true, secure: true });
       res.clearCookie('csrf-token', { httpOnly: true, secure: true });
-      res.send({ message: 'Account deleted successfully.' });
+      res.send(response);
     } catch (error) {
       console.error('Error deleting user:', error);
       throw error;
