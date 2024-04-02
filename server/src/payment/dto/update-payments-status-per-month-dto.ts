@@ -1,6 +1,6 @@
 import { IsBoolean, IsNotEmpty, IsNumber } from 'class-validator';
 
-export class UpdatePaymentsForMonthStatusDto {
+export class UpdatePaymentsStatusPerMonthDto {
   @IsNumber()
   @IsNotEmpty()
   year: number;

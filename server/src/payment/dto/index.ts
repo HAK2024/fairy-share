@@ -1,2 +1,2 @@
-export * from './update-payment-status-dto';
-export * from './update-payments-for-month-status.dto';
+export * from './update-payments-status-per-date-dto';
+export * from './update-payments-status-per-month-dto';

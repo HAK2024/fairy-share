@@ -45,45 +45,111 @@ describe('PaymentController (e2e)', () => {
     app.close();
   });
 
-  describe('PUT /payments/:paymentId/status', () => {
-    const paymentId = 119;
-    const dto = {
+  describe('PUT /payments/status/per-date', () => {
+    const dto1 = {
+      date: '2023-04-30T12:00:00Z',
+      buyerId: 104,
+      payerId: 105,
+      isPaid: false,
+    };
+
+    const expectedResponse1 = [
+      {
+        id: 120,
+        fee: 150,
+        paidDate: null, // Should become null
+        expenseId: 115,
+        payerId: 105,
+      },
+    ];
+
+    const dto2 = {
+      date: '2023-04-30T12:00:00Z',
+      buyerId: 104,
+      payerId: 105,
       isPaid: true,
     };
 
+    const expectedResponse2 = [
+      {
+        id: 120,
+        fee: 150,
+        paidDate: new Date(), // Should become new date from null
+        expenseId: 115,
+        payerId: 105,
+      },
+    ];
+
     it('should return 401 if not authenticated', async () => {
       await request(app.getHttpServer())
-        .put(`/payments/${paymentId}/status`)
-        .send(dto)
+        .put('/payments/status/per-date')
+        .send(dto1)
         .expect(401);
     });
 
-    it('should return 404 if payment Id does not exist', async () => {
-      const paymentId = 10000; // payment Id that is unlikely to exist
-
-      await request(app.getHttpServer())
-        .put(`/payments/${paymentId}/status`)
-        .send(dto)
+    it('should return 200 and updated payments with paidDate null', async () => {
+      const response = await request(app.getHttpServer())
+        .put('/payments/status/per-date')
+        .send(dto1)
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
-        .expect(404);
+        .expect(200);
+
+      response.body.forEach(
+        (
+          payment: {
+            id: number;
+            fee: number;
+            paidDate: null;
+            expenseId: number;
+            payerId: number;
+          },
+          index: number,
+        ) => {
+          expect(payment.paidDate).toBeNull();
+          expect(payment).toMatchObject({
+            id: expectedResponse1[index].id,
+            fee: expectedResponse1[index].fee,
+            expenseId: expectedResponse1[index].expenseId,
+            payerId: expectedResponse1[index].payerId,
+          });
+        },
+      );
     });
 
-    it('should return 200 and paidDate is not null and is a valid date', async () => {
-      await request(app.getHttpServer())
-        .put(`/payments/${paymentId}/status`)
-        .send(dto)
+    it('should return 200 and updated payments with paidDate not null', async () => {
+      const response = await request(app.getHttpServer())
+        .put('/payments/status/per-date')
+        .send(dto2)
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
-        .expect(200)
-        .then((res) => {
-          expect(res.body).toHaveProperty('paidDate');
-          expect(new Date(res.body.paidDate)).toBeInstanceOf(Date);
-        });
+        .expect(200);
+
+      response.body.forEach(
+        (
+          payment: {
+            id: number;
+            fee: number;
+            paidDate: Date;
+            expenseId: number;
+            payerId: number;
+          },
+          index: number,
+        ) => {
+          expect(payment.paidDate).not.toBeNull();
+          expect(new Date(payment.paidDate)).toBeInstanceOf(Date);
+          expect(payment).toMatchObject({
+            id: expectedResponse2[index].id,
+            fee: expectedResponse2[index].fee,
+            expenseId: expectedResponse2[index].expenseId,
+            payerId: expectedResponse2[index].payerId,
+          });
+        },
+      );
     });
   });
 
-  describe('PUT /payments/status', () => {
+  describe('PUT /payments/status/per-month', () => {
     const dto1 = {
       year: 2023,
       month: 4,
@@ -136,14 +202,14 @@ describe('PaymentController (e2e)', () => {
 
     it('should return 401 if not authenticated', async () => {
       await request(app.getHttpServer())
-        .put('/payments/status')
+        .put('/payments/status/per-month')
         .send(dto1)
         .expect(401);
     });
 
     it('should return 200 and updated payments with paidDate null', async () => {
       const response = await request(app.getHttpServer())
-        .put('/payments/status')
+        .put('/payments/status/per-month')
         .send(dto1)
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
@@ -160,14 +226,20 @@ describe('PaymentController (e2e)', () => {
           },
           index: number,
         ) => {
-          expect(payment).toMatchObject(expectedResponse1[index]);
+          expect(payment.paidDate).toBeNull();
+          expect(payment).toMatchObject({
+            id: expectedResponse1[index].id,
+            fee: expectedResponse1[index].fee,
+            expenseId: expectedResponse1[index].expenseId,
+            payerId: expectedResponse1[index].payerId,
+          });
         },
       );
     });
 
     it('should return 200 and updated payments with paidDate not null', async () => {
       const response = await request(app.getHttpServer())
-        .put('/payments/status')
+        .put('/payments/status/per-month')
         .send(dto2)
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
@@ -184,7 +256,14 @@ describe('PaymentController (e2e)', () => {
           },
           index: number,
         ) => {
-          expect(payment).toMatchObject(expectedResponse2[index]);
+          expect(payment.paidDate).not.toBeNull();
+          expect(new Date(payment.paidDate)).toBeInstanceOf(Date);
+          expect(payment).toMatchObject({
+            id: expectedResponse2[index].id,
+            fee: expectedResponse2[index].fee,
+            expenseId: expectedResponse2[index].expenseId,
+            payerId: expectedResponse2[index].payerId,
+          });
         },
       );
     });

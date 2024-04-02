@@ -1,33 +1,55 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { UpdatePaymentStatusDto, UpdatePaymentsForMonthStatusDto } from './dto';
+import {
+  UpdatePaymentsStatusPerDateDto,
+  UpdatePaymentsStatusPerMonthDto,
+} from './dto';
 
 @Injectable()
 export class PaymentService {
   constructor(private prisma: PrismaService) {}
 
-  async updatePaymentStatus(paymentId: number, dto: UpdatePaymentStatusDto) {
+  async updatePaymentsStatusPerDate(dto: UpdatePaymentsStatusPerDateDto) {
     try {
-      const payment = await this.prisma.payment.update({
+      const { date, buyerId, payerId, isPaid } = dto;
+      const targetDateStart = new Date(date);
+      targetDateStart.setUTCHours(0, 0, 0, 0);
+
+      const targetDateEnd = new Date(date);
+      targetDateEnd.setUTCHours(23, 59, 59, 999);
+
+      const payments = await this.prisma.payment.findMany({
         where: {
-          id: paymentId,
-        },
-        data: {
-          paidDate: dto.isPaid ? new Date() : null,
+          payerId,
+          expense: {
+            buyerId,
+            date: {
+              gte: targetDateStart,
+              lte: targetDateEnd,
+            },
+          },
+          paidDate: isPaid ? null : { not: null },
         },
       });
 
-      return { paidDate: payment.paidDate };
+      console.log(payments);
+
+      const updatePromises = payments.map((payment) =>
+        this.prisma.payment.update({
+          where: { id: payment.id },
+          data: { paidDate: isPaid ? new Date() : null },
+        }),
+      );
+
+      const updatedPayments = await Promise.all(updatePromises);
+      return updatedPayments;
     } catch (error) {
-      if (error.code === 'P2025') {
-        throw new NotFoundException(`Payment with ID ${paymentId} not found.`);
-      }
-      console.error('Error updating payment status:', error);
+      console.error('Error updating payments per date status:', error);
       throw error;
     }
   }
 
-  async updatePaymentsForMonthStatus(dto: UpdatePaymentsForMonthStatusDto) {
+  async updatePaymentsStatusPerMonth(dto: UpdatePaymentsStatusPerMonthDto) {
     try {
       const { year, month, buyerId, payerId, isPaid } = dto;
       const firstDayOfMonth = new Date(year, month - 1, 1);
@@ -57,7 +79,7 @@ export class PaymentService {
       const updatedPayments = await Promise.all(updatePromises);
       return updatedPayments;
     } catch (error) {
-      console.error('Error updating payments for month status:', error);
+      console.error('Error updating payments per month status:', error);
       throw error;
     }
   }

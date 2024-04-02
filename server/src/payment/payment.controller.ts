@@ -1,33 +1,27 @@
-import {
-  Body,
-  Controller,
-  Param,
-  ParseIntPipe,
-  Put,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Put, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../auth/guard';
 import { PaymentService } from './payment.service';
-import { UpdatePaymentStatusDto, UpdatePaymentsForMonthStatusDto } from './dto';
+import {
+  UpdatePaymentsStatusPerDateDto,
+  UpdatePaymentsStatusPerMonthDto,
+} from './dto';
 
 @UseGuards(AuthGuard)
 @Controller('payments')
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
 
-  @Put(':paymentId/status')
+  @Put('/status/per-date')
   updatePaymentStatus(
-    @Param('paymentId', ParseIntPipe) paymentId: number,
-    @Body() updatePaymentStatusDto: UpdatePaymentStatusDto,
+    @Body() updatePaymentsStatusPerDateDto: UpdatePaymentsStatusPerDateDto,
   ) {
-    return this.paymentService.updatePaymentStatus(
-      paymentId,
-      updatePaymentStatusDto,
+    return this.paymentService.updatePaymentsStatusPerDate(
+      updatePaymentsStatusPerDateDto,
     );
   }
 
-  @Put('/status')
-  updatePaymentsForMonthStatus(@Body() dto: UpdatePaymentsForMonthStatusDto) {
-    return this.paymentService.updatePaymentsForMonthStatus(dto);
+  @Put('/status/per-month')
+  updatePaymentsForMonthStatus(@Body() dto: UpdatePaymentsStatusPerMonthDto) {
+    return this.paymentService.updatePaymentsStatusPerMonth(dto);
   }
 }
