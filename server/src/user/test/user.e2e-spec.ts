@@ -87,4 +87,20 @@ describe('UserController (e2e)', () => {
       });
     });
   });
+
+  describe('DELETE /me/:houseId', () => {
+    const houseId = 106;
+    it('should return 401 if not authenticated', async () => {
+      await request(app.getHttpServer()).delete(`/me/${houseId}`).expect(401);
+    });
+
+    it('should return success message with 200', async () => {
+      await request(app.getHttpServer())
+        .delete(`/me/${houseId}`)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(200)
+        .expect({ message: 'User deleted successfully.' });
+    });
+  });
 });

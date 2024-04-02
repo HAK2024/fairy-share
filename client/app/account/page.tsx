@@ -2,10 +2,10 @@
 
 import React from 'react'
 import { useRouter } from 'next/navigation'
-import { FiEdit, FiTrash } from 'react-icons/fi'
+import { FiEdit } from 'react-icons/fi'
 import { FormContainer } from '@/_components/layout'
 import { Button, Heading } from '@/_components/ui'
-import { AccountInfo } from './components'
+import { AccountInfo, DeleteAccount } from './components'
 
 export default function AccountPage() {
   const router = useRouter()
@@ -27,14 +27,15 @@ export default function AccountPage() {
         />
         <AccountInfo />
         <div>
-          <Button
+          {/* <Button
             variant={'destructiveOutline'}
             size='sm'
             className='flex gap-1'
           >
             <FiTrash />
             Delete Your Account
-          </Button>
+          </Button> */}
+          <DeleteAccount />
         </div>
       </div>
     </FormContainer>

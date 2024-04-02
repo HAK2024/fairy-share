@@ -206,7 +206,7 @@ export class HouseService {
 
       if (!house) {
         throw new ForbiddenException(
-          `You are not authorized to delete this house.`,
+          'You are not authorized to delete this house.',
         );
       }
 
