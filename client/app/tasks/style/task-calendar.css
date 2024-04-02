@@ -1,0 +1,15 @@
+.task-calendar .rbc-toolbar button {
+  @apply border-gray-100 bg-gray-100 text-teal-600;
+}
+
+.task-calendar .rbc-toolbar-label {
+  @apply text-lg font-semibold md:text-xl;
+}
+
+.task-calendar .rbc-toolbar button.rbc-active:hover {
+  @apply border-gray-100 bg-gray-100 text-teal-700;
+}
+
+.tesk-calendar .rbc-toolbar button.rbc-active {
+  @apply border-gray-100 bg-gray-100 text-teal-700;
+}
