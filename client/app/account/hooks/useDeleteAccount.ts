@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import { useQueryClient } from '@tanstack/react-query'
 import { useToast } from '@/_hooks'
 import { isErrorWithMessage } from '@/_utils'
@@ -10,10 +10,10 @@ export const useDeleteAccount = () => {
   const { toast } = useToast()
   const { mutate, isPending } = useDeleteAccountMutation()
 
-  const onDelete = (userId: number, houseId: number) => {
+  const onDelete = (houseId: number) => {
     mutate(houseId, {
       onSuccess: () => {
-        router.push('/account') // sign up url로 바꾸기
+        router.push('/register')
         toast({
           variant: 'success',
           title: 'Your account has been deleted successfully',

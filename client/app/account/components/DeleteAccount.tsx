@@ -1,25 +1,32 @@
-import { AlertDialogHeader, AlertDialogFooter } from '@/_components/ui'
-import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogTitle, AlertDialogDescription, AlertDialogCancel, AlertDialogAction } from '@radix-ui/react-alert-dialog'
-import React from 'react'
-import { Button } from 'react-day-picker'
 import { FiTrash } from 'react-icons/fi'
-import { useDeleteAccount } from '../hooks'
 import { Loading } from '@/_components/layout'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  Button,
+} from '@/_components/ui'
 import { useGetMeQuery } from '@/_hooks/api'
-
+import { useDeleteAccount } from '../hooks'
 
 const DeleteAccount = () => {
-  const { data: user, isLoading } = useGetMeQuery()  
-  if (isLoading || !user) return <Loading />
-
+  const { data: user, isLoading } = useGetMeQuery()
   const { onDelete, isPending } = useDeleteAccount()
+
+  if (isLoading || !user) return <Loading />
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button variant={'destructiveOutline'} size='sm' className='flex gap-1'>
           <FiTrash />
-          Delete House
+          Delete Account
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -34,7 +41,7 @@ const DeleteAccount = () => {
           <AlertDialogCancel disabled={isPending}>Cancel</AlertDialogCancel>
           <AlertDialogAction
             isLoading={isPending}
-            onClick={() => onDelete(user.id, user.houses.houseId)}
+            onClick={() => onDelete(user.houses[0].houseId)}
           >
             Delete
           </AlertDialogAction>
@@ -42,7 +49,6 @@ const DeleteAccount = () => {
       </AlertDialogContent>
     </AlertDialog>
   )
-}
 }
 
 export { DeleteAccount }

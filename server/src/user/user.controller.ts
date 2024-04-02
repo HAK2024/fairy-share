@@ -47,6 +47,7 @@ export class UserController {
     @GetUser('id') userId: number,
     @Param('houseId', ParseIntPipe) houseId: number,
   ) {
+    console.log('both ID>>', userId, houseId);
     return this.userService.deleteUser(userId, houseId);
   }
 }
