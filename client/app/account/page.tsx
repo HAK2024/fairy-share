@@ -27,14 +27,6 @@ export default function AccountPage() {
         />
         <AccountInfo />
         <div>
-          {/* <Button
-            variant={'destructiveOutline'}
-            size='sm'
-            className='flex gap-1'
-          >
-            <FiTrash />
-            Delete Your Account
-          </Button> */}
           <DeleteAccount />
         </div>
       </div>

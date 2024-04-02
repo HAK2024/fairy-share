@@ -43,11 +43,20 @@ export class UserController {
   }
 
   @Delete(':houseId')
-  deleteUser(
+  async deleteUser(
     @GetUser('id') userId: number,
     @Param('houseId', ParseIntPipe) houseId: number,
+    @Res() res: Response,
   ) {
-    console.log('both ID>>', userId, houseId);
-    return this.userService.deleteUser(userId, houseId);
+    try {
+      await this.userService.deleteUser(userId, houseId);
+
+      res.clearCookie('token', { httpOnly: true, secure: true });
+      res.clearCookie('csrf-token', { httpOnly: true, secure: true });
+      res.send({ message: 'Account deleted successfully.' });
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      throw error;
+    }
   }
 }

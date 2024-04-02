@@ -29,7 +29,7 @@ export const useDeleteAccount = () => {
         }
         toast({
           variant: 'destructive',
-          title: 'Failed to delete the account..',
+          title: 'Failed to delete the account.',
           description: message,
         })
       },
