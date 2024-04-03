@@ -103,36 +103,30 @@ const MembersManagementModal = ({
                 </span>
               </div>
               <div className='flex items-center gap-4 pr-4 md:gap-12'>
-                {userId !== houseMember.id && (
-                  <>
-                    <div className='flex items-center gap-4'>
-                      <Checkbox
-                        className='h-5 w-5 text-primary'
-                        checked={houseMember.isAdmin}
-                        disabled={isUpdating}
-                        onClick={() =>
-                          handleUpdateAdmin(
-                            houseMember.id,
-                            !houseMember.isAdmin,
-                          )
-                        }
-                      />
-                      <span className='text-sm md:text-lg'>admin</span>
-                    </div>
-                    <div className='flex items-center justify-center'>
-                      <Button
-                        variant='destructiveOutline'
-                        size='icon'
-                        className='flex-shrink-0'
-                        type='button'
-                        aria-label={`Remove roommate ${houseMember.name}`}
-                        onClick={() => handleOpenAlert(houseMember.id)}
-                      >
-                        <FiX size={18} />
-                      </Button>
-                    </div>
-                  </>
-                )}
+                <div className='flex items-center gap-4'>
+                  <Checkbox
+                    className='h-5 w-5 text-primary'
+                    checked={houseMember.isAdmin}
+                    disabled={isUpdating || userId === houseMember.id}
+                    onClick={() =>
+                      handleUpdateAdmin(houseMember.id, !houseMember.isAdmin)
+                    }
+                  />
+                  <span className='text-sm md:text-lg'>admin</span>
+                </div>
+                <div className='flex items-center justify-center'>
+                  <Button
+                    variant='destructiveOutline'
+                    size='icon'
+                    className='flex-shrink-0'
+                    disabled={userId === houseMember.id}
+                    type='button'
+                    aria-label={`Remove roommate ${houseMember.name}`}
+                    onClick={() => handleOpenAlert(houseMember.id)}
+                  >
+                    <FiX size={18} />
+                  </Button>
+                </div>
               </div>
             </div>
           ))}
