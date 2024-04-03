@@ -92,7 +92,7 @@ export class HouseService {
         isExpensePerTime: house.isExpensePerTime,
         rules: house.rules,
         tasks: house.tasks,
-        isAdmin,
+        currentUserIsAdmin: isAdmin,
         houseMembers,
       };
       return houseResponse;

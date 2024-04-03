@@ -58,7 +58,7 @@ export class UserService {
             houseId: userHouse.house.id,
             name: userHouse.house.name,
             isExpensePerTime: userHouse.house.isExpensePerTime,
-            isAdmin: userHouse.isAdmin,
+            currentUserIsAdmin: userHouse.isAdmin,
             rules: userHouse.house.rules,
             tasks: userHouse.house.tasks,
             houseMembers: userHouse.house.userHouses.map(
