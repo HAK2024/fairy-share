@@ -1,5 +1,4 @@
 import { FiTrash } from 'react-icons/fi'
-import { Loading } from '@/_components/layout'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,14 +11,15 @@ import {
   AlertDialogTrigger,
   Button,
 } from '@/_components/ui'
-import { useGetMeQuery } from '@/_hooks/api'
+import { UserType } from '@/_types'
 import { useDeleteAccount } from '../hooks'
 
-const DeleteAccount = () => {
-  const { data: user, isLoading } = useGetMeQuery()
-  const { onDelete, isPending } = useDeleteAccount()
+type DeleteAccountProps = {
+  user: UserType
+}
 
-  if (isLoading || !user) return <Loading />
+const DeleteAccount = ({ user }: DeleteAccountProps) => {
+  const { onDelete, isPending } = useDeleteAccount()
 
   return (
     <AlertDialog>

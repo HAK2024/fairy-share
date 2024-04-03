@@ -4,6 +4,7 @@ import { Loading } from '@/_components/layout'
 // import { RouterLink } from '@/_components/ui'
 import { colorMap } from '@/_consts'
 import { useGetMeQuery } from '@/_hooks/api'
+import { DeleteAccount } from '.'
 
 const AccountInfo = () => {
   const { data: user, isLoading } = useGetMeQuery()
@@ -37,6 +38,9 @@ const AccountInfo = () => {
           Change Password
         </RouterLink>
       </div> */}
+      <div>
+        <DeleteAccount user={user} />
+      </div>
     </div>
   )
 }

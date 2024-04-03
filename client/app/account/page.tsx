@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { FiEdit } from 'react-icons/fi'
 import { FormContainer } from '@/_components/layout'
 import { Button, Heading } from '@/_components/ui'
-import { AccountInfo, DeleteAccount } from './components'
+import { AccountInfo } from './components'
 
 export default function AccountPage() {
   const router = useRouter()
@@ -26,9 +26,6 @@ export default function AccountPage() {
           }
         />
         <AccountInfo />
-        <div>
-          <DeleteAccount />
-        </div>
       </div>
     </FormContainer>
   )
