@@ -20,4 +20,8 @@ export class UpdatePaymentsStatusPerMonthDto {
   @IsBoolean()
   @IsNotEmpty()
   isPaid: boolean;
+
+  @IsNumber()
+  @IsNotEmpty()
+  houseId: number;
 }

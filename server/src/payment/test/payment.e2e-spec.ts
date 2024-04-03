@@ -51,6 +51,7 @@ describe('PaymentController (e2e)', () => {
       buyerId: 104,
       payerId: 105,
       isPaid: false,
+      houseId: 109,
     };
 
     const expectedResponse1 = [
@@ -68,6 +69,7 @@ describe('PaymentController (e2e)', () => {
       buyerId: 104,
       payerId: 105,
       isPaid: true,
+      houseId: 109,
     };
 
     const expectedResponse2 = [
@@ -87,7 +89,34 @@ describe('PaymentController (e2e)', () => {
         .expect(401);
     });
 
+    it('should return 403 if user does not belong to the specified house', async () => {
+      const loginUser = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: 'alice@example.com',
+          password: 'password',
+        });
+
+      token = await loginUser.body.accessToken;
+
+      await request(app.getHttpServer())
+        .put('/payments/status/per-date')
+        .send(dto1)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(403);
+    });
+
     it('should return 200 and updated payments with paidDate null', async () => {
+      const loginUser = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: 'diana@example.com',
+          password: 'password',
+        });
+
+      token = await loginUser.body.accessToken;
+
       const response = await request(app.getHttpServer())
         .put('/payments/status/per-date')
         .send(dto1)
@@ -156,6 +185,7 @@ describe('PaymentController (e2e)', () => {
       buyerId: 104,
       payerId: 105,
       isPaid: false,
+      houseId: 109,
     };
 
     const expectedResponse1 = [
@@ -181,6 +211,7 @@ describe('PaymentController (e2e)', () => {
       buyerId: 104,
       payerId: 105,
       isPaid: false,
+      houseId: 109,
     };
 
     const expectedResponse2 = [

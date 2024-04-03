@@ -25,7 +25,7 @@ export class ExpenseService {
         // If the user does not belong to the house, throw an error
         if (!userHouse) {
           throw new ForbiddenException(
-            'User does not belong to the specified house.',
+            'You are not a member of the specified house.',
           );
         }
 

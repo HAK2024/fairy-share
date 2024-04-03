@@ -5,6 +5,7 @@ import {
   UpdatePaymentsStatusPerDateDto,
   UpdatePaymentsStatusPerMonthDto,
 } from './dto';
+import { GetUser } from '../auth/decorator';
 
 @UseGuards(AuthGuard)
 @Controller('payments')
@@ -13,15 +14,23 @@ export class PaymentController {
 
   @Put('/status/per-date')
   updatePaymentStatus(
+    @GetUser('id') userId: number,
     @Body() updatePaymentsStatusPerDateDto: UpdatePaymentsStatusPerDateDto,
   ) {
     return this.paymentService.updatePaymentsStatusPerDate(
+      userId,
       updatePaymentsStatusPerDateDto,
     );
   }
 
   @Put('/status/per-month')
-  updatePaymentsForMonthStatus(@Body() dto: UpdatePaymentsStatusPerMonthDto) {
-    return this.paymentService.updatePaymentsStatusPerMonth(dto);
+  updatePaymentsForMonthStatus(
+    @GetUser('id') userId: number,
+    @Body() updatePaymentsStatusPerMonthDto: UpdatePaymentsStatusPerMonthDto,
+  ) {
+    return this.paymentService.updatePaymentsStatusPerMonth(
+      userId,
+      updatePaymentsStatusPerMonthDto,
+    );
   }
 }
