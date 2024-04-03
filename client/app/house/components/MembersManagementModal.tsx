@@ -14,6 +14,7 @@ import { HouseType } from '@/_types'
 import { useUpdateAdmin } from '../hooks'
 
 type MembersManagementModalProps = {
+  userId: number
   house: HouseType
   isOpenModal: boolean
   setIsOpenModal: (isOpenModal: boolean) => void
@@ -24,6 +25,7 @@ type MembersManagementModalProps = {
 }
 
 const MembersManagementModal = ({
+  userId,
   house,
   isOpenModal,
   setIsOpenModal,
@@ -33,10 +35,17 @@ const MembersManagementModal = ({
   const { toast } = useToast()
   const { onUpdate, isPending: isUpdating } = useUpdateAdmin()
   const houseId = house.houseId
-  const [firstMember, ...restMembers] = house.houseMembers
-  const sortedRestMembers = restMembers.sort((a, b) => a.id - b.id) // Sorted by userId to fix the order
-  const houseMembers = [firstMember, ...sortedRestMembers]
-  const userId = houseMembers[0].id
+
+  const loggedInMember = house.houseMembers.find(
+    (member) => member.id === userId,
+  )!
+
+  const sortedOtherMembers = house.houseMembers
+    .filter((member) => member.id !== userId)
+    .sort((a, b) => a.id - b.id) // Sorted by userId to fix the order
+
+  const houseMembers = [loggedInMember, ...sortedOtherMembers]
+
   const invitedLink =
     process.env.NEXT_PUBLIC_CLIENT_URL + `/register?invitedHouseId=${houseId}`
 

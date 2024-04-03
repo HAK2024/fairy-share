@@ -6,13 +6,14 @@ import { Loading } from '@/_components/layout'
 import { FormContainer } from '@/_components/layout'
 import { Button, Heading } from '@/_components/ui'
 import { useGetHouseInfo } from '@/_hooks'
-import { useGetHouseQuery } from '@/_hooks/api'
+import { useGetHouseQuery, useGetMeQuery } from '@/_hooks/api'
 import { HouseUpdateForm, DeleteHouse, MembersManagement } from '../components'
 
 export default function HouseEditPage() {
   const router = useRouter()
   const { isAdmin } = useGetHouseInfo()
   const { data: house, isLoading } = useGetHouseQuery()
+  const userId = useGetMeQuery()?.data?.id
   const [isOpenModal, setIsOpenModal] = useState(false)
 
   useEffect(() => {
@@ -21,7 +22,7 @@ export default function HouseEditPage() {
     }
   }, [isAdmin, router])
 
-  if (isLoading || !house) {
+  if (isLoading || !house || !userId) {
     return <Loading />
   }
 
@@ -45,6 +46,7 @@ export default function HouseEditPage() {
         <DeleteHouse houseId={house.houseId} />
       </div>
       <MembersManagement
+        userId={userId}
         house={house}
         isOpenModal={isOpenModal}
         setIsOpenModal={setIsOpenModal}

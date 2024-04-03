@@ -3,12 +3,14 @@ import { HouseType } from '@/_types'
 import { MembersManagementModal, RemoveMemberAlertModal } from '.'
 
 type MembersManagementProps = {
+  userId: number
   house: HouseType
   isOpenModal: boolean
   setIsOpenModal: (isOpenModal: boolean) => void
 }
 
 const MembersManagement = ({
+  userId,
   house,
   isOpenModal,
   setIsOpenModal,
@@ -19,6 +21,7 @@ const MembersManagement = ({
   return (
     <>
       <MembersManagementModal
+        userId={userId}
         house={house}
         isOpenModal={isOpenModal}
         setIsOpenModal={setIsOpenModal}
