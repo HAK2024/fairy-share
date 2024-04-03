@@ -157,7 +157,35 @@ describe('ExpenseController (e2e)', () => {
         .expect(404);
     });
 
+    it('should return 403 if user is not the buyer', async () => {
+      // the user who is not the buyer
+      const loginUser = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: 'evan@example.com',
+          password: 'password',
+        });
+
+      token = await loginUser.body.accessToken;
+
+      await request(app.getHttpServer())
+        .put(`/expenses/${expenseId}`)
+        .send(dto)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(403);
+    });
+
     it('should return 200 and updated expense data if authenticated', async () => {
+      const loginUser = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: 'diana@example.com',
+          password: 'password',
+        });
+
+      token = await loginUser.body.accessToken;
+
       await request(app.getHttpServer())
         .put(`/expenses/${expenseId}`)
         .send(dto)

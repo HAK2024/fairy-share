@@ -79,7 +79,11 @@ export class ExpenseService {
     }
   }
 
-  async updateExpense(expenseId: number, dto: UpdateExpenseDto) {
+  async updateExpense(
+    userId: number,
+    expenseId: number,
+    dto: UpdateExpenseDto,
+  ) {
     try {
       return await this.prisma.$transaction(async (tx) => {
         const expense = await tx.expense.findUnique({
@@ -89,6 +93,12 @@ export class ExpenseService {
         if (!expense) {
           throw new NotFoundException(
             `Expense with ID ${expenseId} not found.`,
+          );
+        }
+
+        if (expense.buyerId !== userId) {
+          throw new ForbiddenException(
+            'You do not have permission to update this expense.',
           );
         }
 

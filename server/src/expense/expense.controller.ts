@@ -27,10 +27,15 @@ export class ExpenseController {
 
   @Put(':expenseId')
   updateExpense(
+    @GetUser('id') userId: number,
     @Param('expenseId', ParseIntPipe) expenseId: number,
     @Body() updateExpenseDto: UpdateExpenseDto,
   ) {
-    return this.expenseService.updateExpense(expenseId, updateExpenseDto);
+    return this.expenseService.updateExpense(
+      userId,
+      expenseId,
+      updateExpenseDto,
+    );
   }
 
   @Delete(':expenseId')
