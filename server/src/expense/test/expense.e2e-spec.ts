@@ -80,6 +80,22 @@ describe('ExpenseController (e2e)', () => {
         .expect(401);
     });
 
+    it('should return 403 if authenticated', async () => {
+      const dto = {
+        itemName: 'Expense 1',
+        fee: 90,
+        date: '2024-03-18T12:00:00.000Z',
+        houseId: 10000, // houseId that does not user's house
+      };
+
+      await request(app.getHttpServer())
+        .post('/expenses')
+        .send(dto)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(403);
+    });
+
     it('should return 201 and expense data if authenticated', async () => {
       await request(app.getHttpServer())
         .post('/expenses')

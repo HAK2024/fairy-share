@@ -1,4 +1,5 @@
 import {
+  ForbiddenException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -13,6 +14,21 @@ export class ExpenseService {
   async createExpense(userId: number, dto: CreateExpenseDto) {
     try {
       return await this.prisma.$transaction(async (tx) => {
+        // Check if the user belongs to the specified house
+        const userHouse = await tx.userHouse.findFirst({
+          where: {
+            userId: userId,
+            houseId: dto.houseId,
+          },
+        });
+
+        // If the user does not belong to the house, throw an error
+        if (!userHouse) {
+          throw new ForbiddenException(
+            'User does not belong to the specified house.',
+          );
+        }
+
         const createdExpense = await tx.expense.create({
           data: {
             itemName: dto.itemName,
