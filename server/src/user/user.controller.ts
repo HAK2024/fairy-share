@@ -45,7 +45,7 @@ export class UserController {
   @Delete()
   async deleteUser(
     @GetUser('id') userId: number,
-    @Query('houseId', ParseIntPipe) houseId: number,
+    @Query('house_id', ParseIntPipe) houseId: number,
     @Res() res: Response,
   ) {
     try {
