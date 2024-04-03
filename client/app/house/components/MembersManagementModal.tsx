@@ -70,10 +70,12 @@ const MembersManagementModal = ({
         }}
       >
         <DialogHeader className='pb-2'>
-          <DialogTitle className='text-xl'>Members management</DialogTitle>
+          <DialogTitle className='text-lg md:text-xl'>
+            Members management
+          </DialogTitle>
         </DialogHeader>
         <div className='hide-scrollbar flex max-h-96 flex-col overflow-scroll'>
-          <div className='flex items-center justify-end gap-12 pb-2 text-lg font-semibold'>
+          <div className='flex items-center justify-end gap-12 pb-2 text-sm font-semibold md:text-lg'>
             <span>Role</span>
             <span>Remove</span>
           </div>
@@ -87,9 +89,11 @@ const MembersManagementModal = ({
                   className={`text-4xl ${colorMap[houseMember.icon.toString()]}`}
                   size={42}
                 />
-                <span className='text-md'>{houseMember.name}</span>
+                <span className='md:text-md max-w-32 overflow-auto truncate text-sm'>
+                  {houseMember.name}
+                </span>
               </div>
-              <div className='flex items-center gap-12 pr-4'>
+              <div className='flex items-center gap-4 pr-4 md:gap-12'>
                 {userId !== houseMember.id && (
                   <>
                     <div className='flex items-center gap-4'>
@@ -104,7 +108,7 @@ const MembersManagementModal = ({
                           )
                         }
                       />
-                      <span>admin</span>
+                      <span className='text-sm md:text-lg'>admin</span>
                     </div>
                     <div className='flex items-center justify-center'>
                       <Button
@@ -124,7 +128,9 @@ const MembersManagementModal = ({
             </div>
           ))}
           <div className='pt-4'>
-            <p className='pb-4 font-semibold'>Invite Roommate Via Link</p>
+            <p className='md:text-md pb-4 text-sm font-semibold'>
+              Invite Roommate Via Link
+            </p>
             <CopyToClipboard
               text={invitedLink}
               onCopy={() => {
@@ -136,7 +142,9 @@ const MembersManagementModal = ({
             >
               <Button variant={'outline'} size={'sm'}>
                 <FiPaperclip size={18} />
-                <span className='text-md pl-2 font-semibold'>Copy link</span>
+                <span className='md:text-md pl-2 text-sm font-semibold'>
+                  Copy link
+                </span>
               </Button>
             </CopyToClipboard>
           </div>
