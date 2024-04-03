@@ -136,9 +136,6 @@ export class UserService {
         }
       }
 
-      await this.prisma.userHouse.delete({
-        where: { id: userHouse.id },
-      });
       await this.prisma.user.delete({
         where: { id: userId },
       });
