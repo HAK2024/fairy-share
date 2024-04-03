@@ -45,6 +45,210 @@ describe('ExpenseController (e2e)', () => {
     app.close();
   });
 
+  describe('GET /expenses/per-date', () => {
+    const dto = {
+      year: 2023,
+      month: 4,
+      houseId: 109,
+    };
+
+    const expectedExpenseData = {
+      '2023-04-30': {
+        '104': [
+          {
+            id: 115,
+            itemName: 'Maintenance Fee',
+            fee: 150,
+            date: '2023-04-30T00:00:00.000Z',
+            houseId: 109,
+            buyerId: 104,
+            payments: [
+              {
+                id: 120,
+                fee: 150,
+                paidDate: '2023-05-05T00:00:00.000Z',
+                user: {
+                  id: 105,
+                  name: 'Evan',
+                  icon: 'VIOLET',
+                },
+              },
+            ],
+            user: {
+              id: 104,
+              name: 'Diana',
+              icon: 'INDIGO',
+            },
+          },
+        ],
+      },
+      '2023-04-25': {
+        '104': [
+          {
+            id: 114,
+            itemName: 'Groceries',
+            fee: 200,
+            date: '2023-04-25T00:00:00.000Z',
+            houseId: 109,
+            buyerId: 104,
+            payments: [
+              {
+                id: 119,
+                fee: 100,
+                paidDate: '2023-04-30T00:00:00.000Z',
+                user: {
+                  id: 105,
+                  name: 'Evan',
+                  icon: 'VIOLET',
+                },
+              },
+            ],
+            user: {
+              id: 104,
+              name: 'Diana',
+              icon: 'INDIGO',
+            },
+          },
+        ],
+      },
+    };
+
+    it('should return 401 if not authenticated', async () => {
+      await request(app.getHttpServer())
+        .get('/expenses/per-date')
+        .send(dto)
+        .expect(401);
+    });
+
+    it('should return 403 if user is not in the specified house', async () => {
+      const dto = {
+        year: 2023,
+        month: 4,
+        houseId: 10000,
+      };
+
+      await request(app.getHttpServer())
+        .get('/expenses/per-date')
+        .send(dto)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(403);
+    });
+
+    it('should return 200 and expense data if authenticated', async () => {
+      await request(app.getHttpServer())
+        .get('/expenses/per-date')
+        .send(dto)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(200)
+        .then((res) => {
+          expect(res.body).toMatchObject(expectedExpenseData);
+        });
+    });
+  });
+
+  describe('GET /expenses/per-month', () => {
+    const dto = {
+      year: 2023,
+      month: 4,
+      houseId: 109,
+    };
+
+    const expectedExpenseData = {
+      '104': {
+        '2023-04-30': [
+          {
+            id: 115,
+            itemName: 'Maintenance Fee',
+            fee: 150,
+            date: '2023-04-30T00:00:00.000Z',
+            houseId: 109,
+            buyerId: 104,
+            payments: [
+              {
+                id: 120,
+                fee: 150,
+                paidDate: '2023-05-05T00:00:00.000Z',
+                user: {
+                  id: 105,
+                  name: 'Evan',
+                  icon: 'VIOLET',
+                },
+              },
+            ],
+            user: {
+              id: 104,
+              name: 'Diana',
+              icon: 'INDIGO',
+            },
+          },
+        ],
+        '2023-04-25': [
+          {
+            id: 114,
+            itemName: 'Groceries',
+            fee: 200,
+            date: '2023-04-25T00:00:00.000Z',
+            houseId: 109,
+            buyerId: 104,
+            payments: [
+              {
+                id: 119,
+                fee: 100,
+                paidDate: '2023-04-30T00:00:00.000Z',
+                user: {
+                  id: 105,
+                  name: 'Evan',
+                  icon: 'VIOLET',
+                },
+              },
+            ],
+            user: {
+              id: 104,
+              name: 'Diana',
+              icon: 'INDIGO',
+            },
+          },
+        ],
+      },
+    };
+
+    it('should return 401 if not authenticated', async () => {
+      await request(app.getHttpServer())
+        .get('/expenses/per-month')
+        .send(dto)
+        .expect(401);
+    });
+
+    it('should return 403 if user is not in the specified house', async () => {
+      const dto = {
+        year: 2023,
+        month: 4,
+        houseId: 10000,
+      };
+
+      await request(app.getHttpServer())
+        .get('/expenses/per-month')
+        .send(dto)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(403);
+    });
+
+    it('should return 200 and expense data if authenticated', async () => {
+      await request(app.getHttpServer())
+        .get('/expenses/per-month')
+        .send(dto)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(200)
+        .then((res) => {
+          expect(res.body).toMatchObject(expectedExpenseData);
+        });
+    });
+  });
+
   describe('CREATE /expenses', () => {
     const dto = {
       itemName: 'Expense 1',

@@ -1,14 +1,167 @@
 import {
+  ForbiddenException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateExpenseDto, UpdateExpenseDto } from './dto';
+import { CreateExpenseDto, GetExpenseDto, UpdateExpenseDto } from './dto';
 
 @Injectable()
 export class ExpenseService {
   constructor(private prisma: PrismaService) {}
+
+  async getExpensePerDate(userId: number, dto: GetExpenseDto) {
+    try {
+      const { year, month, houseId } = dto;
+
+      const userHouse = await this.prisma.userHouse.findFirst({
+        where: { userId, houseId },
+      });
+
+      if (!userHouse) {
+        throw new ForbiddenException(
+          'You are not a member of the specified house.',
+        );
+      }
+
+      const firstDayOfMonth = new Date(year, month - 1, 1);
+      const lastDayOfMonth = new Date(year, month, 0);
+
+      const expenses = await this.prisma.expense.findMany({
+        where: {
+          houseId: userHouse.houseId,
+          date: {
+            gte: firstDayOfMonth,
+            lte: lastDayOfMonth,
+          },
+        },
+        orderBy: {
+          date: 'desc',
+        },
+        include: {
+          payments: {
+            select: {
+              id: true,
+              fee: true,
+              paidDate: true,
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                  icon: true,
+                },
+              },
+            },
+          },
+          user: {
+            select: {
+              id: true,
+              name: true,
+              icon: true,
+            },
+          },
+        },
+      });
+
+      const groupedExpenses = expenses.reduce((acc, expense) => {
+        const expenseDate = expense.date.toISOString().split('T')[0];
+
+        if (!acc[expenseDate]) {
+          acc[expenseDate] = {};
+        }
+
+        const buyerKey = expense.user.id;
+
+        if (!acc[expenseDate][buyerKey]) {
+          acc[expenseDate][buyerKey] = [];
+        }
+
+        acc[expenseDate][buyerKey].push(expense);
+
+        return acc;
+      }, {});
+      return groupedExpenses;
+    } catch (error) {
+      console.error('Error getting expenses per date:', error);
+      throw error;
+    }
+  }
+
+  async getExpensePerMonth(userId: number, dto: GetExpenseDto) {
+    try {
+      const { year, month, houseId } = dto;
+
+      const userHouse = await this.prisma.userHouse.findFirst({
+        where: { userId, houseId },
+      });
+
+      if (!userHouse) {
+        throw new ForbiddenException(
+          'You are not a member of the specified house.',
+        );
+      }
+
+      const firstDayOfMonth = new Date(year, month - 1, 1);
+      const lastDayOfMonth = new Date(year, month, 0);
+
+      const expenses = await this.prisma.expense.findMany({
+        where: {
+          houseId: userHouse.houseId,
+          date: {
+            gte: firstDayOfMonth,
+            lte: lastDayOfMonth,
+          },
+        },
+        orderBy: {
+          date: 'desc',
+        },
+        include: {
+          payments: {
+            select: {
+              id: true,
+              fee: true,
+              paidDate: true,
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                  icon: true,
+                },
+              },
+            },
+          },
+          user: {
+            select: {
+              id: true,
+              name: true,
+              icon: true,
+            },
+          },
+        },
+      });
+
+      const groupedExpenses = expenses.reduce((acc, expense) => {
+        const buyerKey = expense.user.id;
+        if (!acc[buyerKey]) {
+          acc[buyerKey] = {};
+        }
+
+        const expenseDate = expense.date.toISOString().split('T')[0];
+        if (!acc[buyerKey][expenseDate]) {
+          acc[buyerKey][expenseDate] = [];
+        }
+
+        acc[buyerKey][expenseDate].push(expense);
+        return acc;
+      }, {});
+
+      return groupedExpenses;
+    } catch (error) {
+      console.error('Error getting expenses per month:', error);
+      throw error;
+    }
+  }
 
   async createExpense(userId: number, dto: CreateExpenseDto) {
     try {
