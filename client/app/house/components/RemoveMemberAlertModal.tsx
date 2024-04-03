@@ -46,9 +46,7 @@ const RemoveMemberAlertModal = ({
     <AlertDialog open={isOpenAlert} onOpenChange={() => setIsOpenAlert(false)}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>
-            Are you certain you wish to remove this member?
-          </AlertDialogTitle>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. All data associated with this member
             will be permanently deleted.
