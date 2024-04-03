@@ -125,8 +125,6 @@ export class UserService {
         );
       }
 
-      // console.log('use House>>', userHouse);
-
       if (userHouse.isAdmin) {
         const otherAdminsCount = await this.prisma.userHouse.count({
           where: { houseId, isAdmin: true, userId: { not: userId } },

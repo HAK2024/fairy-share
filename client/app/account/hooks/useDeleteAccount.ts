@@ -3,7 +3,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useToast } from '@/_hooks'
 import { resetAllStores } from '@/_stores'
 import { isErrorWithMessage } from '@/_utils'
-import { useDeleteAccountMutation } from './api/useDeleteAccountMutation'
+import { useDeleteAccountMutation } from './api'
 
 export const useDeleteAccount = () => {
   const queryClient = useQueryClient()
