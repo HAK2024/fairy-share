@@ -98,7 +98,7 @@ const MembersManagementModal = ({
                   className={`text-4xl ${colorMap[houseMember.icon.toString()]}`}
                   size={42}
                 />
-                <span className='md:text-md max-w-32 overflow-auto truncate text-sm'>
+                <span className='md:text-md max-w-32 overflow-auto break-words text-sm'>
                   {houseMember.name}
                 </span>
               </div>
