@@ -34,12 +34,16 @@ const RemoveMemberAlertModal = ({
     onRemove(removedMemberId, houseId)
 
     setIsOpenAlert(false)
-    setIsOpenModal(true)
+    setTimeout(() => {
+      setIsOpenModal(true)
+    }, 200)
   }
 
   const handleCancel = () => {
     setIsOpenModal(false)
-    setIsOpenModal(true)
+    setTimeout(() => {
+      setIsOpenModal(true)
+    }, 200)
   }
 
   return (

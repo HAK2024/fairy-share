@@ -62,7 +62,9 @@ const MembersManagementModal = ({
   const handleOpenAlert = (userId: number) => {
     setRemovedMemberId(userId)
     setIsOpenModal(false)
-    setIsOpenAlert(true)
+    setTimeout(() => {
+      setIsOpenAlert(true)
+    }, 200)
   }
 
   return (
