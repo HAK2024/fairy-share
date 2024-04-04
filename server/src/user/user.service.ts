@@ -32,6 +32,7 @@ export class UserService {
                         select: {
                           id: true,
                           name: true,
+                          icon: true,
                         },
                       },
                     },
@@ -57,13 +58,17 @@ export class UserService {
             houseId: userHouse.house.id,
             name: userHouse.house.name,
             isExpensePerTime: userHouse.house.isExpensePerTime,
-            isAdmin: userHouse.isAdmin,
+            currentUserIsAdmin: userHouse.isAdmin,
             rules: userHouse.house.rules,
             tasks: userHouse.house.tasks,
-            houseMembers: userHouse.house.userHouses.map(({ user }) => ({
-              id: user.id,
-              name: user.name,
-            })),
+            houseMembers: userHouse.house.userHouses.map(
+              ({ isAdmin, user }) => ({
+                id: user.id,
+                name: user.name,
+                isAdmin,
+                icon: user.icon,
+              }),
+            ),
           };
         }),
       };
@@ -109,6 +114,40 @@ export class UserService {
           throw new ForbiddenException('Credentials token');
         }
       }
+      throw error;
+    }
+  }
+
+  async deleteUser(userId: number, houseId: number) {
+    try {
+      const userHouse = await this.prisma.userHouse.findFirst({
+        where: { userId, houseId },
+      });
+
+      if (!userHouse) {
+        throw new NotFoundException(
+          `User house not found for user ID ${userId} and house ID ${houseId}`,
+        );
+      }
+
+      if (userHouse.isAdmin) {
+        const otherAdminsCount = await this.prisma.userHouse.count({
+          where: { houseId, isAdmin: true, userId: { not: userId } },
+        });
+        if (otherAdminsCount === 0) {
+          throw new ForbiddenException(
+            'Cannot delete account. You are the only admin in this house.',
+          );
+        }
+      }
+
+      await this.prisma.user.delete({
+        where: { id: userId },
+      });
+
+      return { message: 'User deleted successfully.' };
+    } catch (error) {
+      console.error('Error deleting user:', error);
       throw error;
     }
   }

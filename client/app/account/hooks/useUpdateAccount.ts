@@ -23,7 +23,7 @@ export const useUpdateAccount = (user: UserType) => {
 
   const { mutate, isPending } = useUpdateAccountMutation()
 
-  const onEditAccount = (data: AccountSchema) => {
+  const onUpdateAccount = (data: AccountSchema) => {
     mutate(data, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['me'] })
@@ -42,7 +42,7 @@ export const useUpdateAccount = (user: UserType) => {
         }
         toast({
           variant: 'destructive',
-          title: 'Failed to edit the account..',
+          title: 'Failed to update the account..',
           description: message,
         })
       },
@@ -51,7 +51,7 @@ export const useUpdateAccount = (user: UserType) => {
 
   return {
     form,
-    onSubmit: form.handleSubmit(onEditAccount),
+    onSubmit: form.handleSubmit(onUpdateAccount),
     isPending,
   }
 }

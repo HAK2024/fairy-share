@@ -88,4 +88,214 @@ describe('UserHouseController (e2e)', () => {
       expect(response.body.createdUserHouse).toMatchObject({ houseId });
     });
   });
+
+  describe('PUT /user-houses/admin', () => {
+    beforeAll(async () => {
+      const loginUser = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: 'diana@example.com',
+          password: 'password',
+        });
+
+      token = await loginUser.body.accessToken;
+    });
+
+    const houseId = 109; // Default houseId for the tests
+    const userId = 104; // Default userId for the tests
+
+    it('should return 401 if not authenticated', async () => {
+      await request(app.getHttpServer())
+        .put('/user-houses/admin')
+        .send({
+          userId,
+          houseId,
+          isAdmin: true,
+        })
+        .expect(401);
+    });
+
+    it('should return 403 if user is not the admin', async () => {
+      // Log in as a non-admin user
+      const loginUser = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: 'evan@example.com',
+          password: 'password',
+        });
+
+      token = await loginUser.body.accessToken;
+
+      await request(app.getHttpServer())
+        .put('/user-houses/admin')
+        .send({
+          userId,
+          houseId,
+          isAdmin: false,
+        })
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(403);
+    });
+
+    it('should return 404 if userHouse does not exist', async () => {
+      // Use IDs that are unlikely to exist
+      const houseId = 10000;
+      const userId = 10000;
+
+      await request(app.getHttpServer())
+        .put('/user-houses/admin')
+        .send({
+          userId,
+          houseId,
+          isAdmin: false,
+        })
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(404);
+    });
+
+    it('should return 400 if user is trying to update their own status', async () => {
+      // Log in as an admin user
+      const loginUser = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: 'diana@example.com',
+          password: 'password',
+        });
+
+      token = await loginUser.body.accessToken;
+
+      await request(app.getHttpServer())
+        .put('/user-houses/admin')
+        .send({
+          userId, // Assuming this user matches the loggedIn user
+          houseId,
+          isAdmin: false,
+        })
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(400);
+    });
+
+    it('should return 200 and change admin status to true', async () => {
+      const userId = 105; // Assuming this user is the member of the logged-in user house
+
+      const response = await request(app.getHttpServer())
+        .put('/user-houses/admin')
+        .send({
+          userId,
+          houseId,
+          isAdmin: true,
+        })
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(200);
+
+      expect(response.body.isAdmin).toBe(true);
+    });
+  });
+
+  describe('DELETE /user-houses', () => {
+    beforeAll(async () => {
+      const loginUser = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: 'diana@example.com',
+          password: 'password',
+        });
+
+      token = await loginUser.body.accessToken;
+    });
+
+    const houseId = 109; // Default houseId for the tests
+    const userId = 104; // Default userId for the tests
+
+    it('should return 401 if not authenticated', async () => {
+      await request(app.getHttpServer())
+        .delete('/user-houses')
+        .send({
+          userId,
+          houseId,
+        })
+        .expect(401);
+    });
+
+    it('should return 403 if user is not the admin', async () => {
+      // Log in as a non-admin user
+      const loginUser = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: 'bob@example.com',
+          password: 'password',
+        });
+
+      token = await loginUser.body.accessToken;
+
+      const houseId = 107; // Logged-in user house
+
+      await request(app.getHttpServer())
+        .delete('/user-houses')
+        .send({
+          userId,
+          houseId,
+          isAdmin: false,
+        })
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(403);
+    });
+
+    it('should return 404 if userHouse does not exist', async () => {
+      // Use IDs that are unlikely to exist
+      const houseId = 10000;
+      const userId = 10000;
+
+      await request(app.getHttpServer())
+        .delete('/user-houses')
+        .send({
+          userId,
+          houseId,
+          isAdmin: false,
+        })
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(404);
+    });
+
+    it('should return 400 if user is trying to remove themselves', async () => {
+      const loginUser = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: 'diana@example.com',
+          password: 'password',
+        });
+
+      token = await loginUser.body.accessToken;
+
+      await request(app.getHttpServer())
+        .delete('/user-houses')
+        .send({
+          userId,
+          houseId,
+        })
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(400);
+    });
+
+    it('should delete the user using userId from the house and return 200', async () => {
+      const userId = 105; // Assuming this user is the member of the logged-in user house
+
+      await request(app.getHttpServer())
+        .delete('/user-houses')
+        .send({
+          userId,
+          houseId,
+        })
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(200);
+    });
+  });
 });

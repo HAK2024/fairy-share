@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Put, Res, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  ParseIntPipe,
+  Put,
+  Query,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { AuthGuard } from '../auth/guard';
 import { GetUser } from '../auth/decorator';
@@ -30,5 +40,23 @@ export class UserController {
     });
 
     res.send({ user: user });
+  }
+
+  @Delete()
+  async deleteUser(
+    @GetUser('id') userId: number,
+    @Query('house_id', ParseIntPipe) houseId: number,
+    @Res() res: Response,
+  ) {
+    try {
+      const response = await this.userService.deleteUser(userId, houseId);
+
+      res.clearCookie('token', { httpOnly: true, secure: true });
+      res.clearCookie('csrf-token', { httpOnly: true, secure: true });
+      res.send(response);
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      throw error;
+    }
   }
 }

@@ -22,7 +22,7 @@ export const paymentData = async () => [
   },
   {
     id: 119,
-    fee: 200.75,
+    fee: 100,
     paidDate: new Date(2023, 3, 30),
     expenseId: 114,
     payerId: 105,
@@ -32,6 +32,6 @@ export const paymentData = async () => [
     fee: 150.0,
     paidDate: new Date(2023, 4, 5),
     expenseId: 115,
-    payerId: 101,
+    payerId: 105,
   },
 ];

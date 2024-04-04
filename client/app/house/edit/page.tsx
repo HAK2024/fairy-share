@@ -1,18 +1,21 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { FiUsers } from 'react-icons/fi'
 import { Loading } from '@/_components/layout'
 import { FormContainer } from '@/_components/layout'
 import { Button, Heading } from '@/_components/ui'
 import { useGetHouseInfo } from '@/_hooks'
-import { useGetHouseQuery } from '@/_hooks/api'
-import { HouseUpdateForm, DeleteHouse } from '../components'
+import { useGetHouseQuery, useGetMeQuery } from '@/_hooks/api'
+import { HouseUpdateForm, DeleteHouse, MembersManagement } from '../components'
 
 export default function HouseEditPage() {
   const router = useRouter()
   const { isAdmin } = useGetHouseInfo()
   const { data: house, isLoading } = useGetHouseQuery()
+  const userId = useGetMeQuery()?.data?.id
+  const [isOpenModal, setIsOpenModal] = useState(false)
 
   useEffect(() => {
     if (!isAdmin) {
@@ -20,27 +23,36 @@ export default function HouseEditPage() {
     }
   }, [isAdmin, router])
 
+  if (isLoading || !house || !userId) {
+    return <Loading />
+  }
+
   return (
     <FormContainer>
       <Heading
         title='House Setting'
         buttonComponent={
-          // TODO: Open Modal for management members
-          <Button variant={'outline'} onClick={() => {}}>
-            Members
+          <Button
+            variant={'outline'}
+            onClick={() => {
+              setIsOpenModal(true)
+            }}
+          >
+            <FiUsers />
+            &nbsp;Members
           </Button>
         }
       />
-      {isLoading || !house ? (
-        <Loading />
-      ) : (
-        <>
-          <HouseUpdateForm defaultData={house} />
-          <div className='mt-14'>
-            <DeleteHouse houseId={house.houseId} />
-          </div>
-        </>
-      )}
+      <HouseUpdateForm defaultData={house} />
+      <div className='mt-14'>
+        <DeleteHouse houseId={house.houseId} />
+      </div>
+      <MembersManagement
+        userId={userId}
+        house={house}
+        isOpenModal={isOpenModal}
+        setIsOpenModal={setIsOpenModal}
+      />
     </FormContainer>
   )
 }
