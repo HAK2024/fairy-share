@@ -1,15 +1,70 @@
+/* Calendar */
+.task-calendar .rbc-toolbar {
+  @apply mb-4 gap-2 md:mb-3;
+}
+
 .task-calendar .rbc-toolbar button {
-  @apply border-gray-100 bg-gray-100 text-teal-600;
+  @apply border-gray-200 bg-gray-50 py-1 text-sm text-teal-600 shadow-sm md:py-2 md:text-base;
 }
 
 .task-calendar .rbc-toolbar-label {
-  @apply text-lg font-semibold md:text-xl;
+  @apply text-lg font-semibold md:text-2xl;
+}
+
+.task-calendar .rbc-toolbar button:active {
+  @apply border-gray-200 bg-gray-50 font-semibold text-teal-600 shadow-sm;
+}
+
+.task-calendar .rbc-toolbar button:hover {
+  @apply border-gray-200 bg-gray-100 text-teal-600;
 }
 
 .task-calendar .rbc-toolbar button.rbc-active:hover {
-  @apply border-gray-100 bg-gray-100 text-teal-700;
+  @apply border-gray-200 bg-gray-100 text-teal-600;
 }
 
-.tesk-calendar .rbc-toolbar button.rbc-active {
-  @apply border-gray-100 bg-gray-100 text-teal-700;
+.task-calendar .rbc-toolbar button.rbc-active {
+  @apply border-gray-200 bg-gray-50 font-semibold text-teal-600 shadow-sm;
+}
+
+.task-calendar .rbc-toolbar button.rbc-active:focus {
+  @apply border-gray-200 bg-gray-50 font-semibold text-teal-600 shadow-sm;
+}
+
+.task-calendar .rbc-off-range-bg {
+  @apply bg-gray-100;
+}
+
+.task-calendar .rbc-today {
+  @apply bg-teal-50;
+}
+
+/* Show more modal */
+.rbc-overlay-header {
+  @apply text-center text-sm font-semibold md:text-base;
+}
+
+.rbc-event-content {
+  @apply text-sm font-medium leading-7 md:text-sm md:leading-7;
+}
+
+.rbc-event-content > div {
+  @apply px-2;
+}
+
+/* Event */
+.rbc-event {
+  @apply bg-transparent px-0 py-[1px];
+}
+
+.task-calendar .rbc-event-content {
+  @apply text-xs font-medium leading-5 md:text-sm md:leading-6;
+}
+
+.task-calendar .rbc-event-content > div {
+  @apply px-1;
+}
+
+.rbc-show-more {
+  @apply text-2xs md:text-xs;
 }

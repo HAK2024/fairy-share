@@ -19,15 +19,3 @@ export const useGetTodosQuery = () => {
     isError,
   }
 }
-
-// Components
-// data.inOnlyAdmin ? openAlertModal() : openDeleteModal()
-
-type UserDeleteResponseType = {
-  data: {
-    isOnlyAdmin?: boolean
-  }
-}
-
-// If the person is only admin -> { isOnlyAdmin: true }
-// succesffuly deleted -> {}

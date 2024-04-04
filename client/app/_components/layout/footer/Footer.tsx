@@ -11,7 +11,7 @@ const Footer = ({ hasNavigation = true }: FooterProps) => {
   return (
     // Footer: Visible on devices less wider than "md" breakpoint and hasNavigation is true
     <footer
-      className={`${hasNavigation ? 'fixed' : 'hidden'} bottom-0 left-0 right-0 flex h-16 w-screen items-center bg-teal-50 text-white shadow-lg md:hidden`}
+      className={`${hasNavigation ? 'fixed' : 'hidden'} bottom-0 left-0 right-0 z-30 flex h-16 w-screen items-center bg-teal-50 text-white shadow-lg md:hidden`}
     >
       <nav className='flex w-full items-center justify-between px-6'>
         <Link href={'/'}>

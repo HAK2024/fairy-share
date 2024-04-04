@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import format from 'date-fns/format'
 import getDay from 'date-fns/getDay'
 import enUS from 'date-fns/locale/en-US'
@@ -8,13 +8,15 @@ import {
   Calendar,
   View,
   dateFnsLocalizer,
-  Navigate,
   Event,
-  stringOrDate,
+  DateLocalizer,
+  Culture,
+  DateRange,
 } from 'react-big-calendar'
-// import CustomWeekView from './CustomWeekCalendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import '../style/task-calendar.css'
+import { colorBgMap } from '@/_consts'
+import { TaskTypeWithUser } from '@/_types'
 
 const locales = {
   'en-US': enUS,
@@ -28,28 +30,11 @@ const localizer = dateFnsLocalizer({
   locales,
 })
 
-const events = [
-  {
-    title: 'Task1',
-    allDay: true, // このイベントは一日中続きます
-    start: new Date(2024, 3, 18, 10, 0), // 4月18日 10:00 AM
-    end: new Date(2024, 3, 18, 14, 0), // 4月18日 2:00 PM
-  },
-  {
-    title: 'Task2',
-    allDay: true, // このイベントは一日中続きます
-    start: new Date(2024, 3, 20, 10, 0), // 4月20日 10:00 AM
-    end: new Date(2024, 3, 20, 14, 0), // 4月20日 2:00 PM
-  },
-  {
-    title: 'Task3',
-    allDay: true, // このイベントは一日中続きます
-    start: new Date(2024, 3, 20, 10, 0), // 4月20日 10:00 AM
-    end: new Date(2024, 3, 20, 14, 0), // 4月20日 2:00 PM
-  },
-]
+type TasksCalendarProps = {
+  tasks: TaskTypeWithUser[]
+}
 
-const TasksCalendar = () => {
+const TasksCalendar = ({ tasks }: TasksCalendarProps) => {
   const [view, setView] = useState<View>('month')
   const [date, setDate] = useState(new Date())
 
@@ -61,36 +46,65 @@ const TasksCalendar = () => {
     setView(newView)
   }
 
-  const { views, ...otherProps } = useMemo(
-    () => ({
-      views: {
-        month: true,
-        // week: CustomWeekView,
-        day: true,
-      },
-      // ... other props
-    }),
-    [],
-  )
+  const formattedTasks = useMemo(() => {
+    return tasks.map((task) => {
+      const event: Event & TaskTypeWithUser = {
+        allDay: true,
+        start: new Date(task.date),
+        end: new Date(task.date),
+        ...task,
+      }
+
+      return event
+    })
+  }, [tasks])
+
+  // console.log('formattedTasks:', formattedTasks)
+
+  const formats = {
+    weekdayFormat: (date: Date, culture?: Culture, localizer?: DateLocalizer) =>
+      localizer?.format(date, 'E', culture) || '',
+    dayFormat: (date: Date, culture?: Culture, localizer?: DateLocalizer) =>
+      localizer?.format(date, 'E, d', culture) || '',
+    dayHeaderFormat: (
+      date: Date,
+      culture?: Culture,
+      localizer?: DateLocalizer,
+    ) => localizer?.format(date, 'E, MMM d', culture) || '',
+    dayRangeHeaderFormat: (
+      { start, end }: DateRange,
+      culture?: Culture,
+      localizer?: DateLocalizer,
+    ) =>
+      `${localizer?.format(start, 'MMM d', culture)} - ${localizer?.format(end, 'MMM d', culture)}`,
+  }
+
+  const CustomEvent = ({ event }: { event: Event & TaskTypeWithUser }) => {
+    return (
+      <div
+        className={`${colorBgMap[event.user.icon]} overflow-hidden text-ellipsis rounded`}
+      >
+        {event.title}
+      </div>
+    )
+  }
 
   return (
-    <div className='task-calendar'>
+    <div className='task-calendar h-[600px] md:h-[760px]'>
       <Calendar
         localizer={localizer}
-        events={events}
-        // eventPropGetter={eventPropGetter}
-        // onSelectEvent={(event) => {
-        //   console.log('event:', event)
-        // }}
+        events={formattedTasks}
         views={['month', 'week']}
-        // views={views}
-        style={{ height: 800 }}
-        defaultView='week' // 初期表示は月ビュー
-        toolbar={true} // ツールバーを表示する
+        toolbar={true}
         view={view}
         onView={handleViewChange}
         date={date}
         onNavigate={handleNavigate}
+        formats={formats}
+        components={{
+          event: CustomEvent,
+        }}
+        popup={true}
       />
     </div>
   )
