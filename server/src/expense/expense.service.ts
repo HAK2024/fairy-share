@@ -163,6 +163,39 @@ export class ExpenseService {
     }
   }
 
+  async getExpense(userId: number, expenseId: number) {
+    try {
+      const userHouse = await this.prisma.userHouse.findFirst({
+        where: { userId },
+      });
+
+      if (!userHouse) {
+        throw new ForbiddenException('You do not belong to any house.');
+      }
+
+      const expense = await this.prisma.expense.findUnique({
+        where: {
+          id: expenseId,
+        },
+      });
+
+      if (!expense) {
+        throw new NotFoundException(`Expense with ID ${expenseId} not found.`);
+      }
+
+      if (expense.houseId !== userHouse.houseId) {
+        throw new ForbiddenException(
+          'You do not have permission to get this expense.',
+        );
+      }
+
+      return expense;
+    } catch (error) {
+      console.error('Error getting expense:', error);
+      throw error;
+    }
+  }
+
   async createExpense(userId: number, dto: CreateExpenseDto) {
     try {
       return await this.prisma.$transaction(async (tx) => {

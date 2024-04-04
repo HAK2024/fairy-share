@@ -249,6 +249,71 @@ describe('ExpenseController (e2e)', () => {
     });
   });
 
+  describe('GET /expenses/:expenseId', () => {
+    const expenseId = 115;
+
+    it('should return 401 if not authenticated', async () => {
+      await request(app.getHttpServer())
+        .get(`/expenses/${expenseId}`)
+        .expect(401);
+    });
+
+    it('should return 404 if expense does not exist.', async () => {
+      const expenseId = 10000;
+
+      await request(app.getHttpServer())
+        .get(`/expenses/${expenseId}`)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(404);
+    });
+
+    it('should return 403 if user does not have permission to get this expense', async () => {
+      const loginUser = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: 'alice@example.com',
+          password: 'password',
+        });
+
+      token = await loginUser.body.accessToken;
+
+      await request(app.getHttpServer())
+        .get(`/expenses/${expenseId}`)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(403);
+    });
+
+    it('should return 200 and the expense data if authenticated', async () => {
+      const loginUser = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: 'diana@example.com',
+          password: 'password',
+        });
+
+      token = await loginUser.body.accessToken;
+
+      const expectedExpenseData = {
+        id: expenseId,
+        itemName: 'Maintenance Fee',
+        fee: 150,
+        date: '2023-04-30T00:00:00.000Z',
+        houseId: 109,
+        buyerId: 104,
+      };
+
+      const response = await request(app.getHttpServer())
+        .get(`/expenses/${expenseId}`)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(200);
+
+      expect(response.body).toMatchObject(expectedExpenseData);
+    });
+  });
+
   describe('CREATE /expenses', () => {
     const dto = {
       itemName: 'Expense 1',
