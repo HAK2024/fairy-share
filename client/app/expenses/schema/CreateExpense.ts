@@ -13,7 +13,6 @@ const createExpenseSchema = z.object({
     .refine((val) => Math.round(val * 100) / 100 === val, {
       message: 'Expense must be a number with up to 2 decimal place.',
     }),
-
   date: z
     .date()
     .nullable()

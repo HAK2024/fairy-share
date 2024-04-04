@@ -12,6 +12,7 @@ export const useCreateExpense = () => {
 
   const form = useForm<CreateExpenseSchema>({
     resolver: createExpenseResolver,
+    // TODO: Set empty to fee if I figured out a way
     defaultValues: {
       itemName: '',
       fee: 0,
