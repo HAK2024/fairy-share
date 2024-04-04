@@ -59,7 +59,7 @@ describe('UserController (e2e)', () => {
       const userId = 101;
 
       it('should return 401 if not authenticated', async () => {
-        await request(app.getHttpServer()).put('/me/').expect(401);
+        await request(app.getHttpServer()).put('/me').expect(401);
       });
 
       it('should updated all the data', async () => {
@@ -70,7 +70,7 @@ describe('UserController (e2e)', () => {
         };
 
         const response = await request(app.getHttpServer())
-          .put('/me/')
+          .put('/me')
           .send(updatedDto)
           .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
           .set('x-csrf-token', csrfToken)
@@ -88,14 +88,14 @@ describe('UserController (e2e)', () => {
     });
   });
 
-  describe('DELETE /me/', () => {
+  describe('DELETE /me', () => {
     it('should return 401 if not authenticated', async () => {
-      await request(app.getHttpServer()).delete('/me/').expect(401);
+      await request(app.getHttpServer()).delete('/me').expect(401);
     });
 
     it('should return 403 if a user is only admin', async () => {
       await request(app.getHttpServer())
-        .delete('/me/')
+        .delete('/me')
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
         .expect(403);
@@ -112,7 +112,7 @@ describe('UserController (e2e)', () => {
       token = await nonAdminUser.body.accessToken;
 
       await request(app.getHttpServer())
-        .delete('/me/')
+        .delete('/me')
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
         .expect(200)
