@@ -42,6 +42,7 @@ const ExpenseCreateForm = () => {
                   <Input
                     type='number'
                     placeholder='0.00'
+                    min='0.01'
                     step='0.01'
                     {...field}
                   />
