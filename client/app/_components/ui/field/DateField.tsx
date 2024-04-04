@@ -17,11 +17,13 @@ import {
 export type DateFieldProps<TFormValues extends FieldValues> = {
   control: Control<TFormValues>
   name: Path<TFormValues>
+  type: 'task' | 'expense'
 }
 
 const DateField = <TFormValues extends FieldValues>({
   control,
   name,
+  type,
 }: DateFieldProps<TFormValues>) => {
   const [isCalendarOpen, setCalendarOpen] = useState(false)
 
@@ -48,7 +50,11 @@ const DateField = <TFormValues extends FieldValues>({
                           : ''
                       }`}
                     >
-                      {field.value ? format(field.value, 'PPP') : 'Pick a date'}
+                      {field.value
+                        ? format(field.value, 'PPP')
+                        : type === 'expense'
+                          ? 'Purchase date'
+                          : 'Pick a date'}
                       <BiCalendarAlt className='ml-auto h-6 w-6 opacity-50' />
                     </button>
                   </PopoverTrigger>
@@ -63,7 +69,7 @@ const DateField = <TFormValues extends FieldValues>({
                       disabled={(date) => {
                         const today = new Date()
                         today.setHours(0, 0, 0, 0)
-                        return date < today
+                        return type === 'task' ? date < today : date > today
                       }}
                       initialFocus
                     />

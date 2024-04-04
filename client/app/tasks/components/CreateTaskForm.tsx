@@ -38,7 +38,11 @@ const CreateTaskForm = () => {
               </FormItem>
             )}
           />
-          <DateField<taskSchema> control={form.control} name='date' />
+          <DateField<taskSchema>
+            control={form.control}
+            name='date'
+            type='task'
+          />
           <AssigneeField<taskSchema>
             control={form.control}
             name='assigneeId'
