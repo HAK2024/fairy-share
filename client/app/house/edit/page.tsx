@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { FiUsers } from 'react-icons/fi'
 import { Loading } from '@/_components/layout'
 import { FormContainer } from '@/_components/layout'
 import { Button, Heading } from '@/_components/ui'
@@ -37,7 +38,8 @@ export default function HouseEditPage() {
               setIsOpenModal(true)
             }}
           >
-            Members
+            <FiUsers />
+            &nbsp;Members
           </Button>
         }
       />
