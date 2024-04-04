@@ -32,6 +32,7 @@ export class UserService {
                         select: {
                           id: true,
                           name: true,
+                          icon: true,
                         },
                       },
                     },
@@ -57,13 +58,17 @@ export class UserService {
             houseId: userHouse.house.id,
             name: userHouse.house.name,
             isExpensePerTime: userHouse.house.isExpensePerTime,
-            isAdmin: userHouse.isAdmin,
+            currentUserIsAdmin: userHouse.isAdmin,
             rules: userHouse.house.rules,
             tasks: userHouse.house.tasks,
-            houseMembers: userHouse.house.userHouses.map(({ user }) => ({
-              id: user.id,
-              name: user.name,
-            })),
+            houseMembers: userHouse.house.userHouses.map(
+              ({ isAdmin, user }) => ({
+                id: user.id,
+                name: user.name,
+                isAdmin,
+                icon: user.icon,
+              }),
+            ),
           };
         }),
       };

@@ -4,7 +4,8 @@ export const useGetHouseInfo = () => {
   const { data: me } = useGetMeQuery()
 
   const houseId = me?.houses && me.houses.length && me.houses[0].houseId
-  const isAdmin = me?.houses && !!me.houses.length && me.houses[0].isAdmin
+  const isAdmin =
+    me?.houses && !!me.houses.length && me.houses[0].currentUserIsAdmin
   const houseName = me?.houses && me.houses.length && me.houses[0].name
 
   return {
