@@ -11,14 +11,9 @@ import {
   AlertDialogTrigger,
   Button,
 } from '@/_components/ui'
-import { UserType } from '@/_types'
 import { useDeleteAccount } from '../hooks'
 
-type DeleteAccountProps = {
-  user: UserType
-}
-
-const DeleteAccount = ({ user }: DeleteAccountProps) => {
+const DeleteAccount = () => {
   const { onDelete, isPending } = useDeleteAccount()
 
   return (
@@ -39,10 +34,7 @@ const DeleteAccount = ({ user }: DeleteAccountProps) => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel disabled={isPending}>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            isLoading={isPending}
-            onClick={() => onDelete(user.houses[0].houseId)}
-          >
+          <AlertDialogAction isLoading={isPending} onClick={() => onDelete()}>
             Delete
           </AlertDialogAction>
         </AlertDialogFooter>

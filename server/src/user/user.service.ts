@@ -118,21 +118,24 @@ export class UserService {
     }
   }
 
-  async deleteUser(userId: number, houseId: number) {
+  async deleteUser(userId: number) {
     try {
       const userHouse = await this.prisma.userHouse.findFirst({
-        where: { userId, houseId },
+        where: { userId },
       });
 
       if (!userHouse) {
-        throw new NotFoundException(
-          `User house not found for user ID ${userId} and house ID ${houseId}`,
-        );
+        await this.deleteUserFromDatabase(userId);
+        return { message: 'User deleted successfully.' };
       }
 
       if (userHouse.isAdmin) {
         const otherAdminsCount = await this.prisma.userHouse.count({
-          where: { houseId, isAdmin: true, userId: { not: userId } },
+          where: {
+            houseId: userHouse.houseId,
+            isAdmin: true,
+            userId: { not: userId },
+          },
         });
         if (otherAdminsCount === 0) {
           throw new ForbiddenException(
@@ -141,14 +144,18 @@ export class UserService {
         }
       }
 
-      await this.prisma.user.delete({
-        where: { id: userId },
-      });
+      await this.deleteUserFromDatabase(userId);
 
       return { message: 'User deleted successfully.' };
     } catch (error) {
       console.error('Error deleting user:', error);
       throw error;
     }
+  }
+
+  private async deleteUserFromDatabase(userId: number) {
+    await this.prisma.user.delete({
+      where: { id: userId },
+    });
   }
 }
