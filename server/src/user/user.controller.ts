@@ -3,9 +3,7 @@ import {
   Controller,
   Delete,
   Get,
-  ParseIntPipe,
   Put,
-  Query,
   Res,
   UseGuards,
 } from '@nestjs/common';

@@ -121,35 +121,42 @@ export class UserService {
       });
 
       if (!userHouse) {
-        await this.prisma.user.delete({
-          where: { id: userId },
-        });
+        await this.deleteUserFromDatabase(userId);
         return { message: 'User deleted successfully.' };
       }
 
       if (userHouse.isAdmin) {
-        const otherAdminsCount = await this.prisma.userHouse.count({
-          where: {
-            houseId: userHouse.houseId,
-            isAdmin: true,
-            userId: { not: userId },
-          },
-        });
-        if (otherAdminsCount === 0) {
-          throw new ForbiddenException(
-            'Cannot delete account. You are the only admin in this house.',
-          );
-        }
+        await this.checkAdminDeletionPossibility(userHouse);
       }
 
-      await this.prisma.user.delete({
-        where: { id: userId },
-      });
+      await this.deleteUserFromDatabase(userId);
 
       return { message: 'User deleted successfully.' };
     } catch (error) {
       console.error('Error deleting user:', error);
       throw error;
+    }
+  }
+
+  private async deleteUserFromDatabase(userId: number) {
+    await this.prisma.user.delete({
+      where: { id: userId },
+    });
+  }
+
+  private async checkAdminDeletionPossibility(userHouse: any) {
+    const otherAdminsCount = await this.prisma.userHouse.count({
+      where: {
+        houseId: userHouse.houseId,
+        isAdmin: true,
+        userId: { not: userHouse.userId },
+      },
+    });
+
+    if (otherAdminsCount === 0) {
+      throw new ForbiddenException(
+        'Cannot delete account. You are the only admin in this house.',
+      );
     }
   }
 }
