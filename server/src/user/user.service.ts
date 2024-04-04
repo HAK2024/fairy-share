@@ -117,7 +117,6 @@ export class UserService {
     try {
       const userHouse = await this.prisma.userHouse.findFirst({
         where: { userId },
-        include: { house: true },
       });
 
       if (!userHouse) {
