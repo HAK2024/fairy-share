@@ -43,13 +43,9 @@ export class UserController {
   }
 
   @Delete()
-  async deleteUser(
-    @GetUser('id') userId: number,
-    @Query('house_id', ParseIntPipe) houseId: number,
-    @Res() res: Response,
-  ) {
+  async deleteUser(@GetUser('id') userId: number, @Res() res: Response) {
     try {
-      const response = await this.userService.deleteUser(userId, houseId);
+      const response = await this.userService.deleteUser(userId);
 
       res.clearCookie('token', { httpOnly: true, secure: true });
       res.clearCookie('csrf-token', { httpOnly: true, secure: true });
