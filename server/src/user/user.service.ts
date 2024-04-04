@@ -125,7 +125,18 @@ export class UserService {
       }
 
       if (userHouse.isAdmin) {
-        await this.checkAdminDeletionPossibility(userHouse);
+        const otherAdminsCount = await this.prisma.userHouse.count({
+          where: {
+            houseId: userHouse.houseId,
+            isAdmin: true,
+            userId: { not: userId },
+          },
+        });
+        if (otherAdminsCount === 0) {
+          throw new ForbiddenException(
+            'Cannot delete account. You are the only admin in this house.',
+          );
+        }
       }
 
       await this.deleteUserFromDatabase(userId);
@@ -141,21 +152,5 @@ export class UserService {
     await this.prisma.user.delete({
       where: { id: userId },
     });
-  }
-
-  private async checkAdminDeletionPossibility(userHouse: any) {
-    const otherAdminsCount = await this.prisma.userHouse.count({
-      where: {
-        houseId: userHouse.houseId,
-        isAdmin: true,
-        userId: { not: userHouse.userId },
-      },
-    });
-
-    if (otherAdminsCount === 0) {
-      throw new ForbiddenException(
-        'Cannot delete account. You are the only admin in this house.',
-      );
-    }
   }
 }
