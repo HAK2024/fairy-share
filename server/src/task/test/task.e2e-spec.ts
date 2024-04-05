@@ -90,7 +90,7 @@ describe('TaskController (e2e)', () => {
       const expectedTaskData = {
         id: taskId,
         title: 'Garden Maintenance',
-        date: '2023-04-15T00:00:00.000Z',
+        date: '2024-05-15T00:00:00.000Z',
         note: 'Trim the hedges and mow the lawn',
         houseId: 106,
         assigneeId: 101,
@@ -127,7 +127,7 @@ describe('TaskController (e2e)', () => {
       const expectedTaskData = {
         id: expect.any(Number),
         title: 'Valid Title',
-        date: '2023-03-18T12:00:00.000Z',
+        date: '2024-03-18T12:00:00.000Z',
         note: 'Valid Note',
         assigneeId: 101,
         houseId: 106,
@@ -165,7 +165,7 @@ describe('TaskController (e2e)', () => {
       const expectedTaskData = {
         id: expect.any(Number),
         title: 'Valid Title',
-        date: '2023-03-18T12:00:00.000Z',
+        date: '2024-03-18T12:00:00.000Z',
         note: 'Valid Note',
         assigneeId: 101,
       };
