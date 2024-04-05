@@ -34,6 +34,14 @@ export class ExpenseController {
     return this.expenseService.getExpensePerMonth(userId, dto);
   }
 
+  @Get(':expenseId')
+  getExpense(
+    @GetUser('id') userId: number,
+    @Param('expenseId', ParseIntPipe) expenseId: number,
+  ) {
+    return this.expenseService.getExpense(userId, expenseId);
+  }
+
   @Post()
   createExpense(@GetUser('id') userId: number, @Body() dto: CreateExpenseDto) {
     return this.expenseService.createExpense(userId, dto);
