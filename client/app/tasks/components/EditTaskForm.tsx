@@ -43,7 +43,8 @@ const EditTaskForm = ({ defaultData }: { defaultData: TaskType }) => {
           <DateField<taskSchema>
             control={form.control}
             name='date'
-            type='task'
+            placeholder='Pick a date'
+            disabledDates='past'
           />
           <AssigneeField<taskSchema>
             control={form.control}

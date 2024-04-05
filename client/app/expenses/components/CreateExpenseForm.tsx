@@ -54,7 +54,8 @@ const CreateExpenseForm = () => {
           <DateField<ExpenseSchema>
             control={form.control}
             name='date'
-            type='expense'
+            placeholder='Purchase date'
+            disabledDates='future'
           />
         </div>
 

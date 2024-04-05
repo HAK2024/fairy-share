@@ -23,7 +23,7 @@ export const Default: StoryObj<DateFieldProps<taskSchema>> = {
       <FormContainer>
         <Form {...form}>
           <form className='mx-auto mt-8 w-full'>
-            <DateField {...args} control={form.control} type='task' />
+            <DateField {...args} control={form.control} />
           </form>
         </Form>
       </FormContainer>
@@ -31,6 +31,7 @@ export const Default: StoryObj<DateFieldProps<taskSchema>> = {
   },
   args: {
     name: 'date',
-    type: 'task',
+    placeholder: 'Pick a date',
+    disabledDates: 'future',
   },
 }
