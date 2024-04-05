@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import router from 'next/router'
+import { useRouter } from 'next/navigation'
 import { FiPlus } from 'react-icons/fi'
 import { Loading } from '@/_components/layout'
 import { Button, Heading } from '@/_components/ui'
@@ -11,6 +11,7 @@ import { useGetTasksQuery } from './hooks/api'
 // import { useDeleteTask } from './hooks'
 
 const TasksCalendarPage = () => {
+  const router = useRouter()
   const { houseName } = useGetHouseInfo()
   const { data: tasks, isLoading } = useGetTasksQuery()
   // TODO: This is just an example of how deleting a task works, so please change it

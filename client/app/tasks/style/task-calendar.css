@@ -1,45 +1,33 @@
 /* Calendar */
-.task-calendar .rbc-toolbar {
-  @apply mb-4 gap-2 md:mb-3;
-}
-
-.task-calendar .rbc-toolbar button {
-  @apply border-gray-200 bg-gray-50 py-1 text-sm text-teal-600 shadow-sm md:py-2 md:text-base;
-}
-
-.task-calendar .rbc-toolbar-label {
-  @apply text-lg font-semibold md:text-2xl;
-}
-
-.task-calendar .rbc-toolbar button:active {
-  @apply border-gray-200 bg-gray-50 font-semibold text-teal-600 shadow-sm;
-}
-
-.task-calendar .rbc-toolbar button:hover {
-  @apply border-gray-200 bg-gray-100 text-teal-600;
-}
-
-.task-calendar .rbc-toolbar button.rbc-active:hover {
-  @apply border-gray-200 bg-gray-100 text-teal-600;
-}
-
-.task-calendar .rbc-toolbar button.rbc-active {
-  @apply border-gray-200 bg-gray-50 font-semibold text-teal-600 shadow-sm;
-}
-
-.task-calendar .rbc-toolbar button.rbc-active:focus {
-  @apply border-gray-200 bg-gray-50 font-semibold text-teal-600 shadow-sm;
-}
-
 .task-calendar .rbc-off-range-bg {
-  @apply bg-gray-100;
+  @apply bg-amber-50;
 }
 
 .task-calendar .rbc-today {
-  @apply bg-teal-50;
+  @apply bg-amber-50;
+}
+
+.task-calendar .rbc-month-header {
+  @apply bg-amber-100;
+}
+
+.task-calendar .rbc-date-cell {
+  @apply mb-[2px] text-sm md:mb-1 md:text-base;
+}
+
+.task-calendar .rbc-date-cell button {
+  @apply pt-1;
+}
+
+.task-calendar .rbc-now button {
+  @apply rounded-full bg-amber-200 p-1;
 }
 
 /* Show more modal */
+.rbc-overlay {
+  @apply rounded-md border-2 bg-slate-50 shadow-none;
+}
+
 .rbc-overlay-header {
   @apply text-center text-sm font-semibold md:text-base;
 }
@@ -66,5 +54,13 @@
 }
 
 .rbc-show-more {
-  @apply text-2xs md:text-xs;
+  @apply text-2xs text-teal-600 md:text-xs;
+}
+
+.rbc-show-more:hover {
+  @apply text-teal-800;
+}
+
+.rbc-show-more:focus {
+  @apply text-teal-800;
 }
