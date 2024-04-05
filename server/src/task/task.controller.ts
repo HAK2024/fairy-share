@@ -1,6 +1,11 @@
 import { GetUser } from '../auth/decorator';
 import { AuthGuard } from '../auth/guard';
-import { CreateTaskDto, UpdateTaskDto, UpdateTaskStatusDto } from './dto';
+import {
+  CreateTaskDto,
+  GetTasksQueryDto,
+  UpdateTaskDto,
+  UpdateTaskStatusDto,
+} from './dto';
 import { TaskService } from './task.service';
 import {
   Body,
@@ -13,6 +18,7 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 
@@ -22,8 +28,8 @@ export class TaskController {
   constructor(private taskService: TaskService) {}
 
   @Get()
-  getTasks(@GetUser('id') userId: number) {
-    return this.taskService.getTasks(userId);
+  getTasks(@GetUser('id') userId: number, @Query() query: GetTasksQueryDto) {
+    return this.taskService.getTasks(userId, query);
   }
 
   @Get(':taskId')

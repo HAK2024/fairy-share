@@ -20,6 +20,8 @@ import '../style/task-calendar.css'
 import { Button } from '@/_components/ui'
 import { colorBgMap } from '@/_consts'
 import { TaskTypeWithUser } from '@/_types'
+import { Loading } from '../../_components/layout'
+import { useGetTasksQuery } from '../hooks/api'
 
 const locales = {
   'en-US': enUS,
@@ -33,14 +35,14 @@ const localizer = dateFnsLocalizer({
   locales,
 })
 
-type TasksCalendarProps = {
-  tasks: TaskTypeWithUser[]
-}
-
 type CustomEventType = Event & TaskTypeWithUser
 
-const TasksCalendar = ({ tasks }: TasksCalendarProps) => {
+const TasksCalendar = () => {
   const [date, setDate] = useState(new Date())
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const { data: tasks, isLoading } = useGetTasksQuery(year, month)
+
   const [_selectedEvent, setSelectedEvent] = useState<CustomEventType | null>(
     null,
   )
@@ -50,7 +52,7 @@ const TasksCalendar = ({ tasks }: TasksCalendarProps) => {
   }
 
   const formattedTasks = useMemo(() => {
-    return tasks.map((task) => {
+    return tasks?.map((task) => {
       const event: CustomEventType = {
         allDay: true,
         start: new Date(task.date),
@@ -86,6 +88,8 @@ const TasksCalendar = ({ tasks }: TasksCalendarProps) => {
     // TODO - This is just temp code to show the selected event
     window.alert('Selected event: ' + event.title)
   }
+
+  if (isLoading || !tasks) return <Loading />
 
   return (
     <div className='task-calendar h-[600px] md:h-[700px]'>

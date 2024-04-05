@@ -5,13 +5,21 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateTaskDto, UpdateTaskDto, UpdateTaskStatusDto } from './dto';
+import {
+  CreateTaskDto,
+  UpdateTaskDto,
+  UpdateTaskStatusDto,
+  GetTasksQueryDto,
+} from './dto';
 
 @Injectable()
 export class TaskService {
   constructor(private prisma: PrismaService) {}
 
-  async getTasks(userId: number) {
+  async getTasks(userId: number, query: GetTasksQueryDto) {
+    const year = Number(query.year);
+    const month = Number(query.month);
+
     try {
       const userHouse = await this.prisma.userHouse.findFirst({
         where: { userId },
@@ -24,6 +32,10 @@ export class TaskService {
       const tasks = await this.prisma.task.findMany({
         where: {
           houseId: userHouse.houseId,
+          date: {
+            gte: new Date(year, month - 1, 1),
+            lt: new Date(year, month, 1),
+          },
         },
         include: {
           user: {
