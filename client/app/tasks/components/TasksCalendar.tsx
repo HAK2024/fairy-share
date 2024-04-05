@@ -40,7 +40,6 @@ type TasksCalendarProps = {
 type CustomEventType = Event & TaskTypeWithUser
 
 const TasksCalendar = ({ tasks }: TasksCalendarProps) => {
-  const [view, setView] = useState<View>('month')
   const [date, setDate] = useState(new Date())
   const [_selectedEvent, setSelectedEvent] = useState<CustomEventType | null>(
     null,
@@ -48,10 +47,6 @@ const TasksCalendar = ({ tasks }: TasksCalendarProps) => {
 
   const handleNavigate = (newDate: Date) => {
     setDate(newDate)
-  }
-
-  const handleViewChange = (newView: View) => {
-    setView(newView)
   }
 
   const formattedTasks = useMemo(() => {
@@ -97,10 +92,6 @@ const TasksCalendar = ({ tasks }: TasksCalendarProps) => {
       <Calendar
         localizer={localizer}
         events={formattedTasks}
-        views={['month', 'week']}
-        // toolbar={true}
-        view={view}
-        onView={handleViewChange}
         date={date}
         onNavigate={handleNavigate}
         formats={formats}
