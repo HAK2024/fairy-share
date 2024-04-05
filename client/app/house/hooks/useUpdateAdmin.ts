@@ -2,14 +2,14 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useToast } from '@/_hooks'
 import { isErrorWithMessage } from '@/_utils'
 import { useUpdateAdminMutation } from './api'
-import { UpdateAdminSchema } from '../schema'
+import { UpdateAdminType } from '../type'
 
 export const useUpdateAdmin = () => {
   const queryClient = useQueryClient()
   const { toast } = useToast()
   const { mutate, isPending } = useUpdateAdminMutation()
 
-  const onUpdate = (data: UpdateAdminSchema) => {
+  const onUpdate = (data: UpdateAdminType) => {
     mutate(data, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['me'] })
