@@ -17,10 +17,10 @@ import {
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import '../style/task-calendar.css'
+import { Loading } from '@/_components/layout'
 import { Button } from '@/_components/ui'
 import { colorBgMap } from '@/_consts'
 import { TaskTypeWithUser } from '@/_types'
-import { Loading } from '../../_components/layout'
 import { useGetTasksQuery } from '../hooks/api'
 
 const locales = {
