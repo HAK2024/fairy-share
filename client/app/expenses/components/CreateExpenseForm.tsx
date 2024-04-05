@@ -17,7 +17,7 @@ const CreateExpenseForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={onSubmit} className='mt-8 md:mt-10'>
+      <form onSubmit={onSubmit} className='mt-8 md:mt-10' noValidate>
         <div className='space-y-6 md:space-y-8'>
           <FormField
             control={form.control}
