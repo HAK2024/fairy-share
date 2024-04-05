@@ -10,9 +10,9 @@ import {
   DateField,
 } from '@/_components/ui'
 import { useCreateExpense } from '../hooks/useCreateExpense'
-import { CreateExpenseSchema } from '../schema'
+import { ExpenseSchema } from '../schema'
 
-const ExpenseCreateForm = () => {
+const CreateExpenseForm = () => {
   const { form, onSubmit, isPending } = useCreateExpense()
 
   return (
@@ -51,7 +51,7 @@ const ExpenseCreateForm = () => {
               </FormItem>
             )}
           />
-          <DateField<CreateExpenseSchema>
+          <DateField<ExpenseSchema>
             control={form.control}
             name='date'
             type='expense'
@@ -68,4 +68,4 @@ const ExpenseCreateForm = () => {
   )
 }
 
-export { ExpenseCreateForm }
+export { CreateExpenseForm }

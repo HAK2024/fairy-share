@@ -1,4 +1,1 @@
-export {
-  createExpenseResolver,
-  type CreateExpenseSchema,
-} from './CreateExpense'
+export { expenseResolver, type ExpenseSchema } from './expense'

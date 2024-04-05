@@ -1,10 +1,10 @@
 import { useMutation } from '@tanstack/react-query'
 import { createExpenseApi } from '@/expenses/api'
-import { CreateExpenseSchema } from '@/expenses/schema'
+import { ExpenseSchema } from '@/expenses/schema'
 
 export const useCreateExpenseMutation = () => {
   const { mutate, isPending } = useMutation({
-    mutationFn: (req: CreateExpenseSchema) => {
+    mutationFn: (req: ExpenseSchema) => {
       return createExpenseApi(req)
     },
   })

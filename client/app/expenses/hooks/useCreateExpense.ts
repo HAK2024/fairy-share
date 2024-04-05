@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import { useGetHouseInfo, useToast } from '@/_hooks'
 import { isErrorWithMessage } from '@/_utils'
 import { useCreateExpenseMutation } from './api'
-import { CreateExpenseSchema, createExpenseResolver } from '../schema'
+import { expenseResolver, ExpenseSchema } from '../schema'
 
 export const useCreateExpense = () => {
   const { toast } = useToast()
@@ -10,8 +10,8 @@ export const useCreateExpense = () => {
 
   const { mutate, isPending } = useCreateExpenseMutation()
 
-  const form = useForm<CreateExpenseSchema>({
-    resolver: createExpenseResolver,
+  const form = useForm<ExpenseSchema>({
+    resolver: expenseResolver,
     // TODO: Set empty to fee if I figured out a way
     defaultValues: {
       itemName: '',
@@ -20,7 +20,7 @@ export const useCreateExpense = () => {
     },
   })
 
-  const onCreate = (data: CreateExpenseSchema) => {
+  const onCreate = (data: ExpenseSchema) => {
     const formattedData = {
       ...data,
       houseId,

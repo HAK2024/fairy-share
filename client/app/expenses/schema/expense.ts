@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 
-const createExpenseSchema = z.object({
+const expenseSchema = z.object({
   itemName: z
     .string()
     .trim()
@@ -21,5 +21,5 @@ const createExpenseSchema = z.object({
     }),
 })
 
-export type CreateExpenseSchema = z.infer<typeof createExpenseSchema>
-export const createExpenseResolver = zodResolver(createExpenseSchema)
+export type ExpenseSchema = z.infer<typeof expenseSchema>
+export const expenseResolver = zodResolver(expenseSchema)

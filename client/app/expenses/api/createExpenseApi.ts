@@ -1,7 +1,7 @@
 import { apiClient } from '@/_api'
-import { CreateExpenseSchema } from '../schema'
+import { ExpenseSchema } from '../schema'
 
-export const createExpenseApi = async (data: CreateExpenseSchema) => {
+export const createExpenseApi = async (data: ExpenseSchema) => {
   const response = await apiClient.post('/expenses', data)
   return response.data
 }
