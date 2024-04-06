@@ -59,7 +59,7 @@ const SettingDropdown = () => {
               className='flex w-full items-center gap-2'
             >
               <RxGear className='h-4 w-4' />
-              <span>House setting</span>
+              <span>House Settings</span>
             </button>
           </DropdownMenuItem>
         )}

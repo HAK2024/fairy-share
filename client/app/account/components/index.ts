@@ -1,3 +1,5 @@
 export { AccountInfo } from './AccountInfo'
+export { AdminWarningModal } from './AdminWarningModal'
 export { DeleteAccount } from './DeleteAccount'
+export { DeleteAccountModal } from './DeleteAccountModal'
 export { UpdateAccountForm } from './UpdateAccountForm'

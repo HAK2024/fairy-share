@@ -30,7 +30,7 @@ export default function HouseEditPage() {
   return (
     <FormContainer>
       <Heading
-        title='House Setting'
+        title='House Settings'
         buttonComponent={
           <Button
             variant={'outline'}
