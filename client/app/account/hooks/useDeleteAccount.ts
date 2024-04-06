@@ -11,8 +11,8 @@ export const useDeleteAccount = () => {
   const { toast } = useToast()
   const { mutate, isPending } = useDeleteAccountMutation()
 
-  const onDelete = (houseId: number) => {
-    mutate(houseId, {
+  const onDelete = () => {
+    mutate(undefined, {
       onSuccess: () => {
         resetAllStores()
         queryClient.clear()
