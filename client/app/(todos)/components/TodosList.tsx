@@ -13,7 +13,7 @@ const TodosList = ({ todos }: { todos: TodoType }) => {
           <p className='text-xl font-semibold md:text-2xl'>Expenses</p>
           <ExpenseAlert
             mainMessage="You haven't completed the payment yet!"
-            linkHref='/expense'
+            linkHref='/expenses'
             linkText='Tracking'
           />
         </div>

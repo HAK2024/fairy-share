@@ -1,5 +1,5 @@
 export { Alert } from './Alert'
-export { TaskList } from './TaskList'
-export { TaskItem } from './TaskItem'
 export { EmptyTask } from './EmptyTask'
+export { TaskItem } from './TaskItem'
+export { TaskList } from './TaskList'
 export { TodosList } from './TodosList'
