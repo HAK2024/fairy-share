@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { useGetHouseInfo, useToast } from '@/_hooks'
 import { isErrorWithMessage } from '@/_utils'
@@ -6,6 +7,7 @@ import { expenseResolver, ExpenseSchema } from '../schema'
 
 export const useCreateExpense = () => {
   const { toast } = useToast()
+  const router = useRouter()
   const houseId = useGetHouseInfo().houseId
 
   const { mutate, isPending } = useCreateExpenseMutation()
@@ -31,7 +33,7 @@ export const useCreateExpense = () => {
           variant: 'success',
           title: 'New expense has been created successfully',
         })
-        form.reset()
+        router.push('/expenses')
       },
       onError: (error) => {
         let message = 'Please try again later.'
