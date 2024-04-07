@@ -1,4 +1,3 @@
-import { useRouter } from 'next/navigation'
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -7,6 +6,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
+  RouterLink,
 } from '@/_components/ui'
 
 type AdminWarningModalProps = {
@@ -18,13 +18,6 @@ const AdminWarningModal = ({
   isOpenAdminWarningModal,
   setIsOpenAdminWarningModal,
 }: AdminWarningModalProps) => {
-  const router = useRouter()
-
-  const handleGoToHouseSettings = () => {
-    router.push('/house/edit')
-    setIsOpenAdminWarningModal(false)
-  }
-
   return (
     <AlertDialog
       open={isOpenAdminWarningModal}
@@ -41,12 +34,9 @@ const AdminWarningModal = ({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className='flex items-center'>
-          <span
-            className='cursor-pointer text-teal-600 underline'
-            onClick={handleGoToHouseSettings}
-          >
+          <RouterLink href='/house/edit' className='text-teal-600 underline'>
             House Settings
-          </span>
+          </RouterLink>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
         </AlertDialogFooter>
       </AlertDialogContent>
