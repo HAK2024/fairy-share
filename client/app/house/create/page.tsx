@@ -15,7 +15,7 @@ export default function HouseCreatePage() {
 
   return (
     <FormContainer>
-      <Heading title='House Setting' />
+      <Heading title='House Settings' />
       <HouseCreateForm />
     </FormContainer>
   )

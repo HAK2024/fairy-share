@@ -7,14 +7,13 @@ import { DeleteAccountModal, AdminWarningModal } from '.'
 
 type DeleteAccountProps = {
   user: UserType
+  userHouse: HouseType | undefined
 }
 
-const DeleteAccount = ({ user }: DeleteAccountProps) => {
+const DeleteAccount = ({ user, userHouse }: DeleteAccountProps) => {
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenAdminWarningModal, setIsOpenAdminWarningModal] = useState(false)
   const { onDelete, isPending } = useDeleteAccount()
-
-  const userHouse: HouseType | undefined = user.houses?.[0]
 
   const handleDeleteAccount = () => {
     if (!userHouse) {

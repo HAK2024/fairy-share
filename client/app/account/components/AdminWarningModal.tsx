@@ -34,7 +34,7 @@ const AdminWarningModal = ({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className='flex items-center'>
-          <RouterLink href='/house/edit' className='text-teal-600 underline'>
+          <RouterLink href='/house/edit' className='text-teal-600'>
             House Settings
           </RouterLink>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
