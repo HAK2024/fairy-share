@@ -82,29 +82,47 @@ export class UserService {
 
   async updateUser(userId: number, dto: UpdateUserDto) {
     try {
-      const user = await this.prisma.user.update({
+      const user = await this.prisma.user.findUnique({
         where: {
           id: userId,
         },
-        data: dto,
       });
 
       if (!user) {
         throw new NotFoundException(`User with ID ${userId} not found.`);
       }
 
-      delete user.hashedPassword;
+      if (dto.email !== user.email) {
+        const existingEmail = await this.prisma.user.findUnique({
+          where: {
+            email: dto.email,
+          },
+        });
+
+        if (existingEmail) {
+          throw new ForbiddenException('Email address already in use.');
+        }
+      }
+
+      const updatedUser = await this.prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: dto,
+      });
+
+      delete updatedUser.hashedPassword;
 
       const token = await this.auth.generateJwtToken(
-        user.id,
-        user.name,
-        user.email,
-        user.icon,
+        updatedUser.id,
+        updatedUser.name,
+        updatedUser.email,
+        updatedUser.icon,
       );
 
       return {
         token,
-        user,
+        user: updatedUser,
       };
     } catch (error) {
       console.error(error);
