@@ -1,3 +1,4 @@
+export type { ExpenseType } from './expense'
 export type { HouseType } from './house'
 export type { RuleType } from './rules'
 export type { TaskType, TaskTypeWithUser } from './task'

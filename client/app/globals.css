@@ -54,6 +54,19 @@
   display: none; /* Chrome, Safari, Opera*/
 }
 
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: #fef3c7;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #fcd34d;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background-clip: content-box;
+}
+
 .truncate {
   white-space: nowrap;
   overflow: hidden;

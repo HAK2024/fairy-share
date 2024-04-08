@@ -1,4 +1,5 @@
 import { useRouter } from 'next/navigation'
+import { useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { useGetHouseInfo, useToast } from '@/_hooks'
 import { isErrorWithMessage } from '@/_utils'
@@ -6,6 +7,7 @@ import { useCreateExpenseMutation } from './api'
 import { expenseResolver, ExpenseSchema } from '../schema'
 
 export const useCreateExpense = () => {
+  const queryClient = useQueryClient()
   const { toast } = useToast()
   const router = useRouter()
   const houseId = useGetHouseInfo().houseId
@@ -32,6 +34,9 @@ export const useCreateExpense = () => {
         toast({
           variant: 'success',
           title: 'New expense has been created successfully',
+        })
+        queryClient.invalidateQueries({
+          queryKey: ['expenses'],
         })
         router.push('/expenses')
       },
