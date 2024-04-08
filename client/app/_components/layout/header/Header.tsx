@@ -46,7 +46,7 @@ const Header = ({ hasNavigation = true }: HeaderProps) => {
             Calendar
           </Link>
           <Link
-            href={'/expense'}
+            href={'/expenses'}
             className='hover-underline-animation text-lg font-semibold hover:text-teal-800'
           >
             Expense
