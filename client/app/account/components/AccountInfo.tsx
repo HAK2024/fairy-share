@@ -1,7 +1,6 @@
 import React from 'react'
 import { MdAccountCircle } from 'react-icons/md'
 import { Loading } from '@/_components/layout'
-// import { RouterLink } from '@/_components/ui'
 import { RouterLink } from '@/_components/ui'
 import { colorMap } from '@/_consts'
 import { useGetMeQuery } from '@/_hooks/api'
