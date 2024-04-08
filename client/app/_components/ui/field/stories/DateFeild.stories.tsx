@@ -31,5 +31,7 @@ export const Default: StoryObj<DateFieldProps<taskSchema>> = {
   },
   args: {
     name: 'date',
+    placeholder: 'Pick a date',
+    disabledDates: 'future',
   },
 }

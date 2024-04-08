@@ -230,9 +230,9 @@ export class ExpenseService {
           },
         });
 
-        // Calculate the individual payment amount (rounded to one decimal place)
+        // Calculate the individual payment amount (rounded to two decimal place)
         const individualPaymentAmount =
-          Math.floor((dto.fee / houseMembersList.length) * 10) / 10;
+          Math.floor((dto.fee / houseMembersList.length) * 100) / 100;
 
         // Payment data for each house member (excluding the buyer)
         const paymentsData = houseMembersList
@@ -305,7 +305,7 @@ export class ExpenseService {
 
         // Calculate the amount each member has to pay, dividing the total fee by the number of members involved (including the buyer).
         const individualPaymentAmount =
-          Math.floor((dto.fee / (existingPaymentsCount + 1)) * 10) / 10;
+          Math.floor((dto.fee / (existingPaymentsCount + 1)) * 100) / 100;
 
         // Update the fee for all payments associated with this expense
         await tx.payment.updateMany({

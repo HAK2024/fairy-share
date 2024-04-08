@@ -17,13 +17,31 @@ import {
 export type DateFieldProps<TFormValues extends FieldValues> = {
   control: Control<TFormValues>
   name: Path<TFormValues>
+  placeholder: string
+  disabledDates: 'future' | 'past' | null
 }
 
 const DateField = <TFormValues extends FieldValues>({
   control,
   name,
+  placeholder,
+  disabledDates,
 }: DateFieldProps<TFormValues>) => {
   const [isCalendarOpen, setCalendarOpen] = useState(false)
+
+  const handleDisableDates = (date: Date) => {
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+
+    switch (disabledDates) {
+      case 'future':
+        return date > today
+      case 'past':
+        return date < today
+      default:
+        return false
+    }
+  }
 
   return (
     <FormField
@@ -48,7 +66,7 @@ const DateField = <TFormValues extends FieldValues>({
                           : ''
                       }`}
                     >
-                      {field.value ? format(field.value, 'PPP') : 'Pick a date'}
+                      {field.value ? format(field.value, 'PPP') : placeholder}
                       <BiCalendarAlt className='ml-auto h-6 w-6 opacity-50' />
                     </button>
                   </PopoverTrigger>
@@ -60,11 +78,7 @@ const DateField = <TFormValues extends FieldValues>({
                         field.onChange(date)
                         setCalendarOpen(false)
                       }}
-                      disabled={(date) => {
-                        const today = new Date()
-                        today.setHours(0, 0, 0, 0)
-                        return date < today
-                      }}
+                      disabled={handleDisableDates}
                       initialFocus
                     />
                   </PopoverContent>
