@@ -1,4 +1,5 @@
 export { AssigneeField } from './AssigneeField'
 export { CreateTaskForm } from './CreateTaskForm'
 export { EditTaskForm } from './EditTaskForm'
+export { TaskDetailsModal } from './TaskDetailsModal'
 export { TasksCalendar } from './TasksCalendar'
