@@ -44,14 +44,18 @@ describe('TaskController (e2e)', () => {
     app.close();
   });
 
-  describe('GET /tasks', () => {
+  describe('GET /tasks?year=""&month=""', () => {
     const houseId = 106;
+    const year = 2024;
+    const month = 5;
 
     it('should return 401 if not authenticated', async () => {
-      await request(app.getHttpServer()).get(`/tasks`).expect(401);
+      await request(app.getHttpServer())
+        .get(`/tasks?year=${year}&month=${month}`)
+        .expect(401);
     });
 
-    it('should return 200 and tasks data if authenticated', async () => {
+    it('should return 200 and tasks data filtered by year and month', async () => {
       const userSeedData = await userData();
       const taskSeedData = await taskData();
       const expectedTasksData = taskSeedData
@@ -68,10 +72,17 @@ describe('TaskController (e2e)', () => {
             },
           };
         })
-        .filter((task) => task.houseId === houseId);
+        .filter((task) => {
+          const taskDate = new Date(task.date);
+          return (
+            task.houseId === houseId &&
+            taskDate.getFullYear() === year &&
+            taskDate.getMonth() === month - 1
+          );
+        });
 
       const response = await request(app.getHttpServer())
-        .get('/tasks')
+        .get(`/tasks?year=${year}&month=${month}`)
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
         .expect(200);
@@ -90,7 +101,7 @@ describe('TaskController (e2e)', () => {
       const expectedTaskData = {
         id: taskId,
         title: 'Garden Maintenance',
-        date: '2023-04-15T00:00:00.000Z',
+        date: '2024-05-15T00:00:00.000Z',
         note: 'Trim the hedges and mow the lawn',
         houseId: 106,
         assigneeId: 101,
@@ -127,7 +138,7 @@ describe('TaskController (e2e)', () => {
       const expectedTaskData = {
         id: expect.any(Number),
         title: 'Valid Title',
-        date: '2023-03-18T12:00:00.000Z',
+        date: '2024-03-18T12:00:00.000Z',
         note: 'Valid Note',
         assigneeId: 101,
         houseId: 106,
@@ -165,7 +176,7 @@ describe('TaskController (e2e)', () => {
       const expectedTaskData = {
         id: expect.any(Number),
         title: 'Valid Title',
-        date: '2023-03-18T12:00:00.000Z',
+        date: '2024-03-18T12:00:00.000Z',
         note: 'Valid Note',
         assigneeId: 101,
       };

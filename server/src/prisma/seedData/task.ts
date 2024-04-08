@@ -2,7 +2,7 @@ export const taskData = async () => [
   {
     id: 126,
     title: 'Garden Maintenance',
-    date: new Date(2023, 3, 15),
+    date: new Date(2024, 4, 15),
     note: 'Trim the hedges and mow the lawn',
     isCompleted: false,
     houseId: 106,
@@ -11,7 +11,7 @@ export const taskData = async () => [
   {
     id: 127,
     title: 'Paint the fence',
-    date: new Date(2023, 4, 10),
+    date: new Date(2024, 4, 10),
     note: 'Use weather-resistant paint',
     isCompleted: true,
     houseId: 107,
@@ -20,7 +20,7 @@ export const taskData = async () => [
   {
     id: 128,
     title: 'Fix the leaking tap',
-    date: new Date(2023, 5, 5),
+    date: new Date(2024, 5, 5),
     note: null,
     isCompleted: true,
     houseId: 108,
@@ -29,7 +29,7 @@ export const taskData = async () => [
   {
     id: 129,
     title: 'Organize the garage',
-    date: new Date(2023, 6, 20),
+    date: new Date(2024, 5, 20),
     note: 'Sort items into labeled boxes',
     isCompleted: false,
     houseId: 109,
@@ -38,7 +38,7 @@ export const taskData = async () => [
   {
     id: 130,
     title: 'Replace kitchen light',
-    date: new Date(2023, 7, 25),
+    date: new Date(2024, 5, 25),
     note: 'Buy energy-efficient LED bulb',
     isCompleted: false,
     houseId: 110,

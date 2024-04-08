@@ -1,0 +1,66 @@
+/* Calendar */
+.task-calendar .rbc-off-range-bg {
+  @apply bg-amber-50;
+}
+
+.task-calendar .rbc-today {
+  @apply bg-amber-50;
+}
+
+.task-calendar .rbc-month-header {
+  @apply bg-amber-100;
+}
+
+.task-calendar .rbc-date-cell {
+  @apply mb-[2px] text-sm md:mb-1 md:text-base;
+}
+
+.task-calendar .rbc-date-cell button {
+  @apply pt-1;
+}
+
+.task-calendar .rbc-now button {
+  @apply rounded-full bg-amber-200 p-1;
+}
+
+/* Show more modal */
+.rbc-overlay {
+  @apply rounded-md border-2 bg-slate-50 shadow-none;
+}
+
+.rbc-overlay-header {
+  @apply text-center text-sm font-semibold md:text-base;
+}
+
+.rbc-event-content {
+  @apply text-sm font-medium leading-7 md:text-sm md:leading-7;
+}
+
+.rbc-event-content > div {
+  @apply px-2;
+}
+
+/* Event */
+.rbc-event {
+  @apply bg-transparent px-0 py-[1px];
+}
+
+.task-calendar .rbc-event-content {
+  @apply text-xs font-medium leading-5 md:text-sm md:leading-6;
+}
+
+.task-calendar .rbc-event-content > div {
+  @apply px-1;
+}
+
+.rbc-show-more {
+  @apply text-2xs text-teal-600 md:text-xs;
+}
+
+.rbc-show-more:hover {
+  @apply text-teal-800;
+}
+
+.rbc-show-more:focus {
+  @apply text-teal-800;
+}

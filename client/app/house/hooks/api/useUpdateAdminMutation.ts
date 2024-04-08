@@ -1,10 +1,10 @@
 import { useMutation } from '@tanstack/react-query'
 import { updateAdminApi } from '@/house/api'
-import { UpdateAdminSchema } from '@/house/schema'
+import { UpdateAdminType } from '../../type'
 
 export const useUpdateAdminMutation = () => {
   const { mutate, isPending } = useMutation({
-    mutationFn: (req: UpdateAdminSchema) => {
+    mutationFn: (req: UpdateAdminType) => {
       return updateAdminApi(req)
     },
   })
