@@ -5,10 +5,11 @@ import { Payment } from '../types'
 
 type PaymentItemProps = {
   item: Payment
+  buyerId: number
   userId: number
 }
 
-const PaymentItem = ({ item, userId }: PaymentItemProps) => {
+const PaymentItem = ({ item, buyerId, userId }: PaymentItemProps) => {
   const { mutate: updatePaymentStatus, isPending } =
     useUpdatePaymentStatusMutation()
 
@@ -25,12 +26,14 @@ const PaymentItem = ({ item, userId }: PaymentItemProps) => {
         <Checkbox
           className='h-6 w-6'
           checked={item.paidDate === null ? false : true}
-          disabled={isPending || item.user.id !== userId}
+          disabled={
+            isPending || (item.user.id !== userId && buyerId !== userId)
+          }
           onClick={handleUpdatePaymentStatus}
         />
-        <UserDisplay name={item.user.name} size={28} />
+        <UserDisplay name={item.user.name} icon={item.user.icon} size={28} />
       </div>
-      <span className='md:text-lg'>$ {item.fee}</span>
+      <span className='font-medium md:text-lg'>$ {item.fee}</span>
     </li>
   )
 }

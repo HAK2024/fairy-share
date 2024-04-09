@@ -39,7 +39,7 @@ export class PaymentService {
         throw new NotFoundException(`payment with ID ${paymentId} not found.`);
       }
 
-      if (payment.payerId !== userId) {
+      if (payment.payerId !== userId && payment.expense.buyerId !== userId) {
         throw new ForbiddenException(
           'You do not have permission to update this payment.',
         );
