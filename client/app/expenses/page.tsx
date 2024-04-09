@@ -9,8 +9,9 @@ import { ExpenseTrackingPerDate, ExpenseTrackingPerMonth } from './components'
 export default function ExpensePage() {
   const router = useRouter()
   const isExpensePerTime = useGetHouseInfo().isExpensePerTime
+
   return (
-    <div className='px-4 pt-8 md:px-20 md:pb-20 md:pt-10'>
+    <div className='px-4 pb-10 pt-8 md:px-14 md:pb-20 md:pt-10'>
       <Heading
         title='Expense Tracking'
         buttonComponent={
@@ -18,8 +19,8 @@ export default function ExpensePage() {
             variant={'outline'}
             onClick={() => router.push('/expenses/create')}
           >
-            <FiPlus />
-            &nbsp;Add
+            <FiPlus className='mr-1' />
+            Add
           </Button>
         }
       />
