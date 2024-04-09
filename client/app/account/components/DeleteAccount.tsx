@@ -1,45 +1,57 @@
+import React, { useState } from 'react'
 import { FiTrash } from 'react-icons/fi'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-  Button,
-} from '@/_components/ui'
+import { Button } from '@/_components/ui'
+import { UserType } from '@/_types'
 import { useDeleteAccount } from '../hooks'
+import { DeleteAccountModal, AdminWarningModal } from '.'
 
-const DeleteAccount = () => {
+type DeleteAccountProps = {
+  user: UserType
+}
+
+const DeleteAccount = ({ user }: DeleteAccountProps) => {
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
+  const [isOpenAdminWarningModal, setIsOpenAdminWarningModal] = useState(false)
   const { onDelete, isPending } = useDeleteAccount()
 
+  const handleDeleteAccount = () => {
+    const userHouse = user.houses
+    if (!userHouse.length) {
+      setIsOpenDeleteModal(true)
+      return
+    }
+
+    const isAdmin = userHouse[0].houseMembers.filter((member) => member.isAdmin)
+
+    if (isAdmin.length === 1 && isAdmin[0].id === user.id) {
+      setIsOpenAdminWarningModal(true)
+    } else {
+      setIsOpenDeleteModal(true)
+    }
+  }
+
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant={'destructiveOutline'} size='sm' className='flex gap-1'>
-          <FiTrash />
-          Delete Account
-        </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove the data from our servers.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel disabled={isPending}>Cancel</AlertDialogCancel>
-          <AlertDialogAction isLoading={isPending} onClick={() => onDelete()}>
-            Delete
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+    <>
+      <Button
+        variant={'destructiveOutline'}
+        onClick={handleDeleteAccount}
+        size='sm'
+        className='flex gap-1'
+      >
+        <FiTrash />
+        Delete Your Account
+      </Button>
+      <DeleteAccountModal
+        isOpenDeleteModal={isOpenDeleteModal}
+        setIsOpenDeleteModal={setIsOpenDeleteModal}
+        onDelete={onDelete}
+        isPending={isPending}
+      />
+      <AdminWarningModal
+        isOpenAdminWarningModal={isOpenAdminWarningModal}
+        setIsOpenAdminWarningModal={setIsOpenAdminWarningModal}
+      />
+    </>
   )
 }
 
