@@ -12,9 +12,13 @@ type ItemDisplayProps = {
 const ItemDisplay = ({ item, userId }: ItemDisplayProps) => {
   const router = useRouter()
   return (
-    <li
-      className={`flex flex-col gap-2 ${userId !== item.buyerId && 'md:pt-7'}`}
+    <div
+      className={`flex flex-col gap-2 ${userId !== item.buyerId && 'md:pt-8'}`}
     >
+      <div className='flex items-center justify-between gap-2 pt-1 text-base font-semibold md:text-lg'>
+        <p className='overflow-auto truncate'>{item.itemName}</p>
+        <span>${item.fee}</span>
+      </div>
       <div className='flex items-center justify-end gap-2'>
         {userId === item.buyerId && (
           <>
@@ -29,11 +33,7 @@ const ItemDisplay = ({ item, userId }: ItemDisplayProps) => {
           </>
         )}
       </div>
-      <div className='flex items-center justify-between gap-2 md:text-lg'>
-        <p className='overflow-auto truncate'>{item.itemName}</p>
-        <span>${item.fee}</span>
-      </div>
-    </li>
+    </div>
   )
 }
 
