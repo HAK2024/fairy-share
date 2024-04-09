@@ -1,27 +1,27 @@
 import React, { useState } from 'react'
 import { FiTrash } from 'react-icons/fi'
 import { Button } from '@/_components/ui'
-import { HouseType, UserType } from '@/_types'
+import { UserType } from '@/_types'
 import { useDeleteAccount } from '../hooks'
 import { DeleteAccountModal, AdminWarningModal } from '.'
 
 type DeleteAccountProps = {
   user: UserType
-  userHouse: HouseType | undefined
 }
 
-const DeleteAccount = ({ user, userHouse }: DeleteAccountProps) => {
+const DeleteAccount = ({ user }: DeleteAccountProps) => {
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenAdminWarningModal, setIsOpenAdminWarningModal] = useState(false)
   const { onDelete, isPending } = useDeleteAccount()
 
   const handleDeleteAccount = () => {
-    if (!userHouse) {
+    const userHouse = user.houses
+    if (!userHouse.length) {
       setIsOpenDeleteModal(true)
       return
     }
 
-    const isAdmin = userHouse.houseMembers.filter((member) => member.isAdmin)
+    const isAdmin = userHouse[0].houseMembers.filter((member) => member.isAdmin)
 
     if (isAdmin.length === 1 && isAdmin[0].id === user.id) {
       setIsOpenAdminWarningModal(true)

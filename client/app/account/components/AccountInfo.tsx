@@ -4,7 +4,6 @@ import { Loading } from '@/_components/layout'
 import { RouterLink } from '@/_components/ui'
 import { colorMap } from '@/_consts'
 import { useGetMeQuery } from '@/_hooks/api'
-import { HouseType } from '@/_types'
 import { DeleteAccount } from '.'
 
 const AccountInfo = () => {
@@ -12,7 +11,7 @@ const AccountInfo = () => {
 
   if (isLoading || !user) return <Loading />
 
-  const userHouse: HouseType | undefined = user.houses?.[0]
+  const userHouse = user.houses
 
   return (
     <div className='flex flex-col gap-6 '>
@@ -31,7 +30,7 @@ const AccountInfo = () => {
         <h2 className='font-semibold'>Email</h2>
         <p className='text-lg'>{user.email}</p>
       </div>
-      {!userHouse && (
+      {!userHouse.length && (
         <RouterLink href='/house/create' className='text-teal-600'>
           Create House
         </RouterLink>
@@ -47,7 +46,7 @@ const AccountInfo = () => {
         </RouterLink>
       </div> */}
       <div>
-        <DeleteAccount user={user} userHouse={userHouse} />
+        <DeleteAccount user={user} />
       </div>
     </div>
   )
