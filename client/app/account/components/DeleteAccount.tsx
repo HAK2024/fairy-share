@@ -41,20 +41,16 @@ const DeleteAccount = ({ user }: DeleteAccountProps) => {
         <FiTrash />
         Delete Your Account
       </Button>
-      {isOpenDeleteModal && (
-        <DeleteAccountModal
-          isOpenDeleteModal={isOpenDeleteModal}
-          setIsOpenDeleteModal={setIsOpenDeleteModal}
-          onDelete={onDelete}
-          isPending={isPending}
-        />
-      )}
-      {isOpenAdminWarningModal && (
-        <AdminWarningModal
-          isOpenAdminWarningModal={isOpenAdminWarningModal}
-          setIsOpenAdminWarningModal={setIsOpenAdminWarningModal}
-        />
-      )}
+      <DeleteAccountModal
+        isOpenDeleteModal={isOpenDeleteModal}
+        setIsOpenDeleteModal={setIsOpenDeleteModal}
+        onDelete={onDelete}
+        isPending={isPending}
+      />
+      <AdminWarningModal
+        isOpenAdminWarningModal={isOpenAdminWarningModal}
+        setIsOpenAdminWarningModal={setIsOpenAdminWarningModal}
+      />
     </>
   )
 }
