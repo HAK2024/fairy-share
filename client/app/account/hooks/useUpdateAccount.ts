@@ -31,6 +31,7 @@ export const useUpdateAccount = (user: UserType) => {
           variant: 'success',
           title: 'Successfully updated your account!',
         })
+        queryClient.invalidateQueries({ queryKey: ['tasks'] })
         router.push('/account')
       },
       onError: (error) => {
