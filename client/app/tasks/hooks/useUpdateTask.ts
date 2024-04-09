@@ -27,8 +27,9 @@ export const useUpdateTask = (defaultData: TaskType) => {
   const handleSuccess = () => {
     toast({ variant: 'success', title: 'Successfully updated a task!' })
     queryClient.invalidateQueries({
-      queryKey: ['tasks', { id: defaultData.id }],
+      queryKey: ['task', { id: defaultData.id }],
     })
+    queryClient.invalidateQueries({ queryKey: ['tasks'] })
     queryClient.invalidateQueries({ queryKey: ['todos'] })
     form.reset()
     router.push('/tasks')
