@@ -23,11 +23,16 @@ const DrawerClose = DrawerPrimitive.Close
 
 const DrawerOverlay = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Overlay>,
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>
->(({ className, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay> & {
+    overlayBgColor?: string
+  }
+>(({ className, overlayBgColor, ...props }, ref) => (
   <DrawerPrimitive.Overlay
     ref={ref}
-    className={cn('fixed inset-0 z-50 bg-black/80', className)}
+    className={cn(
+      `fixed inset-0 z-50 ${overlayBgColor ? overlayBgColor : 'bg-black/80'}`,
+      className,
+    )}
     {...props}
   />
 ))
@@ -37,10 +42,11 @@ const DrawerContent = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content> & {
     onOverlayClick?: () => void
+    overlayBgColor?: string
   }
->(({ className, children, onOverlayClick, ...props }, ref) => (
+>(({ className, children, onOverlayClick, overlayBgColor, ...props }, ref) => (
   <DrawerPortal>
-    <DrawerOverlay onClick={onOverlayClick} />
+    <DrawerOverlay onClick={onOverlayClick} overlayBgColor={overlayBgColor} />
     <DrawerPrimitive.Content
       ref={ref}
       className={cn(

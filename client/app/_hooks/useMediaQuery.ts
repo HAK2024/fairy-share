@@ -5,15 +5,15 @@ export const useMediaQuery = (query: string) => {
 
   useEffect(() => {
     const matchQueryList = window.matchMedia(query)
-    function handleChange(e: MediaQueryListEvent) {
-      setMatches(e.matches)
-    }
-    matchQueryList.addEventListener('change', handleChange)
 
-    return () => {
-      matchQueryList.removeEventListener('change', handleChange)
+    if (matchQueryList.matches !== matches) {
+      setMatches(matchQueryList.matches)
     }
-  }, [query])
+    const listener = () => setMatches(matchQueryList.matches)
+    window.addEventListener('resize', listener)
+
+    return () => window.removeEventListener('resize', listener)
+  }, [matches, query])
 
   return matches
 }

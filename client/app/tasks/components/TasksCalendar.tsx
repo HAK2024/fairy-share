@@ -8,7 +8,6 @@ import {
   Calendar,
   View,
   dateFnsLocalizer,
-  Event,
   DateLocalizer,
   Culture,
   DateRange,
@@ -20,9 +19,10 @@ import '../style/task-calendar.css'
 import { Loading } from '@/_components/layout'
 import { Button } from '@/_components/ui'
 import { colorBgMap } from '@/_consts'
-import { TaskTypeWithUser } from '@/_types'
 import { TaskDetailsModal } from './TaskDetailsModal'
+import { useTaskDetailsModal } from '../hooks'
 import { useGetTasksQuery } from '../hooks/api'
+import { CustomEventType } from '../types'
 
 const locales = {
   'en-US': enUS,
@@ -36,16 +36,19 @@ const localizer = dateFnsLocalizer({
   locales,
 })
 
-type CustomEventType = Event & TaskTypeWithUser
-
 const TasksCalendar = () => {
   const [date, setDate] = useState(new Date())
-  const [selectedTask, setSelectedTask] = useState<TaskTypeWithUser | null>(
-    null,
-  )
   const year = date.getFullYear()
   const month = date.getMonth() + 1
   const { data: tasks, isLoading } = useGetTasksQuery(year, month)
+
+  const {
+    selectedTask,
+    isModalOpen,
+    onModalClose,
+    onModalOpen,
+    handleSelectEvent,
+  } = useTaskDetailsModal(tasks)
 
   const handleNavigate = (newDate: Date) => {
     setDate(newDate)
@@ -82,23 +85,6 @@ const TasksCalendar = () => {
       `${localizer?.format(start, 'MMM d', culture)} - ${localizer?.format(end, 'MMM d', culture)}`,
   }
 
-  const handleSelectEvent = (event: CustomEventType) => {
-    setSelectedTask({
-      id: event.id,
-      title: event.title,
-      date: event.date,
-      note: event.note,
-      houseId: event.houseId,
-      assigneeId: event.assigneeId,
-      isCompleted: event.isCompleted,
-      user: event.user,
-    })
-  }
-
-  const onModalClose = () => {
-    setSelectedTask(null)
-  }
-
   if (isLoading || !tasks) return <Loading />
 
   return (
@@ -118,7 +104,12 @@ const TasksCalendar = () => {
           onSelectEvent={handleSelectEvent}
         />
       </div>
-      <TaskDetailsModal selectedTask={selectedTask} onClose={onModalClose} />
+      <TaskDetailsModal
+        selectedTask={selectedTask}
+        onClose={onModalClose}
+        onOpen={onModalOpen}
+        isModalOpen={isModalOpen}
+      />
     </>
   )
 }
