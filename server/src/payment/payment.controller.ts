@@ -1,4 +1,11 @@
-import { Body, Controller, Put, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Param,
+  ParseIntPipe,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '../auth/guard';
 import { PaymentService } from './payment.service';
 import {
@@ -12,13 +19,15 @@ import { GetUser } from '../auth/decorator';
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
 
-  @Put('/status/per-date')
+  @Put(':paymentId/status')
   updatePaymentStatus(
     @GetUser('id') userId: number,
+    @Param('paymentId', ParseIntPipe) paymentId: number,
     @Body() updatePaymentsStatusPerDateDto: UpdatePaymentsStatusPerDateDto,
   ) {
     return this.paymentService.updatePaymentsStatusPerDate(
       userId,
+      paymentId,
       updatePaymentsStatusPerDateDto,
     );
   }

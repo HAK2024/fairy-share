@@ -1,3 +1,6 @@
 export { createExpenseApi } from './createExpenseApi'
+export { deleteExpenseApi } from './deleteExpenseApi'
 export { getExpenseApi } from './getExpenseApi'
 export { updateExpenseApi } from './updateExpenseApi'
+export { getExpensePerDateApi } from './getExpensePerDateApi'
+export { updatePaymentStatusApi } from './updatePaymentStatusApi'

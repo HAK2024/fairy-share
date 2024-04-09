@@ -17,6 +17,12 @@ export { Heading } from './heading/Heading'
 export { Input } from './input/Input'
 export { PasswordInput } from './input/PasswordInput'
 export { RouterLink } from './link/RouterLink'
+export {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from './Accordion'
 export { CustomDayPicker } from './CustomDayPicker'
 export {
   DropdownMenu,
