@@ -11,6 +11,7 @@ export const useUpdatePaymentStatusMutation = () => {
     mutationFn: updatePaymentStatusApi,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['expenses'] })
+      queryClient.invalidateQueries({ queryKey: ['todos'] })
     },
     onError: (error) => {
       console.error(error)

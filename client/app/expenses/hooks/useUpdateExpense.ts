@@ -27,6 +27,13 @@ export const useUpdateExpense = (defaultData: ExpenseType) => {
     toast({ variant: 'success', title: 'Successfully updated the expense!' })
     queryClient.invalidateQueries({
       queryKey: ['expenses'],
+      exact: true,
+    })
+    queryClient.invalidateQueries({
+      queryKey: ['expenses', { id: defaultData.id }],
+    })
+    queryClient.invalidateQueries({
+      queryKey: ['todos'],
     })
     router.push('/expenses')
   }

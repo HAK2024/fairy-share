@@ -20,6 +20,9 @@ export const useDeleteExpense = () => {
         queryClient.invalidateQueries({
           queryKey: ['expenses'],
         })
+        queryClient.invalidateQueries({
+          queryKey: ['todos'],
+        })
         router.push('/expenses')
       },
       onError: (error: unknown) => {
