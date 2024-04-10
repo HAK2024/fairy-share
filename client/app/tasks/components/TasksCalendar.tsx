@@ -104,12 +104,15 @@ const TasksCalendar = () => {
           onSelectEvent={handleSelectEvent}
         />
       </div>
-      <TaskDetailsModal
-        selectedTask={selectedTask}
-        onClose={onModalClose}
-        onOpen={onModalOpen}
-        isModalOpen={isModalOpen}
-      />
+
+      {selectedTask && (
+        <TaskDetailsModal
+          selectedTask={selectedTask}
+          onClose={onModalClose}
+          onOpen={onModalOpen}
+          isModalOpen={isModalOpen}
+        />
+      )}
     </>
   )
 }

@@ -16,7 +16,7 @@ import { TaskTypeWithUser } from '@/_types'
 import { DeleteTaskModal } from './DeleteTaskModal'
 
 type TaskDetailsModalProps = {
-  selectedTask: TaskTypeWithUser | null
+  selectedTask: TaskTypeWithUser
   isModalOpen: boolean
   onClose: () => void
   onOpen: () => void
@@ -32,18 +32,18 @@ const TaskDetailsModal = ({
   const isDesktop = useMediaQuery('(min-width: 768px)')
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
-  if (!selectedTask) return null
-
   const formattedDate = format(selectedTask.date, 'MMM/dd/yyyy')
 
   const handleDeleteIcon = () => {
     onClose()
-    setIsDeleteModalOpen(true)
+    setTimeout(() => setIsDeleteModalOpen(true), 200)
   }
 
   const closeDeleteModal = (showTaskModal?: boolean) => {
     setIsDeleteModalOpen(false)
-    if (showTaskModal) onOpen()
+    if (showTaskModal) {
+      setTimeout(() => onOpen(), 200)
+    }
   }
 
   const contents = (

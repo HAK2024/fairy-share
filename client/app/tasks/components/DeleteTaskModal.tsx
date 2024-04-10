@@ -20,7 +20,7 @@ const DeleteTaskModal = ({ isOpen, onClose, taskId }: DeleteTaskModalProps) => {
   const { onDeleteTask, isPending } = useDeleteTask(onClose)
 
   return (
-    <AlertDialog open={isOpen} onOpenChange={() => onClose()}>
+    <AlertDialog open={isOpen} onOpenChange={() => onClose(true)}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
