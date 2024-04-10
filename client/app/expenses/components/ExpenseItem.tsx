@@ -17,7 +17,7 @@ const ExpenseItem = ({ expense, userId }: ExpenseItemProps) => {
         </span>
       </div>
       {expense.buyers.map((buyer, index) => (
-        <div
+        <ul
           key={`${buyer.buyerId}-${index}`}
           className='mb-4 border-b-2 border-amber-300 pb-4 last:mb-0 last:border-none last:pb-0 md:pb-6'
         >
@@ -27,7 +27,7 @@ const ExpenseItem = ({ expense, userId }: ExpenseItemProps) => {
             icon={buyer.expenses[0].user.icon}
           />
           {buyer.expenses.map((expense) => (
-            <div
+            <li
               key={expense.id}
               className='mb-4 flex w-full flex-col gap-2 border-b-[1px] border-dashed border-slate-400 pb-4 last:mb-0 last:border-none last:pb-0 md:flex-row md:justify-between md:gap-8'
             >
@@ -47,9 +47,9 @@ const ExpenseItem = ({ expense, userId }: ExpenseItemProps) => {
                   ))}
                 </ul>
               </div>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       ))}
     </div>
   )
