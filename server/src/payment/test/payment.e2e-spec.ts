@@ -80,6 +80,16 @@ describe('PaymentController (e2e)', () => {
     });
 
     it('should return 403 if user does not have permission to get this payment', async () => {
+      // This user is not either buyer or payer
+      const loginUser = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: 'alice@example.com',
+          password: 'password',
+        });
+
+      token = await loginUser.body.accessToken;
+
       await request(app.getHttpServer())
         .put(`/payments/${paymentId}/status`)
         .send(dto1)
