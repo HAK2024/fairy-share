@@ -46,8 +46,7 @@ export class UserController {
     @GetUser('id') userId: number,
     @Body() dto: ChangePasswordDto,
   ) {
-    await this.userService.changePassword(userId, dto);
-    return { message: 'Password updated successfully' };
+    return await this.userService.changePassword(userId, dto);
   }
 
   @Delete()

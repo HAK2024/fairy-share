@@ -169,7 +169,7 @@ export class UserService {
 
       const hashedPassword = await hash(dto.newPassword, 10);
 
-      const updatedUser = await this.prisma.user.update({
+      await this.prisma.user.update({
         where: {
           id: userId,
         },
@@ -178,7 +178,7 @@ export class UserService {
         },
       });
 
-      delete updatedUser.hashedPassword;
+      return { message: 'Password updated successfully.' };
     } catch (error) {
       console.error('Error updating password:', error);
       throw error;
