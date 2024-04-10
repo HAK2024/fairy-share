@@ -1,13 +1,11 @@
-import { useRouter } from 'next/navigation'
 import { useQueryClient } from '@tanstack/react-query'
 import { useToast } from '@/_hooks'
 import { isErrorWithMessage } from '@/_utils'
 import { useDeleteTaskMutation } from './api'
 
-export const useDeleteTask = () => {
+export const useDeleteTask = (onClose: (showTaskModal?: boolean) => void) => {
   const queryClient = useQueryClient()
   const { toast } = useToast()
-  const router = useRouter()
 
   const { mutate, isPending } = useDeleteTaskMutation()
 
@@ -15,7 +13,7 @@ export const useDeleteTask = () => {
     toast({ variant: 'success', title: 'Successfully deleted a task!' })
     queryClient.invalidateQueries({ queryKey: ['todos'] })
     queryClient.invalidateQueries({ queryKey: ['tasks'] })
-    router.push('/tasks')
+    onClose(false)
   }
 
   const handleError = (error: unknown) => {

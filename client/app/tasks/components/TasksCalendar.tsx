@@ -8,7 +8,6 @@ import {
   Calendar,
   View,
   dateFnsLocalizer,
-  Event,
   DateLocalizer,
   Culture,
   DateRange,
@@ -20,8 +19,10 @@ import '../style/task-calendar.css'
 import { Loading } from '@/_components/layout'
 import { Button } from '@/_components/ui'
 import { colorBgMap } from '@/_consts'
-import { TaskTypeWithUser } from '@/_types'
+import { TaskDetailsModal } from './TaskDetailsModal'
+import { useTaskDetailsModal } from '../hooks'
 import { useGetTasksQuery } from '../hooks/api'
+import { CustomEventType } from '../types'
 
 const locales = {
   'en-US': enUS,
@@ -35,17 +36,19 @@ const localizer = dateFnsLocalizer({
   locales,
 })
 
-type CustomEventType = Event & TaskTypeWithUser
-
 const TasksCalendar = () => {
   const [date, setDate] = useState(new Date())
   const year = date.getFullYear()
   const month = date.getMonth() + 1
   const { data: tasks, isLoading } = useGetTasksQuery(year, month)
 
-  const [_selectedEvent, setSelectedEvent] = useState<CustomEventType | null>(
-    null,
-  )
+  const {
+    selectedTask,
+    isModalOpen,
+    onModalClose,
+    onModalOpen,
+    handleSelectEvent,
+  } = useTaskDetailsModal(tasks)
 
   const handleNavigate = (newDate: Date) => {
     setDate(newDate)
@@ -82,31 +85,35 @@ const TasksCalendar = () => {
       `${localizer?.format(start, 'MMM d', culture)} - ${localizer?.format(end, 'MMM d', culture)}`,
   }
 
-  const handleSelectEvent = (event: CustomEventType) => {
-    setSelectedEvent(event)
-
-    // TODO - This is just temp code to show the selected event
-    window.alert('Selected event: ' + event.title)
-  }
-
   if (isLoading || !tasks) return <Loading />
 
   return (
-    <div className='task-calendar h-[600px] md:h-[700px]'>
-      <Calendar
-        localizer={localizer}
-        events={formattedTasks}
-        date={date}
-        onNavigate={handleNavigate}
-        formats={formats}
-        components={{
-          event: CustomEvent,
-          toolbar: CustomToolbar,
-        }}
-        popup={true}
-        onSelectEvent={handleSelectEvent}
-      />
-    </div>
+    <>
+      <div className='task-calendar h-[600px] md:h-[700px]'>
+        <Calendar
+          localizer={localizer}
+          events={formattedTasks}
+          date={date}
+          onNavigate={handleNavigate}
+          formats={formats}
+          components={{
+            event: CustomEvent,
+            toolbar: CustomToolbar,
+          }}
+          popup={true}
+          onSelectEvent={handleSelectEvent}
+        />
+      </div>
+
+      {selectedTask && (
+        <TaskDetailsModal
+          selectedTask={selectedTask}
+          onClose={onModalClose}
+          onOpen={onModalOpen}
+          isModalOpen={isModalOpen}
+        />
+      )}
+    </>
   )
 }
 
