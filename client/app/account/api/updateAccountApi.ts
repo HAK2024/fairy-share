@@ -5,6 +5,6 @@ import { AccountSchema } from '../schema'
 export const updateAccountApi = async (
   data: AccountSchema,
 ): Promise<UserType> => {
-  const response = await apiClient.put<UserType>('/me/', data)
+  const response = await apiClient.put<UserType>('/me', data)
   return response.data
 }

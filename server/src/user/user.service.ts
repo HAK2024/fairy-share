@@ -6,11 +6,10 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { UpdateUserDto } from './dto/update-user-dto';
 import { Prisma } from '@prisma/client';
 import { AuthService } from '../auth/auth.service';
-import { ChangePasswordDto } from './dto/change-password-dto';
 import { compare, hash } from 'bcrypt';
+import { ChangePasswordDto, UpdateUserDto } from './dto';
 
 @Injectable()
 export class UserService {

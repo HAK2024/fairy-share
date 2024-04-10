@@ -10,9 +10,8 @@ import {
 import { UserService } from './user.service';
 import { AuthGuard } from '../auth/guard';
 import { GetUser } from '../auth/decorator';
-import { UpdateUserDto } from './dto/update-user-dto';
 import { Response } from 'express';
-import { ChangePasswordDto } from './dto/change-password-dto';
+import { ChangePasswordDto, UpdateUserDto } from './dto';
 
 @UseGuards(AuthGuard)
 @Controller('me')
