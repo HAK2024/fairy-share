@@ -25,7 +25,7 @@ const Footer = ({ hasNavigation = true }: FooterProps) => {
             <div className='absolute inset-0 z-0 h-16 w-16 -translate-x-2 -translate-y-2 rounded-full bg-teal-50 '></div>
           </div>
         </Link>
-        <Link href={'/expense'}>
+        <Link href={'/expenses'}>
           <div className='flex items-center justify-center transition-transform duration-300 hover:scale-110'>
             <BiEuro className='h-8 w-8 text-primary' />
           </div>
