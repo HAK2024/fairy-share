@@ -63,9 +63,9 @@ describe('UserController (e2e)', () => {
 
     it('should return 403 if email already exists', async () => {
       const updatedDto = {
-        name: 'User 1',
-        email: 'bob@example.com', // Use the existing email in the update request
-        icon: 'GREEN',
+        name: 'Alice',
+        email: 'bob@example.com',
+        icon: 'RED',
       };
 
       await request(app.getHttpServer())
