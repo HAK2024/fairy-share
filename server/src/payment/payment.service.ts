@@ -1,4 +1,8 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   UpdatePaymentsStatusPerDateDto,
@@ -11,52 +15,46 @@ export class PaymentService {
 
   async updatePaymentsStatusPerDate(
     userId: number,
+    paymentId: number,
     dto: UpdatePaymentsStatusPerDateDto,
   ) {
     try {
-      const { date, buyerId, payerId, isPaid, houseId } = dto;
-
+      const { isPaid } = dto;
       const userHouse = await this.prisma.userHouse.findFirst({
-        where: { userId, houseId },
+        where: { userId },
       });
 
       if (!userHouse) {
-        throw new ForbiddenException(
-          'You are not a member of the specified house.',
-        );
+        throw new ForbiddenException('You do not belong to any house.');
       }
 
-      const targetDateStart = new Date(date);
-      targetDateStart.setUTCHours(0, 0, 0, 0);
-
-      const targetDateEnd = new Date(date);
-      targetDateEnd.setUTCHours(23, 59, 59, 999);
-
-      const payments = await this.prisma.payment.findMany({
-        where: {
-          payerId,
-          expense: {
-            buyerId,
-            date: {
-              gte: targetDateStart,
-              lte: targetDateEnd,
-            },
-          },
-          paidDate: isPaid ? null : { not: null },
+      const payment = await this.prisma.payment.findUnique({
+        where: { id: paymentId },
+        include: {
+          expense: true,
         },
       });
 
-      const updatePromises = payments.map((payment) =>
-        this.prisma.payment.update({
-          where: { id: payment.id },
-          data: { paidDate: isPaid ? new Date() : null },
-        }),
-      );
+      if (!payment) {
+        throw new NotFoundException(`payment with ID ${paymentId} not found.`);
+      }
 
-      const updatedPayments = await Promise.all(updatePromises);
-      return updatedPayments;
+      if (payment.payerId !== userId && payment.expense.buyerId !== userId) {
+        throw new ForbiddenException(
+          'You do not have permission to update this payment.',
+        );
+      }
+
+      const updatedPayment = await this.prisma.payment.update({
+        where: { id: paymentId },
+        data: {
+          paidDate: isPaid ? new Date() : null,
+        },
+      });
+
+      return updatedPayment;
     } catch (error) {
-      console.error('Error updating payments per date status:', error);
+      console.error('Error updating payment:', error);
       throw error;
     }
   }

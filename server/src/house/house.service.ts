@@ -287,10 +287,23 @@ export class HouseService {
         orderBy: [{ date: 'asc' }, { id: 'asc' }],
       });
 
-      // Find the expense that the user hasn't paid
+      // Find the expense that the user hasn't paid for the past 3 months
+      const today = new Date();
+      const firstDayOfCurrentMonth = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        1,
+      );
+      const startOfThreeMonthsAgo = new Date(firstDayOfCurrentMonth);
+      startOfThreeMonthsAgo.setMonth(firstDayOfCurrentMonth.getMonth() - 2);
+
       const userExpenses = await this.prisma.expense.findMany({
         where: {
           houseId: houseId,
+          date: {
+            gte: startOfThreeMonthsAgo,
+            lte: today,
+          },
           payments: {
             some: {
               payerId: userId,

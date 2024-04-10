@@ -11,12 +11,10 @@ import { CreateExpenseDto, GetExpenseDto, UpdateExpenseDto } from './dto';
 export class ExpenseService {
   constructor(private prisma: PrismaService) {}
 
-  async getExpensePerDate(userId: number, dto: GetExpenseDto) {
+  async getExpensePerDate(userId: number) {
     try {
-      const { year, month, houseId } = dto;
-
       const userHouse = await this.prisma.userHouse.findFirst({
-        where: { userId, houseId },
+        where: { userId },
       });
 
       if (!userHouse) {
@@ -25,69 +23,108 @@ export class ExpenseService {
         );
       }
 
-      const firstDayOfMonth = new Date(year, month - 1, 1);
-      const lastDayOfMonth = new Date(year, month, 0);
+      const expensesPerMonth = [];
 
-      const expenses = await this.prisma.expense.findMany({
-        where: {
-          houseId: userHouse.houseId,
-          date: {
-            gte: firstDayOfMonth,
-            lte: lastDayOfMonth,
+      // Iterate over the last three months, including the current month
+      for (let i = 0; i <= 2; i++) {
+        const targetDate = new Date();
+        targetDate.setMonth(targetDate.getMonth() - i);
+        const startYear = targetDate.getFullYear();
+        const startMonth = targetDate.getMonth();
+
+        const firstDayOfMonth = new Date(startYear, startMonth, 1);
+        const lastDayOfMonth = new Date(startYear, startMonth + 1, 0);
+
+        // Fetch expenses for the house within the month
+        const expenses = await this.prisma.expense.findMany({
+          where: {
+            houseId: userHouse.houseId,
+            date: {
+              gte: firstDayOfMonth,
+              lte: lastDayOfMonth,
+            },
           },
-        },
-        orderBy: {
-          date: 'desc',
-        },
-        include: {
-          payments: {
-            select: {
-              id: true,
-              fee: true,
-              paidDate: true,
-              user: {
-                select: {
-                  id: true,
-                  name: true,
-                  icon: true,
+          orderBy: {
+            date: 'desc',
+          },
+          include: {
+            payments: {
+              select: {
+                id: true,
+                fee: true,
+                paidDate: true,
+                user: {
+                  select: {
+                    id: true,
+                    name: true,
+                    icon: true,
+                  },
                 },
               },
             },
-          },
-          user: {
-            select: {
-              id: true,
-              name: true,
-              icon: true,
+            user: {
+              select: {
+                id: true,
+                name: true,
+                icon: true,
+              },
             },
           },
-        },
-      });
+        });
 
-      const groupedExpenses = expenses.reduce((acc, expense) => {
-        const expenseDate = expense.date.toISOString().split('T')[0];
+        // Group expenses by date, then by buyer
+        const groupedExpenses = expenses.reduce((acc, expense) => {
+          const expenseDate = expense.date.toISOString().split('T')[0];
 
-        if (!acc[expenseDate]) {
-          acc[expenseDate] = {};
-        }
+          if (!acc[expenseDate]) {
+            acc[expenseDate] = {};
+          }
 
-        const buyerKey = expense.user.id;
+          const buyerKey = expense.user.id;
 
-        if (!acc[expenseDate][buyerKey]) {
-          acc[expenseDate][buyerKey] = [];
-        }
+          if (!acc[expenseDate][buyerKey]) {
+            acc[expenseDate][buyerKey] = [];
+          }
 
-        acc[expenseDate][buyerKey].push(expense);
+          acc[expenseDate][buyerKey].push(expense);
 
-        return acc;
-      }, {});
-      return groupedExpenses;
+          return acc;
+        }, {});
+
+        // Transform grouped expenses into an array for each date
+        const expensesByDateArray = Object.keys(groupedExpenses).map((date) => {
+          const expenseDate = new Date(date + 'T00:00:00');
+
+          const monthAbbreviation = expenseDate
+            .toLocaleString('en-US', { month: 'short', timeZone: 'UTC' })
+            .toUpperCase();
+
+          const day = expenseDate.getUTCDate();
+
+          return {
+            date: `${monthAbbreviation} ${day}`,
+            buyers: Object.keys(groupedExpenses[date]).map((buyerId) => ({
+              buyerId,
+              expenses: groupedExpenses[date][buyerId],
+            })),
+          };
+        });
+
+        // Add the expenses for the month to the expensesPerMonth array
+        expensesPerMonth.push({
+          month: `${new Date(startYear, startMonth, 1).toLocaleString('en-US', { month: 'long' })} ${startYear}`,
+          expenses: expensesByDateArray,
+        });
+      }
+
+      return expensesPerMonth;
     } catch (error) {
       console.error('Error getting expenses per date:', error);
       throw error;
     }
   }
 
+  // TODO: Need to change logic
   async getExpensePerMonth(userId: number, dto: GetExpenseDto) {
     try {
       const { year, month, houseId } = dto;

@@ -46,130 +46,132 @@ describe('ExpenseController (e2e)', () => {
   });
 
   describe('GET /expenses/per-date', () => {
-    const dto = {
-      year: 2023,
-      month: 4,
-      houseId: 109,
-    };
-
-    const expectedExpenseData = {
-      '2023-04-30': {
-        '104': [
+    const expectedExpenseData = [
+      {
+        month: 'April 2024',
+        expenses: [
           {
-            id: 115,
-            itemName: 'Maintenance Fee',
-            fee: 150,
-            date: '2023-04-30T00:00:00.000Z',
-            houseId: 109,
-            buyerId: 104,
-            payments: [
+            date: 'APR 30',
+            buyers: [
               {
-                id: 120,
-                fee: 150,
-                paidDate: '2023-05-05T00:00:00.000Z',
-                user: {
-                  id: 105,
-                  name: 'Evan',
-                  icon: 'VIOLET',
-                },
+                buyerId: '104',
+                expenses: [
+                  {
+                    id: 115,
+                    itemName: 'Maintenance Fee',
+                    fee: 150,
+                    date: '2024-04-30T00:00:00.000Z',
+                    houseId: 109,
+                    buyerId: 104,
+                    payments: [
+                      {
+                        id: 120,
+                        fee: 150,
+                        paidDate: '2024-05-05T00:00:00.000Z',
+                        user: {
+                          id: 105,
+                          name: 'Evan',
+                          icon: 'VIOLET',
+                        },
+                      },
+                    ],
+                    user: {
+                      id: 104,
+                      name: 'Diana',
+                      icon: 'INDIGO',
+                    },
+                  },
+                ],
               },
             ],
-            user: {
-              id: 104,
-              name: 'Diana',
-              icon: 'INDIGO',
-            },
+          },
+          {
+            date: 'APR 25',
+            buyers: [
+              {
+                buyerId: '104',
+                expenses: [
+                  {
+                    id: 114,
+                    itemName: 'Groceries',
+                    fee: 200,
+                    date: '2024-04-25T00:00:00.000Z',
+                    houseId: 109,
+                    buyerId: 104,
+                    payments: [
+                      {
+                        id: 119,
+                        fee: 100,
+                        paidDate: '2024-04-30T00:00:00.000Z',
+                        user: {
+                          id: 105,
+                          name: 'Evan',
+                          icon: 'VIOLET',
+                        },
+                      },
+                    ],
+                    user: {
+                      id: 104,
+                      name: 'Diana',
+                      icon: 'INDIGO',
+                    },
+                  },
+                ],
+              },
+            ],
           },
         ],
       },
-      '2023-04-25': {
-        '104': [
-          {
-            id: 114,
-            itemName: 'Groceries',
-            fee: 200,
-            date: '2023-04-25T00:00:00.000Z',
-            houseId: 109,
-            buyerId: 104,
-            payments: [
-              {
-                id: 119,
-                fee: 100,
-                paidDate: '2023-04-30T00:00:00.000Z',
-                user: {
-                  id: 105,
-                  name: 'Evan',
-                  icon: 'VIOLET',
-                },
-              },
-            ],
-            user: {
-              id: 104,
-              name: 'Diana',
-              icon: 'INDIGO',
-            },
-          },
-        ],
+      {
+        month: 'March 2024',
+        expenses: [],
       },
-    };
+      {
+        month: 'February 2024',
+        expenses: [],
+      },
+    ];
 
     it('should return 401 if not authenticated', async () => {
-      await request(app.getHttpServer())
-        .get('/expenses/per-date')
-        .send(dto)
-        .expect(401);
-    });
-
-    it('should return 403 if user is not in the specified house', async () => {
-      const dto = {
-        year: 2023,
-        month: 4,
-        houseId: 10000,
-      };
-
-      await request(app.getHttpServer())
-        .get('/expenses/per-date')
-        .send(dto)
-        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
-        .set('x-csrf-token', csrfToken)
-        .expect(403);
+      await request(app.getHttpServer()).get('/expenses/per-date').expect(401);
     });
 
     it('should return 200 and expense data if authenticated', async () => {
       await request(app.getHttpServer())
         .get('/expenses/per-date')
-        .send(dto)
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
         .expect(200)
         .then((res) => {
           expect(res.body).toMatchObject(expectedExpenseData);
+          expect(Array.isArray(res.body)).toBe(true);
+          expect(res.body.length).toBe(3);
         });
     });
   });
 
   describe('GET /expenses/per-month', () => {
     const dto = {
-      year: 2023,
+      year: 2024,
       month: 4,
       houseId: 109,
     };
 
     const expectedExpenseData = {
       '104': {
-        '2023-04-30': [
+        '2024-04-30': [
           {
             id: 115,
             itemName: 'Maintenance Fee',
             fee: 150,
-            date: '2023-04-30T00:00:00.000Z',
+            date: '2024-04-30T00:00:00.000Z',
             houseId: 109,
             buyerId: 104,
             payments: [
               {
                 id: 120,
                 fee: 150,
-                paidDate: '2023-05-05T00:00:00.000Z',
+                paidDate: '2024-05-05T00:00:00.000Z',
                 user: {
                   id: 105,
                   name: 'Evan',
@@ -184,19 +186,19 @@ describe('ExpenseController (e2e)', () => {
             },
           },
         ],
-        '2023-04-25': [
+        '2024-04-25': [
           {
             id: 114,
             itemName: 'Groceries',
             fee: 200,
-            date: '2023-04-25T00:00:00.000Z',
+            date: '2024-04-25T00:00:00.000Z',
             houseId: 109,
             buyerId: 104,
             payments: [
               {
                 id: 119,
                 fee: 100,
-                paidDate: '2023-04-30T00:00:00.000Z',
+                paidDate: '2024-04-30T00:00:00.000Z',
                 user: {
                   id: 105,
                   name: 'Evan',
@@ -223,7 +225,7 @@ describe('ExpenseController (e2e)', () => {
 
     it('should return 403 if user is not in the specified house', async () => {
       const dto = {
-        year: 2023,
+        year: 2024,
         month: 4,
         houseId: 10000,
       };
@@ -299,7 +301,7 @@ describe('ExpenseController (e2e)', () => {
         id: expenseId,
         itemName: 'Maintenance Fee',
         fee: 150,
-        date: '2023-04-30T00:00:00.000Z',
+        date: '2024-04-30T00:00:00.000Z',
         houseId: 109,
         buyerId: 104,
       };
@@ -400,7 +402,7 @@ describe('ExpenseController (e2e)', () => {
           {
             id: paymentId, // No change
             fee: 40,
-            paidDate: '2023-04-30T00:00:00.000Z',
+            paidDate: '2024-04-30T00:00:00.000Z',
             expenseId: expenseId, // No change
             payerId: 105, // No change
           },

@@ -45,51 +45,42 @@ describe('PaymentController (e2e)', () => {
     app.close();
   });
 
-  describe('PUT /payments/status/per-date', () => {
+  describe('PUT /payments/:paymentId/status', () => {
+    const paymentId = 120;
+
     const dto1 = {
-      date: '2023-04-30T12:00:00Z',
-      buyerId: 104,
-      payerId: 105,
       isPaid: false,
-      houseId: 109,
     };
 
-    const expectedResponse1 = [
-      {
-        id: 120,
-        fee: 150,
-        paidDate: null, // Should become null
-        expenseId: 115,
-        payerId: 105,
-      },
-    ];
+    const expectedResponse1 = {
+      id: 120,
+      fee: 150,
+      paidDate: null, // Should become null
+      expenseId: 115,
+      payerId: 105,
+    };
 
     const dto2 = {
-      date: '2023-04-30T12:00:00Z',
-      buyerId: 104,
-      payerId: 105,
       isPaid: true,
-      houseId: 109,
     };
 
-    const expectedResponse2 = [
-      {
-        id: 120,
-        fee: 150,
-        paidDate: new Date(), // Should become new date from null
-        expenseId: 115,
-        payerId: 105,
-      },
-    ];
+    const expectedResponse2 = {
+      id: 120,
+      fee: 150,
+      paidDate: new Date(), // Should become new date from null
+      expenseId: 115,
+      payerId: 105,
+    };
 
     it('should return 401 if not authenticated', async () => {
       await request(app.getHttpServer())
-        .put('/payments/status/per-date')
+        .put(`/payments/${paymentId}/status`)
         .send(dto1)
         .expect(401);
     });
 
-    it('should return 403 if user does not belong to the specified house', async () => {
+    it('should return 403 if user does not have permission to get this payment', async () => {
+      // This user is not either buyer or payer
       const loginUser = await request(app.getHttpServer())
         .post('/auth/login')
         .send({
@@ -100,81 +91,55 @@ describe('PaymentController (e2e)', () => {
       token = await loginUser.body.accessToken;
 
       await request(app.getHttpServer())
-        .put('/payments/status/per-date')
+        .put(`/payments/${paymentId}/status`)
         .send(dto1)
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
         .expect(403);
     });
 
-    it('should return 200 and updated payments with paidDate null', async () => {
+    it('should return 200 and the updated payment with paidDate null', async () => {
       const loginUser = await request(app.getHttpServer())
         .post('/auth/login')
         .send({
-          email: 'diana@example.com',
+          email: 'evan@example.com',
           password: 'password',
         });
 
       token = await loginUser.body.accessToken;
 
       const response = await request(app.getHttpServer())
-        .put('/payments/status/per-date')
+        .put(`/payments/${paymentId}/status`)
         .send(dto1)
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
         .expect(200);
 
-      response.body.forEach(
-        (
-          payment: {
-            id: number;
-            fee: number;
-            paidDate: null;
-            expenseId: number;
-            payerId: number;
-          },
-          index: number,
-        ) => {
-          expect(payment.paidDate).toBeNull();
-          expect(payment).toMatchObject({
-            id: expectedResponse1[index].id,
-            fee: expectedResponse1[index].fee,
-            expenseId: expectedResponse1[index].expenseId,
-            payerId: expectedResponse1[index].payerId,
-          });
-        },
-      );
+      expect(response.body.paidDate).toBeNull();
+      expect(response.body).toMatchObject({
+        id: expectedResponse1.id,
+        fee: expectedResponse1.fee,
+        expenseId: expectedResponse1.expenseId,
+        payerId: expectedResponse1.payerId,
+      });
     });
 
-    it('should return 200 and updated payments with paidDate not null', async () => {
+    it('should return 200 and the updated payment with paidDate not null', async () => {
       const response = await request(app.getHttpServer())
-        .put('/payments/status/per-date')
+        .put(`/payments/${paymentId}/status`)
         .send(dto2)
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
         .expect(200);
 
-      response.body.forEach(
-        (
-          payment: {
-            id: number;
-            fee: number;
-            paidDate: Date;
-            expenseId: number;
-            payerId: number;
-          },
-          index: number,
-        ) => {
-          expect(payment.paidDate).not.toBeNull();
-          expect(new Date(payment.paidDate)).toBeInstanceOf(Date);
-          expect(payment).toMatchObject({
-            id: expectedResponse2[index].id,
-            fee: expectedResponse2[index].fee,
-            expenseId: expectedResponse2[index].expenseId,
-            payerId: expectedResponse2[index].payerId,
-          });
-        },
-      );
+      expect(response.body.paidDate).not.toBeNull();
+      expect(new Date(response.body.paidDate)).toBeInstanceOf(Date);
+      expect(response.body).toMatchObject({
+        id: expectedResponse2.id,
+        fee: expectedResponse2.fee,
+        expenseId: expectedResponse2.expenseId,
+        payerId: expectedResponse2.payerId,
+      });
     });
   });
 

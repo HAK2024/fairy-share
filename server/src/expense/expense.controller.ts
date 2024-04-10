@@ -22,8 +22,8 @@ export class ExpenseController {
   constructor(private readonly expenseService: ExpenseService) {}
 
   @Get('/per-date')
-  getExpensePerDate(@GetUser('id') userId: number, @Body() dto: GetExpenseDto) {
-    return this.expenseService.getExpensePerDate(userId, dto);
+  getExpensePerDate(@GetUser('id') userId: number) {
+    return this.expenseService.getExpensePerDate(userId);
   }
 
   @Get('/per-month')
