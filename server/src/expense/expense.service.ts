@@ -25,6 +25,7 @@ export class ExpenseService {
 
       const expensesPerMonth = [];
 
+      // Iterate over the last three months, including the current month
       for (let i = 0; i <= 2; i++) {
         const targetDate = new Date();
         targetDate.setMonth(targetDate.getMonth() - i);
@@ -34,6 +35,7 @@ export class ExpenseService {
         const firstDayOfMonth = new Date(startYear, startMonth, 1);
         const lastDayOfMonth = new Date(startYear, startMonth + 1, 0);
 
+        // Fetch expenses for the house within the month
         const expenses = await this.prisma.expense.findMany({
           where: {
             houseId: userHouse.houseId,
@@ -70,6 +72,7 @@ export class ExpenseService {
           },
         });
 
+        // Group expenses by date, then by buyer
         const groupedExpenses = expenses.reduce((acc, expense) => {
           const expenseDate = expense.date.toISOString().split('T')[0];
 
@@ -88,6 +91,7 @@ export class ExpenseService {
           return acc;
         }, {});
 
+        // Transform grouped expenses into an array for each date
         const expensesByDateArray = Object.keys(groupedExpenses).map((date) => {
           const expenseDate = new Date(date + 'T00:00:00');
 
@@ -106,6 +110,7 @@ export class ExpenseService {
           };
         });
 
+        // Add the expenses for the month to the expensesPerMonth array
         expensesPerMonth.push({
           month: `${new Date(startYear, startMonth, 1).toLocaleString('en-US', { month: 'long' })} ${startYear}`,
           expenses: expensesByDateArray,
