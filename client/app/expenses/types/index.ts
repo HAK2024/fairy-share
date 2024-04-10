@@ -6,4 +6,4 @@ export {
   type ExpenseDate,
   type ExpenseMonthData,
   type ExpensesData,
-} from './expenseType'
+} from './expenseTypePerDate'
