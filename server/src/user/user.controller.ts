@@ -12,6 +12,7 @@ import { AuthGuard } from '../auth/guard';
 import { GetUser } from '../auth/decorator';
 import { UpdateUserDto } from './dto/update-user-dto';
 import { Response } from 'express';
+import { ChangePasswordDto } from './dto/change-password-dto';
 
 @UseGuards(AuthGuard)
 @Controller('me')
@@ -38,6 +39,15 @@ export class UserController {
     });
 
     res.send({ user: user });
+  }
+
+  @Put('change-password')
+  async changePassword(
+    @GetUser('id') userId: number,
+    @Body() dto: ChangePasswordDto,
+  ) {
+    await this.userService.changePassword(userId, dto);
+    return { message: 'Password updated successfully' };
   }
 
   @Delete()
