@@ -157,7 +157,7 @@ export class UserService {
       );
 
       if (!passwordMatch) {
-        throw new UnauthorizedException('Invalid credentials');
+        throw new UnauthorizedException('The current password is not correct');
       }
 
       if (dto.newPassword !== dto.confirmNewPassword) {
