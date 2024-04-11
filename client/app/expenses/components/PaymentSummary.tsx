@@ -88,7 +88,6 @@ const PaymentSummary = ({
                       size={28}
                     />
                   </div>
-
                   <span className='font-medium md:text-lg'>$ {payee.fee}</span>
                 </div>
               ))}

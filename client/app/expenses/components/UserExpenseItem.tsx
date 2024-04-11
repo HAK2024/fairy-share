@@ -27,7 +27,6 @@ const UserExpenseItem = ({ userExpense, userId }: UserExpenseItemProps) => {
               {expense.date}
             </span>
           </div>
-
           {expense.expenses.map((expense) => (
             <li
               key={expense.id}
