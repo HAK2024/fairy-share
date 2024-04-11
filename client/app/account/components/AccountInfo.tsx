@@ -39,7 +39,7 @@ const AccountInfo = () => {
         <h2 className='font-semibold'>Password</h2>
         <RouterLink
           href='/account/change-password'
-          className='underline underline-offset-4'
+          className='underline underline-offset-4 hover:opacity-70'
         >
           Change Password
         </RouterLink>
