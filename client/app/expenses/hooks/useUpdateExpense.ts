@@ -35,11 +35,9 @@ export const useUpdateExpense = (defaultData: ExpenseType) => {
     })
     queryClient.invalidateQueries({
       queryKey: ['expensesPerMonth', { id: defaultData.id }],
-      exact: true,
     })
     queryClient.invalidateQueries({
       queryKey: ['expensesPerDate', { id: defaultData.id }],
-      exact: true,
     })
     queryClient.invalidateQueries({
       queryKey: ['todos'],

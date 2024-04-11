@@ -12,11 +12,9 @@ export const useUpdatePaymentStatusMutation = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['expensesPerMonth'],
-        exact: true,
       })
       queryClient.invalidateQueries({
         queryKey: ['expensesPerDate'],
-        exact: true,
       })
       queryClient.invalidateQueries({ queryKey: ['todos'] })
     },
