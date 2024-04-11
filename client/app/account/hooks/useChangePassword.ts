@@ -20,8 +20,15 @@ export const useChangePassword = () => {
 
   const { mutate, isPending } = useChangePasswordMutation()
 
-  const onChansePassword = (data: PasswordSchema) => {
-    mutate(data, {
+  const onChansePassword = ({
+    currentPassword,
+    newPassword,
+  }: PasswordSchema) => {
+    const requestData = {
+      currentPassword,
+      newPassword,
+    }
+    mutate(requestData, {
       onSuccess: () => {
         toast({
           variant: 'success',

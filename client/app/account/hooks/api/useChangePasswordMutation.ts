@@ -4,7 +4,7 @@ import { PasswordSchema } from '@/account/schema'
 
 export function useChangePasswordMutation() {
   const { mutate, isPending, isSuccess, isError, error, reset } = useMutation({
-    mutationFn: (data: PasswordSchema) => {
+    mutationFn: (data: Omit<PasswordSchema, 'confirmNewPassword'>) => {
       return changePasswordApi(data)
     },
   })
