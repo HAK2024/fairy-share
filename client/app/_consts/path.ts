@@ -4,4 +4,5 @@ export const AUTH_PRIVATE_SETTING_PATH = [
   '/house/create',
   '/account',
   '/account/edit',
+  '/account/change-password',
 ]
