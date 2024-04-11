@@ -233,7 +233,7 @@ describe('ExpenseController (e2e)', () => {
             payees: [
               {
                 payeeId: 104,
-                amount: 250,
+                fee: 250,
                 payeeName: 'Diana',
                 payeeIcon: 'INDIGO',
                 paidDate: '2024-05-05T00:00:00.000Z',
