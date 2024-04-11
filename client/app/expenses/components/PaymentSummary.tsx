@@ -50,23 +50,24 @@ const PaymentSummary = ({
             className='flex items-start justify-center gap-4 border-b-[1px] border-dotted border-slate-400 pb-2 last:border-0'
             key={payer.payerId}
           >
-            <div className='flex min-w-[80px] items-center gap-2 md:min-w-[130px]'>
+            <div className='flex min-w-[120px] items-center gap-2 md:min-w-[130px]'>
               <UserDisplay
                 name={payer.payerName}
                 icon={payer.payerIcon}
                 size={28}
               />
+              <div className='flex items-center'>
+                <FiArrowRight size={16} aria-label='arrow-right-icon' />
+              </div>
             </div>
-            <div className='flex items-center pt-1'>
-              <FiArrowRight size={16} aria-label='arrow-right-icon' />
-            </div>
+
             <div className='flex w-full flex-col gap-2'>
               {payer.payees.map((payee) => (
                 <div
                   className='flex items-center justify-between gap-4'
                   key={payee.payeeId}
                 >
-                  <div className='flex items-start justify-center gap-4 '>
+                  <div className='flex items-center justify-center gap-4 '>
                     <Checkbox
                       className='h-6 w-6'
                       checked={payee.paidDate === null ? false : true}
@@ -88,7 +89,9 @@ const PaymentSummary = ({
                       size={28}
                     />
                   </div>
-                  <span className='font-medium md:text-lg'>$ {payee.fee}</span>
+                  <span className='whitespace-nowrap font-medium md:text-lg'>
+                    $ {payee.fee}
+                  </span>
                 </div>
               ))}
             </div>

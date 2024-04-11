@@ -9,11 +9,13 @@ type UserDisplayProps = {
 
 const UserDisplay = ({ name, size, icon }: UserDisplayProps) => (
   <div className='flex items-center gap-2 break-words font-medium'>
-    <MdAccountCircle
-      size={size}
-      className={`${colorMap[icon]}`}
-      aria-label='user-icon'
-    />
+    <div>
+      <MdAccountCircle
+        size={size}
+        className={`${colorMap[icon]}`}
+        aria-label='user-icon'
+      />
+    </div>
     <h4 className='text-base md:text-lg'>{name}</h4>
   </div>
 )

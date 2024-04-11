@@ -33,7 +33,9 @@ const PaymentItem = ({ item, buyerId, userId }: PaymentItemProps) => {
         />
         <UserDisplay name={item.user.name} icon={item.user.icon} size={28} />
       </div>
-      <span className='font-medium md:text-lg'>$ {item.fee}</span>
+      <span className='whitespace-nowrap font-medium md:text-lg'>
+        $ {item.fee}
+      </span>
     </li>
   )
 }
