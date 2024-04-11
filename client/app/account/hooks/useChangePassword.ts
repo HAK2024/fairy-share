@@ -1,5 +1,4 @@
 import { useRouter } from 'next/navigation'
-import { useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { useToast } from '@/_hooks'
 import { isErrorWithMessage } from '@/_utils'
@@ -7,7 +6,6 @@ import { useChangePasswordMutation } from './api'
 import { PasswordSchema, passwordResolver } from '../schema'
 
 export const useChangePassword = () => {
-  const queryClient = useQueryClient()
   const router = useRouter()
   const { toast } = useToast()
 
