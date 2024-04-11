@@ -248,10 +248,13 @@ export class ExpenseService {
                 fee: 0,
                 payeeName: expense.user.name,
                 payeeIcon: expense.user.icon,
-                paidDate: payment.paidDate,
+                paidDates: [],
               };
             }
             paymentsSummary[payerId].paymentsTo[payeeId].fee += payment.fee;
+            paymentsSummary[payerId].paymentsTo[payeeId].paidDates.push(
+              payment.paidDate,
+            );
           });
         });
 
@@ -262,12 +265,15 @@ export class ExpenseService {
           const payees = Object.keys(payerInfo.paymentsTo).map((payeeKey) => {
             const payeeId = Number(payeeKey);
             const paymentInfo = payerInfo.paymentsTo[payeeId];
+            const paidDate = paymentInfo.paidDates.includes(null)
+              ? null
+              : paymentInfo.paidDates[0];
             return {
               payeeId,
               fee: paymentInfo.fee,
               payeeName: paymentInfo.payeeName,
               payeeIcon: paymentInfo.payeeIcon,
-              paidDate: paymentInfo.paidDate,
+              paidDate,
             };
           });
 
