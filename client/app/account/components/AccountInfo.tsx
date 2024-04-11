@@ -35,16 +35,15 @@ const AccountInfo = () => {
           Create House
         </RouterLink>
       )}
-      {/* TODO: Add functionality for changing password
       <div>
         <h2 className='font-semibold'>Password</h2>
         <RouterLink
-          href='/edit-password'
-          className='text-lg font-normal underline'
+          href='/account/change-password'
+          className='underline underline-offset-4 hover:opacity-70'
         >
           Change Password
         </RouterLink>
-      </div> */}
+      </div>
       <div>
         <DeleteAccount user={user} />
       </div>

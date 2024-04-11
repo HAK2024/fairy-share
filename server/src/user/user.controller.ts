@@ -10,8 +10,8 @@ import {
 import { UserService } from './user.service';
 import { AuthGuard } from '../auth/guard';
 import { GetUser } from '../auth/decorator';
-import { UpdateUserDto } from './dto/update-user-dto';
 import { Response } from 'express';
+import { ChangePasswordDto, UpdateUserDto } from './dto';
 
 @UseGuards(AuthGuard)
 @Controller('me')
@@ -38,6 +38,14 @@ export class UserController {
     });
 
     res.send({ user: user });
+  }
+
+  @Put('change-password')
+  async changePassword(
+    @GetUser('id') userId: number,
+    @Body() dto: ChangePasswordDto,
+  ) {
+    return await this.userService.changePassword(userId, dto);
   }
 
   @Delete()

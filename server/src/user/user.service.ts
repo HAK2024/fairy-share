@@ -2,11 +2,13 @@ import {
   ForbiddenException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { UpdateUserDto } from './dto/update-user-dto';
 import { Prisma } from '@prisma/client';
 import { AuthService } from '../auth/auth.service';
+import { compare, hash } from 'bcrypt';
+import { ChangePasswordDto, UpdateUserDto } from './dto';
 
 @Injectable()
 export class UserService {
@@ -132,6 +134,45 @@ export class UserService {
           throw new ForbiddenException('Credentials token');
         }
       }
+      throw error;
+    }
+  }
+
+  async changePassword(userId: number, dto: ChangePasswordDto) {
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+      });
+
+      if (!user) {
+        throw new NotFoundException(`User with ID ${userId} not found.`);
+      }
+
+      const passwordMatch = await compare(
+        dto.currentPassword,
+        user.hashedPassword,
+      );
+
+      if (!passwordMatch) {
+        throw new UnauthorizedException('The current password is not correct');
+      }
+
+      const hashedPassword = await hash(dto.newPassword, 10);
+
+      await this.prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          hashedPassword,
+        },
+      });
+
+      return { message: 'Password updated successfully.' };
+    } catch (error) {
+      console.error('Error updating password:', error);
       throw error;
     }
   }

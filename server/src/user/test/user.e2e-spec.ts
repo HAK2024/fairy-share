@@ -54,36 +54,107 @@ describe('UserController (e2e)', () => {
         email: 'alice@example.com',
       });
     });
+  });
 
-    describe('PUT /me', () => {
-      const userId = 101;
+  describe('PUT /me', () => {
+    it('should return 401 if not authenticated', async () => {
+      await request(app.getHttpServer()).put('/me').expect(401);
+    });
 
-      it('should return 401 if not authenticated', async () => {
-        await request(app.getHttpServer()).put('/me').expect(401);
-      });
+    it('should return 403 if email already exists', async () => {
+      const updatedDto = {
+        name: 'Alice',
+        email: 'bob@example.com',
+        icon: 'RED',
+      };
 
-      it('should updated all the data', async () => {
-        const updatedDto = {
-          name: 'User 1',
-          email: 'updatedalice@example.com',
-          icon: 'GREEN',
-        };
+      await request(app.getHttpServer())
+        .put('/me')
+        .send(updatedDto)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(403);
+    });
 
-        const response = await request(app.getHttpServer())
-          .put('/me')
-          .send(updatedDto)
+    it('should updated all the data', async () => {
+      const updatedDto = {
+        name: 'User 1',
+        email: 'updatedalice@example.com',
+        icon: 'GREEN',
+      };
+
+      const response = await request(app.getHttpServer())
+        .put('/me')
+        .send(updatedDto)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(200);
+
+      const expectedResponse = {
+        user: {
+          id: 101,
+          ...updatedDto,
+        },
+      };
+
+      expect(response.body).toMatchObject(expectedResponse);
+    });
+  });
+
+  describe('PUT /me/change-password', () => {
+    it('should return 401 if not authenticated', async () => {
+      await request(app.getHttpServer()).put('/me').expect(401);
+    });
+
+    it('should return 401 if current password does not match password in database', async () => {
+      const invalidCurrentPasswordDto = {
+        currentPassword: 'invalidPassword',
+        newPassword: 'newPassword',
+        confirmNewPassword: 'newPassword',
+      };
+
+      await request(app.getHttpServer())
+        .put('/me/change-password')
+        .send(invalidCurrentPasswordDto)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(401);
+    });
+
+    const invalidNewPasswordFields = [
+      { newPassword: '', confirmNewPassword: '' },
+      { newPassword: undefined, confirmNewPassword: undefined },
+      { newPassword: 'a'.repeat(256), confirmNewPassword: 'a'.repeat(256) },
+      { newPassword: 'newPassword', confirmNewPassword: 'oldPassword' },
+    ];
+
+    invalidNewPasswordFields.forEach((newPasswordFields, index) => {
+      it(`should return 400 for invalid new password fields - case ${index + 1}`, async () => {
+        await request(app.getHttpServer())
+          .put('/me/change-password')
+          .send(newPasswordFields)
           .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
           .set('x-csrf-token', csrfToken)
-          .expect(200);
+          .expect(400);
+      });
+    });
 
-        const expectedResponse = {
-          user: {
-            id: userId,
-            ...updatedDto,
-          },
-        };
+    it('should change user password successfully', async () => {
+      const updatedDto = {
+        currentPassword: 'password',
+        newPassword: 'newPassword',
+        confirmNewPassword: 'newPassword',
+      };
 
-        expect(response.body).toMatchObject(expectedResponse);
+      const response = await request(app.getHttpServer())
+        .put('/me/change-password')
+        .send(updatedDto)
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(200);
+
+      expect(response.body).toEqual({
+        message: 'Password updated successfully.',
       });
     });
   });
