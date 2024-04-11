@@ -22,10 +22,9 @@ export const useChangePassword = () => {
 
   const { mutate, isPending } = useChangePasswordMutation()
 
-  const onUpdateAccount = (data: PasswordSchema) => {
+  const onChansePassword = (data: PasswordSchema) => {
     mutate(data, {
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['me'] })
         toast({
           variant: 'success',
           title: 'Successfully updated your password!',
@@ -50,7 +49,7 @@ export const useChangePassword = () => {
 
   return {
     form,
-    onSubmit: form.handleSubmit(onUpdateAccount),
+    onSubmit: form.handleSubmit(onChansePassword),
     isPending,
   }
 }
