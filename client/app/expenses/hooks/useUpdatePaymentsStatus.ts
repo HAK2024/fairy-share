@@ -12,7 +12,14 @@ export const useUpdatePaymentsStatus = () => {
   const onUpdate = (data: UpdatePaymentsStatusType) => {
     mutate(data, {
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['expenses'] })
+        queryClient.invalidateQueries({
+          queryKey: ['expensesPerMonth'],
+          exact: true,
+        })
+        queryClient.invalidateQueries({
+          queryKey: ['expensesPerDate'],
+          exact: true,
+        })
         queryClient.invalidateQueries({ queryKey: ['todos'] })
       },
       onError: (error: unknown) => {

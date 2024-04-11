@@ -29,7 +29,7 @@ const ExpenseTrackingPerDate = () => {
     >
       {expensesData.map((expenseMonthData: ExpenseMonthData) => (
         <AccordionItem
-          key={expenseMonthData.month}
+          key={`${expenseMonthData.month}-perDate`}
           value={`expenseMonthData-${expenseMonthData.month}`}
         >
           <AccordionTrigger className='mt-5 h-9 rounded-sm bg-amber-200 px-4 font-semibold text-slate-800'>

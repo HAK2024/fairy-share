@@ -35,9 +35,8 @@ export const useCreateExpense = () => {
           variant: 'success',
           title: 'New expense has been created successfully',
         })
-        queryClient.invalidateQueries({
-          queryKey: ['expenses'],
-        })
+        queryClient.invalidateQueries({ queryKey: ['expensesPerMonth'] })
+        queryClient.invalidateQueries({ queryKey: ['expensesPerDate'] })
         router.push('/expenses')
       },
       onError: (error) => {

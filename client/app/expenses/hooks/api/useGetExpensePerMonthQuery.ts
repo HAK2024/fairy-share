@@ -3,7 +3,7 @@ import { getExpensePerMonthApi } from './../../api'
 
 export const useGetExpensePerMonthQuery = () => {
   const { data, isLoading } = useQuery({
-    queryKey: ['expenses'],
+    queryKey: ['expensesPerMonth'],
     queryFn: () => getExpensePerMonthApi(),
     throwOnError: true,
   })
