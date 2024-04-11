@@ -11,6 +11,51 @@ import { CreateExpenseDto, UpdateExpenseDto } from './dto';
 export class ExpenseService {
   constructor(private prisma: PrismaService) {}
 
+  async fetchMonthlyExpenses(
+    houseId: number,
+    startYear: number,
+    startMonth: number,
+  ) {
+    const firstDayOfMonth = new Date(startYear, startMonth, 1);
+    const lastDayOfMonth = new Date(startYear, startMonth + 1, 0);
+
+    return await this.prisma.expense.findMany({
+      where: {
+        houseId: houseId,
+        date: {
+          gte: firstDayOfMonth,
+          lte: lastDayOfMonth,
+        },
+      },
+      orderBy: {
+        date: 'desc',
+      },
+      include: {
+        payments: {
+          select: {
+            id: true,
+            fee: true,
+            paidDate: true,
+            user: {
+              select: {
+                id: true,
+                name: true,
+                icon: true,
+              },
+            },
+          },
+        },
+        user: {
+          select: {
+            id: true,
+            name: true,
+            icon: true,
+          },
+        },
+      },
+    });
+  }
+
   async getExpensePerDate(userId: number) {
     try {
       const userHouse = await this.prisma.userHouse.findFirst({
@@ -32,45 +77,11 @@ export class ExpenseService {
         const startYear = targetDate.getFullYear();
         const startMonth = targetDate.getMonth();
 
-        const firstDayOfMonth = new Date(startYear, startMonth, 1);
-        const lastDayOfMonth = new Date(startYear, startMonth + 1, 0);
-
-        // Fetch expenses for the house within the month
-        const expenses = await this.prisma.expense.findMany({
-          where: {
-            houseId: userHouse.houseId,
-            date: {
-              gte: firstDayOfMonth,
-              lte: lastDayOfMonth,
-            },
-          },
-          orderBy: {
-            date: 'desc',
-          },
-          include: {
-            payments: {
-              select: {
-                id: true,
-                fee: true,
-                paidDate: true,
-                user: {
-                  select: {
-                    id: true,
-                    name: true,
-                    icon: true,
-                  },
-                },
-              },
-            },
-            user: {
-              select: {
-                id: true,
-                name: true,
-                icon: true,
-              },
-            },
-          },
-        });
+        const expenses = await this.fetchMonthlyExpenses(
+          userHouse.houseId,
+          startYear,
+          startMonth,
+        );
 
         // Group expenses by date, then by buyer
         const groupedExpenses = expenses.reduce((acc, expense) => {
@@ -145,45 +156,11 @@ export class ExpenseService {
         const startYear = targetDate.getFullYear();
         const startMonth = targetDate.getMonth();
 
-        const firstDayOfMonth = new Date(startYear, startMonth, 1);
-        const lastDayOfMonth = new Date(startYear, startMonth + 1, 0);
-
-        // Fetch expenses for the house within the month
-        const expenses = await this.prisma.expense.findMany({
-          where: {
-            houseId: userHouse.houseId,
-            date: {
-              gte: firstDayOfMonth,
-              lte: lastDayOfMonth,
-            },
-          },
-          orderBy: {
-            date: 'desc',
-          },
-          include: {
-            payments: {
-              select: {
-                id: true,
-                fee: true,
-                paidDate: true,
-                user: {
-                  select: {
-                    id: true,
-                    name: true,
-                    icon: true,
-                  },
-                },
-              },
-            },
-            user: {
-              select: {
-                id: true,
-                name: true,
-                icon: true,
-              },
-            },
-          },
-        });
+        const expenses = await this.fetchMonthlyExpenses(
+          userHouse.houseId,
+          startYear,
+          startMonth,
+        );
 
         // Organize expenses by user and date
         const expensesByUser = expenses.reduce((acc, expense) => {
