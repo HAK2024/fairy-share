@@ -25,7 +25,7 @@ const ItemDisplayPerMonth = ({ item, userId }: ItemDisplayPerMonthProps) => {
               variant={'outline'}
               onClick={() => router.push(`/expenses/${item.id}/edit`)}
             >
-              <FiEdit />
+              <FiEdit aria-label='edit-icon' />
             </Button>
             <DeleteExpense expenseId={item.id} />
           </>

@@ -58,7 +58,7 @@ const PaymentSummary = ({
               />
             </div>
             <div className='flex items-center pt-1'>
-              <FiArrowRight size={16} />
+              <FiArrowRight size={16} aria-label='arrow-right-icon' />
             </div>
             <div className='flex w-full flex-col gap-2'>
               {payer.payees.map((payee) => (
