@@ -37,14 +37,17 @@ const ExpenseItem = ({ expense, userId }: ExpenseItemProps) => {
               <div className='md:w-1/2'>
                 <p className='font-semibold'>Complete Payment</p>
                 <ul className='flex flex-col gap-2 pt-2 md:pt-4'>
-                  {expense.payments.map((payment) => (
-                    <PaymentItem
-                      key={payment.id}
-                      item={payment}
-                      buyerId={expense.buyerId}
-                      userId={userId}
-                    />
-                  ))}
+                  {expense.payments
+                    .slice()
+                    .sort((a, b) => a.user.name.localeCompare(b.user.name))
+                    .map((payment) => (
+                      <PaymentItem
+                        key={payment.id}
+                        item={payment}
+                        buyerId={expense.buyerId}
+                        userId={userId}
+                      />
+                    ))}
                 </ul>
               </div>
             </li>
