@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateExpenseDto, GetExpenseDto, UpdateExpenseDto } from './dto';
+import { CreateExpenseDto, UpdateExpenseDto } from './dto';
 
 @Injectable()
 export class ExpenseService {
@@ -124,13 +124,10 @@ export class ExpenseService {
     }
   }
 
-  // TODO: Need to change logic
-  async getExpensePerMonth(userId: number, dto: GetExpenseDto) {
+  async getExpensePerMonth(userId: number) {
     try {
-      const { year, month, houseId } = dto;
-
       const userHouse = await this.prisma.userHouse.findFirst({
-        where: { userId, houseId },
+        where: { userId },
       });
 
       if (!userHouse) {
@@ -139,61 +136,153 @@ export class ExpenseService {
         );
       }
 
-      const firstDayOfMonth = new Date(year, month - 1, 1);
-      const lastDayOfMonth = new Date(year, month, 0);
+      const expensesPerMonth = [];
 
-      const expenses = await this.prisma.expense.findMany({
-        where: {
-          houseId: userHouse.houseId,
-          date: {
-            gte: firstDayOfMonth,
-            lte: lastDayOfMonth,
+      for (let i = 0; i <= 2; i++) {
+        const targetDate = new Date();
+        targetDate.setMonth(targetDate.getMonth() - i);
+        const startYear = targetDate.getFullYear();
+        const startMonth = targetDate.getMonth();
+
+        const firstDayOfMonth = new Date(startYear, startMonth, 1);
+        const lastDayOfMonth = new Date(startYear, startMonth + 1, 0);
+
+        const expenses = await this.prisma.expense.findMany({
+          where: {
+            houseId: userHouse.houseId,
+            date: {
+              gte: firstDayOfMonth,
+              lte: lastDayOfMonth,
+            },
           },
-        },
-        orderBy: {
-          date: 'desc',
-        },
-        include: {
-          payments: {
-            select: {
-              id: true,
-              fee: true,
-              paidDate: true,
-              user: {
-                select: {
-                  id: true,
-                  name: true,
-                  icon: true,
+          orderBy: {
+            date: 'desc',
+          },
+          include: {
+            payments: {
+              select: {
+                id: true,
+                fee: true,
+                paidDate: true,
+                user: {
+                  select: {
+                    id: true,
+                    name: true,
+                    icon: true,
+                  },
                 },
               },
             },
-          },
-          user: {
-            select: {
-              id: true,
-              name: true,
-              icon: true,
+            user: {
+              select: {
+                id: true,
+                name: true,
+                icon: true,
+              },
             },
           },
-        },
-      });
+        });
 
-      const groupedExpenses = expenses.reduce((acc, expense) => {
-        const buyerKey = expense.user.id;
-        if (!acc[buyerKey]) {
-          acc[buyerKey] = {};
-        }
+        const expensesByUser = expenses.reduce((acc, expense) => {
+          const buyerId = expense.user.id;
+          if (!acc[buyerId]) {
+            acc[buyerId] = {
+              user: expense.user,
+              expensesByDate: {},
+            };
+          }
 
-        const expenseDate = expense.date.toISOString().split('T')[0];
-        if (!acc[buyerKey][expenseDate]) {
-          acc[buyerKey][expenseDate] = [];
-        }
+          const expenseDate = expense.date.toISOString().split('T')[0];
+          if (!acc[buyerId].expensesByDate[expenseDate]) {
+            acc[buyerId].expensesByDate[expenseDate] = [];
+          }
 
-        acc[buyerKey][expenseDate].push(expense);
-        return acc;
-      }, {});
+          acc[buyerId].expensesByDate[expenseDate].push(expense);
 
-      return groupedExpenses;
+          return acc;
+        }, {});
+
+        const usersExpenses = Object.keys(expensesByUser).map((userId) => ({
+          ...expensesByUser[userId].user,
+          expenses: Object.keys(expensesByUser[userId].expensesByDate).map(
+            (date) => {
+              const formattedDate = new Date(date)
+                .toLocaleString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
+                  timeZone: 'UTC',
+                })
+                .toUpperCase();
+              return {
+                date: formattedDate,
+                expenses: expensesByUser[userId].expensesByDate[date],
+              };
+            },
+          ),
+        }));
+
+        const paymentsSummary = {};
+
+        expenses.forEach((expense) => {
+          expense.payments.forEach((payment) => {
+            const payerId: number = payment.user.id;
+            const payeeId: number = expense.user.id;
+
+            if (!paymentsSummary[payerId]) {
+              paymentsSummary[payerId] = {
+                user: {
+                  name: payment.user.name,
+                  icon: payment.user.icon,
+                },
+                paymentsTo: {},
+              };
+            }
+
+            if (!paymentsSummary[payerId].paymentsTo[payeeId]) {
+              paymentsSummary[payerId].paymentsTo[payeeId] = {
+                fee: 0,
+                payeeName: expense.user.name,
+                payeeIcon: expense.user.icon,
+                paidDate: payment.paidDate,
+              };
+            }
+            paymentsSummary[payerId].paymentsTo[payeeId].fee += payment.fee;
+          });
+        });
+
+        const balanceSummary = Object.keys(paymentsSummary).map((payerKey) => {
+          const payerId = Number(payerKey);
+          const payerInfo = paymentsSummary[payerId];
+          const payees = Object.keys(payerInfo.paymentsTo).map((payeeKey) => {
+            const payeeId = Number(payeeKey);
+            const paymentInfo = payerInfo.paymentsTo[payeeId];
+            return {
+              payeeId,
+              fee: paymentInfo.fee,
+              payeeName: paymentInfo.payeeName,
+              payeeIcon: paymentInfo.payeeIcon,
+              paidDate: paymentInfo.paidDate,
+            };
+          });
+
+          return {
+            payerId,
+            payerName: payerInfo.user.name,
+            payerIcon: payerInfo.user.icon,
+            payees,
+          };
+        });
+
+        expensesPerMonth.push({
+          month: `${new Date(startYear, startMonth, 1).toLocaleString('en-US', { month: 'long' })} ${startYear}`,
+          monthNumber: startMonth + 1,
+          year: startYear,
+          usersExpenses,
+          balanceSummary,
+        });
+      }
+
+      return expensesPerMonth;
     } catch (error) {
       console.error('Error getting expenses per month:', error);
       throw error;

@@ -44,6 +44,7 @@ export const useUpdateHouse = (defaultData: HouseType) => {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ['me'] })
           queryClient.invalidateQueries({ queryKey: ['house'] })
+          queryClient.invalidateQueries({ queryKey: ['expenses'] })
           toast({
             variant: 'success',
             title: 'Your house has been updated successfully',

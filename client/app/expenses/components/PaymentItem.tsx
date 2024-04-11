@@ -1,6 +1,6 @@
 import { Checkbox } from '@/_components/ui'
 import { UserDisplay } from './UserDisplay'
-import { useUpdatePaymentStatusMutation } from '../hooks/useUpdatePaymentStatus'
+import { useUpdatePaymentStatusMutation } from '../hooks'
 import { Payment } from '../types'
 
 type PaymentItemProps = {

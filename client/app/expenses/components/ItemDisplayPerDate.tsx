@@ -4,12 +4,12 @@ import { Button } from '@/_components/ui'
 import { DeleteExpense } from './DeleteExpense'
 import { Expense } from '../types'
 
-type ItemDisplayProps = {
+type ItemDisplayPerDateProps = {
   item: Expense
   userId: number
 }
 
-const ItemDisplay = ({ item, userId }: ItemDisplayProps) => {
+const ItemDisplayPerDate = ({ item, userId }: ItemDisplayPerDateProps) => {
   const router = useRouter()
   return (
     <div
@@ -37,4 +37,4 @@ const ItemDisplay = ({ item, userId }: ItemDisplayProps) => {
   )
 }
 
-export { ItemDisplay }
+export { ItemDisplayPerDate }

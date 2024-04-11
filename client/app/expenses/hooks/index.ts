@@ -1,3 +1,5 @@
 export { useCreateExpense } from './useCreateExpense'
 export { useDeleteExpense } from './useDeleteExpense'
 export { useUpdateExpense } from './useUpdateExpense'
+export { useUpdatePaymentsStatus } from './useUpdatePaymentsStatus'
+export { useUpdatePaymentStatusMutation } from './useUpdatePaymentStatus'

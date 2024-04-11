@@ -1,4 +1,4 @@
-import { ItemDisplay } from './ItemDisplay'
+import { ItemDisplayPerDate } from './ItemDisplayPerDate'
 import { PaymentItem } from './PaymentItem'
 import { UserDisplay } from './UserDisplay'
 import { ExpenseDate } from '../types'
@@ -32,7 +32,7 @@ const ExpenseItem = ({ expense, userId }: ExpenseItemProps) => {
               className='mb-4 flex w-full flex-col gap-2 border-b-[1px] border-dashed border-slate-400 pb-4 last:mb-0 last:border-none last:pb-0 md:flex-row md:justify-between md:gap-8'
             >
               <div className='flex flex-col gap-2 md:w-1/2 '>
-                <ItemDisplay item={expense} userId={userId} />
+                <ItemDisplayPerDate item={expense} userId={userId} />
               </div>
               <div className='md:w-1/2'>
                 <p className='font-semibold'>Complete Payment</p>

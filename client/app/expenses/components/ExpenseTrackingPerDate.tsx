@@ -8,7 +8,7 @@ import {
 import { useGetMeQuery } from '@/_hooks/api'
 import { ExpenseItem } from './ExpenseItem'
 import { useGetExpensePerDateQuery } from '../hooks/api'
-import { ExpenseMonthData } from '../types'
+import { ExpenseMonthPerDateData as ExpenseMonthData } from '../types'
 
 const ExpenseTrackingPerDate = () => {
   const { data: expensesData, isLoading: isLoadingExpense } =

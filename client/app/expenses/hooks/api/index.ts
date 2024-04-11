@@ -1,5 +1,7 @@
 export { useCreateExpenseMutation } from './useCreateExpenseMutation'
 export { useDeleteExpenseMutation } from './useDeleteExpenseMutation'
 export { useGetExpensePerDateQuery } from './useGetExpensePerDateQuery'
+export { useGetExpensePerMonthQuery } from './useGetExpensePerMonthQuery'
 export { useGetExpenseQuery } from './useGetExpenseQuery'
 export { useUpdateExpenseMutation } from './useUpdateExpenseMutation'
+export { useUpdatePaymentsStatusMutation } from './useUpdatePaymentsStatusMutation'
