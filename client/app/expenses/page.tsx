@@ -25,9 +25,9 @@ export default function ExpensePage() {
         }
       />
       {isExpensePerTime ? (
-        <ExpenseTrackingPerDate key='per-date' />
+        <ExpenseTrackingPerDate />
       ) : (
-        <ExpenseTrackingPerMonth key='per-month' />
+        <ExpenseTrackingPerMonth />
       )}
     </div>
   )
