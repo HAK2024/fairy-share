@@ -8,7 +8,6 @@ import { UpdateAccountForm } from '../components'
 
 export default function EditAccountPage() {
   const { data: user, isLoading } = useGetMeQuery()
-  // TODO: error handling
 
   return (
     <FormContainer>
