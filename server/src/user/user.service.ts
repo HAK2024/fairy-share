@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   ForbiddenException,
   Injectable,
   NotFoundException,
@@ -158,12 +157,6 @@ export class UserService {
 
       if (!passwordMatch) {
         throw new UnauthorizedException('The current password is not correct');
-      }
-
-      if (dto.newPassword !== dto.confirmNewPassword) {
-        throw new BadRequestException(
-          'New password and confirmation password do not match',
-        );
       }
 
       const hashedPassword = await hash(dto.newPassword, 10);
