@@ -1,1 +1,0 @@
-export { InfoList } from './InfoList'

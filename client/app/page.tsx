@@ -24,8 +24,12 @@ export default function Home() {
           <Heading
             title={houseName}
             buttonComponent={
-              <Button variant={'outline'} onClick={() => router.push('/info')}>
-                Info
+              <Button
+                variant={'outline'}
+                className='ml-3'
+                onClick={() => router.push('/house-info')}
+              >
+                House Info
               </Button>
             }
           />

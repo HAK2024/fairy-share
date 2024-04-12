@@ -3,15 +3,15 @@ import { FiUser } from 'react-icons/fi'
 import { MdPushPin } from 'react-icons/md'
 import { RuleType } from '@/_types'
 
-type InfoListProps = {
+type HouseInfoListProps = {
   rules: RuleType[]
   members: { id: number; name: string }[]
 }
 
-const InfoList = ({ rules, members }: InfoListProps) => {
+const HouseInfoList = ({ rules, members }: HouseInfoListProps) => {
   return (
     <>
-      <h2 className='mt-6 text-xl font-semibold md:mt-8 md:text-2xl'>Rules</h2>
+      <h2 className='mt-6 text-lg font-semibold md:mt-8 md:text-2xl'>Rules</h2>
       <div className='mt-2 flex flex-col gap-3 rounded-md border border-amber-400 bg-amber-100 px-2 py-4 md:mt-4 md:px-7 md:py-7'>
         {rules.map((rule) => (
           <div key={rule.id} className='flex items-center'>
@@ -20,7 +20,7 @@ const InfoList = ({ rules, members }: InfoListProps) => {
           </div>
         ))}
       </div>
-      <h2 className='mt-6 text-xl font-semibold md:mt-8 md:text-2xl'>
+      <h2 className='mt-6 text-lg font-semibold md:mt-8 md:text-2xl'>
         Members
       </h2>
       <div className='mt-2 flex flex-col gap-3 rounded-md border border-amber-400 bg-amber-100 px-2 py-4 md:mt-4 md:px-7 md:py-7'>
@@ -35,4 +35,4 @@ const InfoList = ({ rules, members }: InfoListProps) => {
   )
 }
 
-export { InfoList }
+export { HouseInfoList }
