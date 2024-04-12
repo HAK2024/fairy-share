@@ -24,8 +24,8 @@ export default function Home() {
           <Heading
             title={houseName}
             buttonComponent={
-              <Button variant={'outline'} onClick={() => router.push('/rules')}>
-                Rules
+              <Button variant={'outline'} onClick={() => router.push('/info')}>
+                Info
               </Button>
             }
           />
