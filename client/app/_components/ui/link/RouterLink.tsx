@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { cn } from '@/_utils'
 
 type RouterLinkProps = {
   children: string
@@ -9,7 +10,10 @@ const RouterLink = ({ children, href, className }: RouterLinkProps) => {
   return (
     <Link
       href={href}
-      className={`font-semibold text-teal-800 hover:underline hover:underline-offset-4 ${className}`}
+      className={cn(
+        'font-semibold text-teal-800 hover:underline hover:underline-offset-4',
+        className,
+      )}
     >
       {children}
     </Link>
