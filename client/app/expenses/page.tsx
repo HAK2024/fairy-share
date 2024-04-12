@@ -17,6 +17,7 @@ export default function ExpensePage() {
         buttonComponent={
           <Button
             variant={'outline'}
+            className='text-base'
             onClick={() => router.push('/expenses/create')}
           >
             <FiPlus className='mr-1' />

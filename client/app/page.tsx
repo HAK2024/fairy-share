@@ -24,7 +24,11 @@ export default function Home() {
           <Heading
             title={houseName}
             buttonComponent={
-              <Button variant={'outline'} onClick={() => router.push('/rules')}>
+              <Button
+                variant={'outline'}
+                className='text-base'
+                onClick={() => router.push('/rules')}
+              >
                 Rules
               </Button>
             }
