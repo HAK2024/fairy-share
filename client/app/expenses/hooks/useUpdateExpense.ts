@@ -26,11 +26,18 @@ export const useUpdateExpense = (defaultData: ExpenseType) => {
   const handleSuccess = () => {
     toast({ variant: 'success', title: 'Successfully updated the expense!' })
     queryClient.invalidateQueries({
-      queryKey: ['expenses'],
+      queryKey: ['expensesPerMonth'],
       exact: true,
     })
     queryClient.invalidateQueries({
-      queryKey: ['expenses', { id: defaultData.id }],
+      queryKey: ['expensesPerDate'],
+      exact: true,
+    })
+    queryClient.invalidateQueries({
+      queryKey: ['expensesPerMonth', { id: defaultData.id }],
+    })
+    queryClient.invalidateQueries({
+      queryKey: ['expensesPerDate', { id: defaultData.id }],
     })
     queryClient.invalidateQueries({
       queryKey: ['todos'],

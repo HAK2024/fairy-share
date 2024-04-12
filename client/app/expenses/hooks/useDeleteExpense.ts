@@ -17,9 +17,8 @@ export const useDeleteExpense = () => {
           variant: 'success',
           title: 'The expense has been deleted successfully',
         })
-        queryClient.invalidateQueries({
-          queryKey: ['expenses'],
-        })
+        queryClient.invalidateQueries({ queryKey: ['expensesPerMonth'] })
+        queryClient.invalidateQueries({ queryKey: ['expensesPerDate'] })
         queryClient.invalidateQueries({
           queryKey: ['todos'],
         })

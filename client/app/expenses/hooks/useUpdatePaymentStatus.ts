@@ -10,7 +10,12 @@ export const useUpdatePaymentStatusMutation = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: updatePaymentStatusApi,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['expenses'] })
+      queryClient.invalidateQueries({
+        queryKey: ['expensesPerMonth'],
+      })
+      queryClient.invalidateQueries({
+        queryKey: ['expensesPerDate'],
+      })
       queryClient.invalidateQueries({ queryKey: ['todos'] })
     },
     onError: (error) => {

@@ -14,7 +14,7 @@ import {
 import { AuthGuard } from '../auth/guard';
 import { ExpenseService } from './expense.service';
 import { GetUser } from '../auth/decorator';
-import { CreateExpenseDto, GetExpenseDto, UpdateExpenseDto } from './dto';
+import { CreateExpenseDto, UpdateExpenseDto } from './dto';
 
 @UseGuards(AuthGuard)
 @Controller('expenses')
@@ -27,11 +27,8 @@ export class ExpenseController {
   }
 
   @Get('/per-month')
-  getExpensePerMonth(
-    @GetUser('id') userId: number,
-    @Body() dto: GetExpenseDto,
-  ) {
-    return this.expenseService.getExpensePerMonth(userId, dto);
+  getExpensePerMonth(@GetUser('id') userId: number) {
+    return this.expenseService.getExpensePerMonth(userId);
   }
 
   @Get(':expenseId')

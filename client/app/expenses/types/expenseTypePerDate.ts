@@ -1,26 +1,4 @@
-type User = {
-  id: number
-  name: string
-  icon: string
-}
-
-type Payment = {
-  id: number
-  fee: number
-  paidDate: string | null
-  user: User
-}
-
-type Expense = {
-  id: number
-  itemName: string
-  fee: number
-  date: string
-  houseId: number
-  buyerId: number
-  payments: Payment[]
-  user: User
-}
+import { Expense } from './expenseType'
 
 type Buyer = {
   buyerId: string
@@ -32,19 +10,16 @@ type ExpenseDate = {
   buyers: Buyer[]
 }
 
-type ExpenseMonthData = {
+type ExpenseMonthPerDateData = {
   month: string
   expenses: ExpenseDate[]
 }
 
-type ExpensesData = ExpenseMonthData[]
+type ExpensesData = ExpenseMonthPerDateData[]
 
 export {
-  type User,
-  type Payment,
-  type Expense,
   type Buyer,
   type ExpenseDate,
-  type ExpenseMonthData,
+  type ExpenseMonthPerDateData,
   type ExpensesData,
 }

@@ -1,4 +1,4 @@
-import { ItemDisplay } from './ItemDisplay'
+import { ItemDisplayPerDate } from './ItemDisplayPerDate'
 import { PaymentItem } from './PaymentItem'
 import { UserDisplay } from './UserDisplay'
 import { ExpenseDate } from '../types'
@@ -10,7 +10,7 @@ type ExpenseItemProps = {
 
 const ExpenseItem = ({ expense, userId }: ExpenseItemProps) => {
   return (
-    <div className='rounded-sm border-[1px] border-amber-400 bg-amber-100 px-4 py-4 md:px-8 md:py-4'>
+    <div className='rounded-sm border-[1px] border-amber-400 bg-amber-100 px-3 py-4 md:px-8 md:py-4'>
       <div className='flex items-center justify-end'>
         <span className='text-md text-base font-bold text-teal-800 md:text-lg'>
           {expense.date}
@@ -32,19 +32,22 @@ const ExpenseItem = ({ expense, userId }: ExpenseItemProps) => {
               className='mb-4 flex w-full flex-col gap-2 border-b-[1px] border-dashed border-slate-400 pb-4 last:mb-0 last:border-none last:pb-0 md:flex-row md:justify-between md:gap-8'
             >
               <div className='flex flex-col gap-2 md:w-1/2 '>
-                <ItemDisplay item={expense} userId={userId} />
+                <ItemDisplayPerDate item={expense} userId={userId} />
               </div>
               <div className='md:w-1/2'>
                 <p className='font-semibold'>Complete Payment</p>
                 <ul className='flex flex-col gap-2 pt-2 md:pt-4'>
-                  {expense.payments.map((payment) => (
-                    <PaymentItem
-                      key={payment.id}
-                      item={payment}
-                      buyerId={expense.buyerId}
-                      userId={userId}
-                    />
-                  ))}
+                  {expense.payments
+                    .slice()
+                    .sort((a, b) => a.user.name.localeCompare(b.user.name))
+                    .map((payment) => (
+                      <PaymentItem
+                        key={payment.id}
+                        item={payment}
+                        buyerId={expense.buyerId}
+                        userId={userId}
+                      />
+                    ))}
                 </ul>
               </div>
             </li>

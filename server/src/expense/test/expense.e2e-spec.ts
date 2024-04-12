@@ -151,102 +151,127 @@ describe('ExpenseController (e2e)', () => {
   });
 
   describe('GET /expenses/per-month', () => {
-    const dto = {
-      year: 2024,
-      month: 4,
-      houseId: 109,
-    };
-
-    const expectedExpenseData = {
-      '104': {
-        '2024-04-30': [
+    const expectedExpenseData = [
+      {
+        month: 'April 2024',
+        monthNumber: 4,
+        year: 2024,
+        usersExpenses: [
           {
-            id: 115,
-            itemName: 'Maintenance Fee',
-            fee: 150,
-            date: '2024-04-30T00:00:00.000Z',
-            houseId: 109,
-            buyerId: 104,
-            payments: [
+            id: 104,
+            name: 'Diana',
+            icon: 'INDIGO',
+            expenses: [
               {
-                id: 120,
-                fee: 150,
-                paidDate: '2024-05-05T00:00:00.000Z',
-                user: {
-                  id: 105,
-                  name: 'Evan',
-                  icon: 'VIOLET',
-                },
+                date: 'APR 30',
+                expenses: [
+                  {
+                    id: 115,
+                    itemName: 'Maintenance Fee',
+                    fee: 150,
+                    date: '2024-04-30T00:00:00.000Z',
+                    houseId: 109,
+                    buyerId: 104,
+                    payments: [
+                      {
+                        id: 120,
+                        fee: 150,
+                        paidDate: '2024-05-05T00:00:00.000Z',
+                        user: {
+                          id: 105,
+                          name: 'Evan',
+                          icon: 'VIOLET',
+                        },
+                      },
+                    ],
+                    user: {
+                      id: 104,
+                      name: 'Diana',
+                      icon: 'INDIGO',
+                    },
+                  },
+                ],
+              },
+              {
+                date: 'APR 25',
+                expenses: [
+                  {
+                    id: 114,
+                    itemName: 'Groceries',
+                    fee: 200,
+                    date: '2024-04-25T00:00:00.000Z',
+                    houseId: 109,
+                    buyerId: 104,
+                    payments: [
+                      {
+                        id: 119,
+                        fee: 100,
+                        paidDate: '2024-04-30T00:00:00.000Z',
+                        user: {
+                          id: 105,
+                          name: 'Evan',
+                          icon: 'VIOLET',
+                        },
+                      },
+                    ],
+                    user: {
+                      id: 104,
+                      name: 'Diana',
+                      icon: 'INDIGO',
+                    },
+                  },
+                ],
               },
             ],
-            user: {
-              id: 104,
-              name: 'Diana',
-              icon: 'INDIGO',
-            },
           },
         ],
-        '2024-04-25': [
+        balanceSummary: [
           {
-            id: 114,
-            itemName: 'Groceries',
-            fee: 200,
-            date: '2024-04-25T00:00:00.000Z',
-            houseId: 109,
-            buyerId: 104,
-            payments: [
+            payerId: 105,
+            payerName: 'Evan',
+            payerIcon: 'VIOLET',
+            payees: [
               {
-                id: 119,
-                fee: 100,
-                paidDate: '2024-04-30T00:00:00.000Z',
-                user: {
-                  id: 105,
-                  name: 'Evan',
-                  icon: 'VIOLET',
-                },
+                payeeId: 104,
+                fee: 250,
+                payeeName: 'Diana',
+                payeeIcon: 'INDIGO',
+                paidDate: '2024-05-05T00:00:00.000Z',
               },
             ],
-            user: {
-              id: 104,
-              name: 'Diana',
-              icon: 'INDIGO',
-            },
           },
         ],
       },
-    };
+      {
+        month: 'March 2024',
+        monthNumber: 3,
+        year: 2024,
+        usersExpenses: [],
+        balanceSummary: [],
+      },
+      {
+        month: 'February 2024',
+        monthNumber: 2,
+        year: 2024,
+        usersExpenses: [],
+        balanceSummary: [],
+      },
+    ];
 
     it('should return 401 if not authenticated', async () => {
-      await request(app.getHttpServer())
-        .get('/expenses/per-month')
-        .send(dto)
-        .expect(401);
-    });
-
-    it('should return 403 if user is not in the specified house', async () => {
-      const dto = {
-        year: 2024,
-        month: 4,
-        houseId: 10000,
-      };
-
-      await request(app.getHttpServer())
-        .get('/expenses/per-month')
-        .send(dto)
-        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
-        .set('x-csrf-token', csrfToken)
-        .expect(403);
+      await request(app.getHttpServer()).get('/expenses/per-month').expect(401);
     });
 
     it('should return 200 and expense data if authenticated', async () => {
       await request(app.getHttpServer())
         .get('/expenses/per-month')
-        .send(dto)
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
         .expect(200)
         .then((res) => {
           expect(res.body).toMatchObject(expectedExpenseData);
+          expect(Array.isArray(res.body)).toBe(true);
+          expect(res.body.length).toBe(3);
         });
     });
   });

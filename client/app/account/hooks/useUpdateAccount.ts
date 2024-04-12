@@ -27,6 +27,8 @@ export const useUpdateAccount = (user: UserType) => {
     mutate(data, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['me'] })
+        queryClient.invalidateQueries({ queryKey: ['expensesPerMonth'] })
+        queryClient.invalidateQueries({ queryKey: ['expensesPerDate'] })
         toast({
           variant: 'success',
           title: 'Successfully updated your account!',
