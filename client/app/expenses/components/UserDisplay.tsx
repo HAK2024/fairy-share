@@ -16,7 +16,7 @@ const UserDisplay = ({ name, size, icon }: UserDisplayProps) => (
         aria-label='user-icon'
       />
     </div>
-    <h4 className='text-base md:text-lg'>{name}</h4>
+    <h4 className=' text-sm md:text-base '>{name}</h4>
   </div>
 )
 

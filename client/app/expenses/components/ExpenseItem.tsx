@@ -10,7 +10,7 @@ type ExpenseItemProps = {
 
 const ExpenseItem = ({ expense, userId }: ExpenseItemProps) => {
   return (
-    <div className='rounded-sm border-[1px] border-amber-400 bg-amber-100 px-4 py-4 md:px-8 md:py-4'>
+    <div className='rounded-sm border-[1px] border-amber-400 bg-amber-100 px-3 py-4 md:px-8 md:py-4'>
       <div className='flex items-center justify-end'>
         <span className='text-md text-base font-bold text-teal-800 md:text-lg'>
           {expense.date}
