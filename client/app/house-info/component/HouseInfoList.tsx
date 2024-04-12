@@ -19,6 +19,11 @@ const HouseInfoList = ({ rules, members }: HouseInfoListProps) => {
             <p className='text-sm font-semibold md:text-lg'>{rule.text}</p>
           </div>
         ))}
+        {rules.length === 0 && (
+          <p className='text-sm font-semibold md:text-lg'>
+            No rules have been added.
+          </p>
+        )}
       </div>
       <h2 className='mt-6 text-lg font-semibold md:mt-8 md:text-2xl'>
         Members
