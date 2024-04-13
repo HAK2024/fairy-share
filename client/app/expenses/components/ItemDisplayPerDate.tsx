@@ -26,10 +26,11 @@ const ItemDisplayPerDate = ({ item, userId }: ItemDisplayPerDateProps) => {
               size={'smIcon'}
               variant={'outline'}
               onClick={() => router.push(`/expenses/${item.id}/edit`)}
+              aria-label={`Visit ${item.itemName}'s edit page`}
             >
               <FiEdit aria-label='edit-icon' />
             </Button>
-            <DeleteExpense expenseId={item.id} />
+            <DeleteExpense expenseId={item.id} name={item.itemName} />
           </>
         )}
       </div>
