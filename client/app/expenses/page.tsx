@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { FiPlus } from 'react-icons/fi'
+import { PageContainer } from '@/_components/layout'
 import { Button, Heading } from '@/_components/ui'
 import { useGetHouseInfo } from '@/_hooks'
 import { ExpenseTrackingPerDate, ExpenseTrackingPerMonth } from './components'
@@ -11,7 +12,7 @@ export default function ExpensePage() {
   const isExpensePerTime = useGetHouseInfo().isExpensePerTime
 
   return (
-    <div className='px-4 pb-10 pt-8 md:px-14 md:pb-20 md:pt-10'>
+    <PageContainer>
       <Heading
         title='Expense Tracking'
         buttonComponent={
@@ -29,6 +30,6 @@ export default function ExpensePage() {
       ) : (
         <ExpenseTrackingPerMonth />
       )}
-    </div>
+    </PageContainer>
   )
 }

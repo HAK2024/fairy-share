@@ -85,10 +85,12 @@ const TaskDetailsModal = ({
           <span className='text-lg'>{selectedTask.user.name}</span>
         </div>
 
-        <div>
-          <span className='font-semibold'>Note</span>
-          <p>{selectedTask.note}</p>
-        </div>
+        {selectedTask.note && (
+          <div>
+            <span className='font-semibold'>Note</span>
+            <p>{selectedTask.note}</p>
+          </div>
+        )}
       </div>
     </div>
   )
