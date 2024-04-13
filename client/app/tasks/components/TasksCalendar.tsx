@@ -23,7 +23,6 @@ import { TaskDetailsModal } from './TaskDetailsModal'
 import { useTaskDetailsModal } from '../hooks'
 import { useGetTasksQuery } from '../hooks/api'
 import { CustomEventType } from '../types'
-import events from 'events'
 
 const locales = {
   'en-US': enUS,
