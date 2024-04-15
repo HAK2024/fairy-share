@@ -42,7 +42,7 @@ const MembersManagementModal = ({
 
   const sortedOtherMembers = house.houseMembers
     .filter((member) => member.id !== userId)
-    .sort((a, b) => a.id - b.id) // Sorted by userId to fix the order
+    .sort((a, b) => a.name.localeCompare(b.name)) // Sorted by alphabet to fix the order
 
   const houseMembers = [loggedInMember, ...sortedOtherMembers]
 
