@@ -26,7 +26,7 @@ const Footer = ({ hasNavigation = true }: FooterProps) => {
           aria-label='Visit tasks page'
           className='relative flex -translate-y-8 items-center justify-center'
         >
-          <FiCalendar className='z-10 h-12 w-12 rounded-full bg-primary p-2 shadow-md shadow-primary transition-transform duration-300 hover:scale-110' />
+          <FiCalendar className='z-10 h-12 w-12 rounded-full bg-primary px-2 py-1 shadow-md shadow-primary transition-transform duration-300 hover:scale-110' />
           <span className='absolute inset-0 z-0 h-16 w-16 -translate-x-2 -translate-y-2 rounded-full bg-teal-50 '></span>
         </Link>
         <Link
