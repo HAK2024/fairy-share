@@ -26,10 +26,10 @@ export default function Home() {
             buttonComponent={
               <Button
                 variant={'outline'}
-                className='text-base md:text-lg'
-                onClick={() => router.push('/rules')}
+                className='ml-3 text-base md:text-lg'
+                onClick={() => router.push('/house-info')}
               >
-                Rules
+                House Info
               </Button>
             }
           />
