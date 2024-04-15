@@ -18,7 +18,7 @@ const TasksCalendarPage = () => {
         buttonComponent={
           <Button
             variant={'outline'}
-            className='text-base'
+            className='text-base md:text-lg'
             onClick={() => router.push('/tasks/create')}
           >
             <span className='mr-1'>

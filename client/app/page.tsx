@@ -26,7 +26,7 @@ export default function Home() {
             buttonComponent={
               <Button
                 variant={'outline'}
-                className='text-base'
+                className='text-base md:text-lg'
                 onClick={() => router.push('/rules')}
               >
                 Rules

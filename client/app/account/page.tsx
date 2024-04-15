@@ -18,7 +18,7 @@ export default function AccountPage() {
           buttonComponent={
             <Button
               variant={'outline'}
-              className='text-base'
+              className='text-base md:text-lg'
               onClick={() => router.push('/account/edit')}
             >
               <FiEdit />
