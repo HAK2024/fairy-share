@@ -35,7 +35,7 @@ const HouseInfoList = ({ rules, members }: HouseInfoListProps) => {
         {members.map((member) => (
           <div key={member.id} className='flex items-center'>
             <MdAccountCircle
-              className={`mr-2 h-auto w-5 min-w-5 md:mr-3 md:w-7 md:min-w-7 ${colorMap[member.icon.toString()]}`}
+              className={`mr-2 h-auto w-7 min-w-7 md:mr-3 md:w-8 md:min-w-8 ${colorMap[member.icon.toString()]}`}
             />
             <span className='text-sm font-semibold md:text-lg'>
               {member.name}
