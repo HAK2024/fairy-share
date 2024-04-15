@@ -19,7 +19,7 @@ export class UpdateTaskDto {
 
   @IsString()
   @IsOptional()
-  @MaxLength(100)
+  @MaxLength(200)
   note?: string;
 
   @IsNumber()

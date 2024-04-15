@@ -31,6 +31,7 @@ export {
   AccordionTrigger,
   AccordionContent,
 } from './Accordion'
+export { Badge } from './Badge'
 export { CustomDayPicker } from './CustomDayPicker'
 export {
   DropdownMenu,

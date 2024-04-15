@@ -1,11 +1,11 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { Loading, PageContainer } from '@/_components/layout'
 import { InvitedHouseAlertDialog } from '@/_components/ui'
+import { Button, Heading } from '@/_components/ui'
 import { TodosList } from './(todos)/components'
 import { useGetTodosQuery } from './(todos)/hooks'
-import { Loading } from './_components/layout'
-import { Button, Heading } from './_components/ui'
 import { useGetHouseInfo } from './_hooks'
 
 export default function Home() {
@@ -20,13 +20,13 @@ export default function Home() {
   return (
     <>
       {todos && (
-        <div className='flex flex-col gap-8 px-4 pb-10 pt-8 text-slate-800 md:px-14 md:pb-20 md:pt-10'>
+        <PageContainer className='flex flex-col gap-8'>
           <Heading
             title={houseName}
             buttonComponent={
               <Button
                 variant={'outline'}
-                className='ml-3'
+                className='ml-3 text-base md:text-lg'
                 onClick={() => router.push('/house-info')}
               >
                 House Info
@@ -34,7 +34,7 @@ export default function Home() {
             }
           />
           <TodosList todos={todos} />
-        </div>
+        </PageContainer>
       )}
 
       <InvitedHouseAlertDialog />

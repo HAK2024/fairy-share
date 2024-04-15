@@ -34,6 +34,7 @@ export default function HouseEditPage() {
         buttonComponent={
           <Button
             variant={'outline'}
+            className='text-base md:text-lg'
             onClick={() => {
               setIsOpenModal(true)
             }}

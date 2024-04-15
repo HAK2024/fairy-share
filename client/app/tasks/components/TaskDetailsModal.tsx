@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { format } from 'date-fns'
-import { FiEdit, FiX, FiTrash } from 'react-icons/fi'
+import { FiEdit, FiX, FiTrash, FiCheckCircle } from 'react-icons/fi'
 import { MdAccountCircle } from 'react-icons/md'
 import {
   Dialog,
@@ -9,6 +9,7 @@ import {
   Drawer,
   DrawerContent,
   Button,
+  Badge,
 } from '@/_components/ui'
 import { colorMap } from '@/_consts'
 import { useMediaQuery } from '@/_hooks'
@@ -55,6 +56,7 @@ const TaskDetailsModal = ({
             variant={'outline'}
             size={'icon'}
             onClick={() => router.push(`/tasks/${selectedTask.id}/edit`)}
+            aria-label={`Visit ${selectedTask.title}'s edit page`}
           >
             <FiEdit size={18} />
           </Button>
@@ -62,6 +64,7 @@ const TaskDetailsModal = ({
             variant={'destructiveOutline'}
             size={'icon'}
             onClick={handleDeleteIcon}
+            aria-label={`Delete ${selectedTask.title}`}
           >
             <FiTrash size={18} />
           </Button>
@@ -69,6 +72,12 @@ const TaskDetailsModal = ({
       </div>
 
       <div className='mt-4 flex flex-col gap-3'>
+        {selectedTask.isCompleted && (
+          <Badge className='flex w-min gap-1 pl-2 '>
+            <FiCheckCircle className='text-teal-100' />
+            Done
+          </Badge>
+        )}
         <p className='text-xl font-semibold'>{selectedTask.title}</p>
         <div className='-ml-1 flex items-center gap-2'>
           <MdAccountCircle
@@ -78,10 +87,12 @@ const TaskDetailsModal = ({
           <span className='text-lg'>{selectedTask.user.name}</span>
         </div>
 
-        <div>
-          <span className='font-semibold'>Note</span>
-          <p>{selectedTask.note}</p>
-        </div>
+        {selectedTask.note && (
+          <div>
+            <span className='font-semibold'>Note</span>
+            <p>{selectedTask.note}</p>
+          </div>
+        )}
       </div>
     </div>
   )

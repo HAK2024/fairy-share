@@ -30,20 +30,24 @@ const AccountInfo = () => {
         <h2 className='font-semibold'>Email</h2>
         <p className='text-lg'>{user.email}</p>
       </div>
-      {!userHouse.length && (
-        <RouterLink href='/house/create' className='text-teal-600'>
-          Create House
-        </RouterLink>
-      )}
+
       <div>
         <h2 className='font-semibold'>Password</h2>
         <RouterLink
           href='/account/change-password'
-          className='underline underline-offset-4 hover:opacity-70'
+          className='font-medium underline underline-offset-4 hover:opacity-70'
         >
           Change Password
         </RouterLink>
       </div>
+      {!userHouse.length && (
+        <RouterLink
+          href='/house/create'
+          className='font-medium underline underline-offset-4 hover:opacity-70'
+        >
+          Create House
+        </RouterLink>
+      )}
       <div>
         <DeleteAccount user={user} />
       </div>

@@ -32,7 +32,7 @@ const SettingDropdown = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className='ml-2 hover:text-gray-300' asChild>
-        <button>
+        <button aria-label='Show setting menu'>
           <RxGear className='h-7 w-7' />
         </button>
       </DropdownMenuTrigger>

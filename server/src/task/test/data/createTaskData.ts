@@ -57,7 +57,7 @@ const invalidCreateTaskFields = [
   {
     title: 'Valid Title',
     date: '2024-03-18T12:00:00.000Z',
-    note: 'a'.repeat(101),
+    note: 'a'.repeat(201),
     assigneeId: 101,
     houseId: 106,
   },
