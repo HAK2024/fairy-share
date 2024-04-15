@@ -9,7 +9,7 @@ type UserExpenseItemProps = {
 
 const UserExpenseItem = ({ userExpense, userId }: UserExpenseItemProps) => {
   return (
-    <div className='w-full rounded-sm border-[1px] border-amber-400 bg-amber-100 px-3 py-4 md:w-2/3 md:px-8 md:py-4'>
+    <div className='w-full rounded-sm border-[1px] border-amber-400 bg-amber-100 px-3 py-4 md:px-8 md:py-4 lg:w-2/3'>
       <div className='flex items-center justify-start border-b-4 border-double border-amber-300 bg-amber-100 pb-2 '>
         <UserDisplay
           name={userExpense.name}
