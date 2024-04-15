@@ -104,9 +104,10 @@ const MembersManagementModal = ({
                   {houseMember.name}
                 </span>
               </div>
-              <div className='flex items-center gap-4 pr-4 md:gap-12'>
-                <div className='flex items-center gap-4'>
+              <div className='mr-4 flex items-center gap-8 md:mr-6 md:gap-8'>
+                <div className='md:ga-4 flex items-center gap-2'>
                   <Checkbox
+                    aria-label='adminCheckbox'
                     className='h-5 w-5 text-primary'
                     checked={houseMember.isAdmin}
                     disabled={isUpdating || userId === houseMember.id}
@@ -114,12 +115,14 @@ const MembersManagementModal = ({
                       handleUpdateAdmin(houseMember.id, !houseMember.isAdmin)
                     }
                   />
-                  <span className='text-sm md:text-lg'>admin</span>
+                  <label htmlFor='adminCheckbox' className='text-sm md:text-lg'>
+                    admin
+                  </label>
                 </div>
                 <div className='flex items-center justify-center'>
                   <Button
                     variant='destructiveOutline'
-                    size='icon'
+                    size={'smIcon'}
                     className='flex-shrink-0'
                     disabled={userId === houseMember.id}
                     type='button'

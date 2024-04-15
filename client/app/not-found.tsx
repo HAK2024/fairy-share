@@ -1,11 +1,12 @@
 'use client'
 
 import Link from 'next/link'
+import { PageContainer } from '@/_components/layout'
 import { Button } from '@/_components/ui'
 
 export default function NotFound() {
   return (
-    <div className='mt-20 flex flex-col items-center gap-4 px-4'>
+    <PageContainer className='flex flex-col items-center gap-4 pt-10 md:pt-20'>
       <h2 className='text-center text-2xl font-bold'>
         <span className='block md:inline'>Oops! </span>Page Not Found
       </h2>
@@ -15,6 +16,6 @@ export default function NotFound() {
       <Button variant='outline' className='mt-8' asChild>
         <Link href='/'>Back to Top</Link>
       </Button>
-    </div>
+    </PageContainer>
   )
 }

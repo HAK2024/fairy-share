@@ -56,6 +56,7 @@ const TaskDetailsModal = ({
             variant={'outline'}
             size={'icon'}
             onClick={() => router.push(`/tasks/${selectedTask.id}/edit`)}
+            aria-label={`Visit ${selectedTask.title}'s edit page`}
           >
             <FiEdit size={18} />
           </Button>
@@ -63,6 +64,7 @@ const TaskDetailsModal = ({
             variant={'destructiveOutline'}
             size={'icon'}
             onClick={handleDeleteIcon}
+            aria-label={`Delete ${selectedTask.title}`}
           >
             <FiTrash size={18} />
           </Button>
@@ -85,10 +87,12 @@ const TaskDetailsModal = ({
           <span className='text-lg'>{selectedTask.user.name}</span>
         </div>
 
-        <div>
-          <span className='font-semibold'>Note</span>
-          <p>{selectedTask.note}</p>
-        </div>
+        {selectedTask.note && (
+          <div>
+            <span className='font-semibold'>Note</span>
+            <p>{selectedTask.note}</p>
+          </div>
+        )}
       </div>
     </div>
   )

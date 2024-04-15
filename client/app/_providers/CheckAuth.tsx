@@ -80,7 +80,7 @@ const CheckAuth = ({
   if (showPages) {
     return (
       <div
-        className={`${meData ? 'min-h-svh-minus-24 mb-24 md:mb-10  md:min-h-svh' : 'min-h-svh'}`}
+        className={`${meData ? 'mb-24 min-h-svh-minus-header-sp md:mb-0 md:min-h-svh-minus-header-pc' : 'min-h-svh'}`}
       >
         {!isAccessingAuthPage && <Header hasNavigation={!noUserHouseId} />}
         {children}

@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import Link from 'next/link'
 import { AxiosError } from 'axios'
+import { PageContainer } from '@/_components/layout'
 import { Button } from '@/_components/ui'
 import { isErrorWithMessage } from '@/_utils'
 
@@ -29,7 +30,7 @@ export default function Error({
   }
 
   return (
-    <div className='mt-20 flex flex-col items-center gap-4 px-4'>
+    <PageContainer className=' flex flex-col items-center gap-4 pt-10 md:pt-20'>
       <h2 className='text-center text-2xl font-bold'>
         <span className='block md:inline'>Oops! </span>Something went wrong...
       </h2>
@@ -39,6 +40,6 @@ export default function Error({
       <Button variant='outline' className='mt-8' asChild>
         <Link href='/'>Back to Top</Link>
       </Button>
-    </div>
+    </PageContainer>
   )
 }

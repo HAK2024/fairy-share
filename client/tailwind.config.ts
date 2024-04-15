@@ -21,7 +21,8 @@ module.exports = {
         '2xs': '0.625rem',
       },
       minHeight: {
-        'svh-minus-mb-24': 'calc(100vh - 6rem)', // This is the calculated height for the mobile screen since footer doesn't have height
+        'svh-minus-header-sp': 'calc(100svh - 8rem)', // 8rem is the height of the header and footer on mobile
+        'svh-minus-header-pc': 'calc(100svh - 5rem)', // 5rem is the height of the header on desktop
       },
       colors: {
         border: 'hsl(var(--border))',
