@@ -1,6 +1,6 @@
 import { useRouter } from 'next/navigation'
 import { useQueryClient } from '@tanstack/react-query'
-import { RxGear, RxPerson, RxExit } from 'react-icons/rx'
+import { FiLogOut, FiUser, FiSettings } from 'react-icons/fi'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,7 +33,7 @@ const SettingDropdown = () => {
     <DropdownMenu>
       <DropdownMenuTrigger className='ml-2 hover:text-gray-300' asChild>
         <button aria-label='Show setting menu'>
-          <RxGear className='h-7 w-7' />
+          <FiSettings className='h-7 w-7' />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='m-4 w-52 font-medium'>
@@ -45,7 +45,7 @@ const SettingDropdown = () => {
             onClick={() => router.push('/account')}
             className='flex w-full items-center gap-2'
           >
-            <RxPerson className='h-4 w-4' />
+            <FiUser className='h-5 w-5' />
             <span>Account</span>
           </button>
         </DropdownMenuItem>
@@ -58,7 +58,7 @@ const SettingDropdown = () => {
               onClick={() => router.push(`/house/edit`)}
               className='flex w-full items-center gap-2'
             >
-              <RxGear className='h-4 w-4' />
+              <FiSettings className='h-5 w-5' />
               <span>House Settings</span>
             </button>
           </DropdownMenuItem>
@@ -72,7 +72,7 @@ const SettingDropdown = () => {
             onClick={logoutHandler}
             disabled={isPending}
           >
-            <RxExit className='h-4 w-4' />
+            <FiLogOut className='h-5 w-5' />
             <span>Log out</span>
           </button>
         </DropdownMenuItem>

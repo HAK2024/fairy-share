@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import { BiEuro } from 'react-icons/bi'
-import { BiHomeAlt2 } from 'react-icons/bi'
-import { BiCalendarAlt } from 'react-icons/bi'
+import { FiDollarSign } from 'react-icons/fi'
+import { FiCalendar } from 'react-icons/fi'
+import { FiHome } from 'react-icons/fi'
 
 type FooterProps = {
   hasNavigation?: boolean
@@ -19,14 +19,14 @@ const Footer = ({ hasNavigation = true }: FooterProps) => {
           aria-label='Visit home page'
           className='flex items-center justify-center rounded-full text-primary transition-transform duration-300 hover:scale-110'
         >
-          <BiHomeAlt2 className='h-7 w-7' />
+          <FiHome className='h-7 w-7' />
         </Link>
         <Link
           href={'/tasks'}
           aria-label='Visit tasks page'
           className='relative flex -translate-y-8 items-center justify-center'
         >
-          <BiCalendarAlt className='z-10 h-12 w-12 rounded-full bg-primary p-2 shadow-md shadow-primary transition-transform duration-300 hover:scale-110' />
+          <FiCalendar className='z-10 h-12 w-12 rounded-full bg-primary px-2 py-1 shadow-md shadow-primary transition-transform duration-300 hover:scale-110' />
           <span className='absolute inset-0 z-0 h-16 w-16 -translate-x-2 -translate-y-2 rounded-full bg-teal-50 '></span>
         </Link>
         <Link
@@ -34,7 +34,7 @@ const Footer = ({ hasNavigation = true }: FooterProps) => {
           aria-label='Visit expenses page'
           className='flex items-center justify-center transition-transform duration-300 hover:scale-110'
         >
-          <BiEuro className='h-8 w-8 text-primary' />
+          <FiDollarSign className='h-7 w-7 text-primary' />
         </Link>
       </nav>
     </footer>
