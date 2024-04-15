@@ -16,13 +16,15 @@ const HouseInfoList = ({ rules, members }: HouseInfoListProps) => {
         {rules.map((rule) => (
           <div key={rule.id} className='flex items-center'>
             <MdPushPin className='mr-2 h-auto w-5 min-w-5 text-teal-700 md:mr-3 md:w-6 md:min-w-6' />
-            <p className='text-sm font-semibold md:text-lg'>{rule.text}</p>
+            <span className='text-sm font-semibold md:text-lg'>
+              {rule.text}
+            </span>
           </div>
         ))}
         {rules.length === 0 && (
-          <p className='text-sm font-semibold md:text-lg'>
+          <span className='text-sm font-semibold md:text-lg'>
             No rules have been added.
-          </p>
+          </span>
         )}
       </div>
       <h2 className='mt-6 text-lg font-semibold md:mt-8 md:text-2xl'>
@@ -32,7 +34,9 @@ const HouseInfoList = ({ rules, members }: HouseInfoListProps) => {
         {members.map((member) => (
           <div key={member.id} className='flex items-center'>
             <FiUser className='mr-2 h-auto w-5 min-w-5 text-teal-700 md:mr-3 md:w-6 md:min-w-6' />
-            <p className='text-sm font-semibold md:text-lg'>{member.name}</p>
+            <span className='text-sm font-semibold md:text-lg'>
+              {member.name}
+            </span>
           </div>
         ))}
       </div>
