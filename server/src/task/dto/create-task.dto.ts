@@ -19,7 +19,7 @@ export class CreateTaskDto {
 
   @IsString()
   @IsOptional()
-  @MaxLength(100)
+  @MaxLength(200)
   note?: string;
 
   @IsNumber()

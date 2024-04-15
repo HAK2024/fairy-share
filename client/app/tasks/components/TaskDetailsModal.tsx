@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { format } from 'date-fns'
-import { FiEdit, FiX, FiTrash } from 'react-icons/fi'
+import { FiEdit, FiX, FiTrash, FiCheckCircle } from 'react-icons/fi'
 import { MdAccountCircle } from 'react-icons/md'
 import {
   Dialog,
@@ -9,6 +9,7 @@ import {
   Drawer,
   DrawerContent,
   Button,
+  Badge,
 } from '@/_components/ui'
 import { colorMap } from '@/_consts'
 import { useMediaQuery } from '@/_hooks'
@@ -69,6 +70,12 @@ const TaskDetailsModal = ({
       </div>
 
       <div className='mt-4 flex flex-col gap-3'>
+        {selectedTask.isCompleted && (
+          <Badge className='flex w-min gap-1 pl-2 '>
+            <FiCheckCircle className='text-teal-100' />
+            Done
+          </Badge>
+        )}
         <p className='text-xl font-semibold'>{selectedTask.title}</p>
         <div className='-ml-1 flex items-center gap-2'>
           <MdAccountCircle

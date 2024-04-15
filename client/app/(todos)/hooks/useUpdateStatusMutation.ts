@@ -14,6 +14,11 @@ export const useUpdateStatusMutation = () => {
     mutationFn: updateTaskStatusApi,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['todos', houseId] })
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
+      toast({
+        variant: 'success',
+        title: 'Task status updated!',
+      })
     },
     onError: (error) => {
       console.error(error)
