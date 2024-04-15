@@ -37,7 +37,7 @@ const CreateExpenseForm = () => {
             name='fee'
             render={({ field }) => (
               <FormItem>
-                <FormLabel isRequired>Expenses&nbsp;($)</FormLabel>
+                <FormLabel isRequired>Expense&nbsp;($)</FormLabel>
                 <FormControl>
                   <Input
                     type='number'
@@ -45,6 +45,7 @@ const CreateExpenseForm = () => {
                     min='0.01'
                     step='0.01'
                     {...field}
+                    value={field.value === 0 ? '' : field.value}
                   />
                 </FormControl>
                 <FormMessage />
