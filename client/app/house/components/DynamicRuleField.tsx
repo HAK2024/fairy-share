@@ -65,6 +65,7 @@ const DynamicRuleField = ({ defaultData }: DynamicRuleFieldProps) => {
                     className='flex-shrink-0'
                     type='button'
                     onClick={() => remove(index)}
+                    aria-label={`Remove rule of ${value[index]?.text}`}
                   >
                     <FiX size={18} />
                   </Button>

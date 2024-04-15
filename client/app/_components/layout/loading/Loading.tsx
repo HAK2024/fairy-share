@@ -9,7 +9,10 @@ const Loading = ({ isCenter }: LoadingProps) => {
     <div
       className={`flex flex-col items-center justify-center ${isCenter ? 'min-h-svh' : 'pt-20'}`}
     >
-      <FiLoader className='h-14 w-14 animate-spin text-slate-600' />
+      <FiLoader
+        className='h-14 w-14 animate-spin text-slate-600'
+        aria-label='Loading'
+      />
     </div>
   )
 }

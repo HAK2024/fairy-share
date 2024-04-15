@@ -29,11 +29,12 @@ export const useUpdateAccount = (user: UserType) => {
         queryClient.invalidateQueries({ queryKey: ['me'] })
         queryClient.invalidateQueries({ queryKey: ['expensesPerMonth'] })
         queryClient.invalidateQueries({ queryKey: ['expensesPerDate'] })
+        queryClient.invalidateQueries({ queryKey: ['tasks'] })
+        queryClient.invalidateQueries({ queryKey: ['house'] })
         toast({
           variant: 'success',
           title: 'Successfully updated your account!',
         })
-        queryClient.invalidateQueries({ queryKey: ['tasks'] })
         router.push('/account')
       },
       onError: (error) => {

@@ -16,11 +16,11 @@
 }
 
 .task-calendar .rbc-date-cell button {
-  @apply pt-1;
+  @apply pt-[6px] leading-none;
 }
 
 .task-calendar .rbc-now button {
-  @apply rounded-full bg-amber-200 p-1;
+  @apply mt-[2px] rounded-full bg-amber-200 p-1 leading-none;
 }
 
 /* Show more modal */
@@ -33,11 +33,11 @@
 }
 
 .rbc-event-content {
-  @apply text-sm font-medium leading-7 md:text-sm md:leading-7;
+  @apply max-w-40 text-sm font-medium leading-7 md:max-w-[288px] md:text-sm md:leading-7;
 }
 
 .rbc-event-content > div {
-  @apply px-2;
+  @apply overflow-hidden text-ellipsis whitespace-nowrap px-2;
 }
 
 /* Event */

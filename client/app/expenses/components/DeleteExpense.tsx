@@ -15,9 +15,10 @@ import { useDeleteExpense } from '../hooks'
 
 type DeleteExpenseProps = {
   expenseId: number
+  name: string
 }
 
-const DeleteExpense = ({ expenseId }: DeleteExpenseProps) => {
+const DeleteExpense = ({ expenseId, name }: DeleteExpenseProps) => {
   const { onDelete, isPending } = useDeleteExpense()
 
   return (
@@ -27,6 +28,7 @@ const DeleteExpense = ({ expenseId }: DeleteExpenseProps) => {
           variant={'destructiveOutline'}
           size='smIcon'
           className='flex gap-1'
+          aria-label={`Delete ${name}`}
         >
           <FiTrash />
         </Button>
