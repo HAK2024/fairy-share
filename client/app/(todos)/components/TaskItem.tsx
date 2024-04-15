@@ -16,7 +16,7 @@ const TaskItem = ({ task }: { task: TaskType }) => {
         <Link href={`/tasks?taskId=${task.id}`}>{task.title}</Link>
       </p>
       <Checkbox
-        className='h-6 w-6 md:h-8 md:w-8'
+        className='h-6 w-6 hover:opacity-80 md:h-8 md:w-8'
         checked={task.isCompleted}
         onClick={handleUpdateTaskStatus}
         disabled={isPending}
