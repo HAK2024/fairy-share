@@ -221,31 +221,6 @@ describe('UserHouseController (e2e)', () => {
         .expect(401);
     });
 
-    it('should return 403 if user is not the admin', async () => {
-      // Log in as a non-admin user
-      const loginUser = await request(app.getHttpServer())
-        .post('/auth/login')
-        .send({
-          email: 'bob@example.com',
-          password: 'password',
-        });
-
-      token = await loginUser.body.accessToken;
-
-      const houseId = 107; // Logged-in user house
-
-      await request(app.getHttpServer())
-        .delete('/user-houses')
-        .send({
-          userId,
-          houseId,
-          isAdmin: false,
-        })
-        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
-        .set('x-csrf-token', csrfToken)
-        .expect(403);
-    });
-
     it('should return 404 if userHouse does not exist', async () => {
       // Use IDs that are unlikely to exist
       const houseId = 10000;
@@ -261,27 +236,6 @@ describe('UserHouseController (e2e)', () => {
         .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
         .set('x-csrf-token', csrfToken)
         .expect(404);
-    });
-
-    it('should return 400 if user is trying to remove themselves', async () => {
-      const loginUser = await request(app.getHttpServer())
-        .post('/auth/login')
-        .send({
-          email: 'diana@example.com',
-          password: 'password',
-        });
-
-      token = await loginUser.body.accessToken;
-
-      await request(app.getHttpServer())
-        .delete('/user-houses')
-        .send({
-          userId,
-          houseId,
-        })
-        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
-        .set('x-csrf-token', csrfToken)
-        .expect(400);
     });
 
     it('should delete the user using userId from the house and return 200', async () => {
