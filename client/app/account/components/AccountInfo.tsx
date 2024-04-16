@@ -4,7 +4,7 @@ import { Loading } from '@/_components/layout'
 import { RouterLink } from '@/_components/ui'
 import { colorMap } from '@/_consts'
 import { useGetMeQuery } from '@/_hooks/api'
-import { DeleteAccount } from '.'
+import { DeleteAccount, LeaveHouse } from '.'
 
 const AccountInfo = () => {
   const { data: user, isLoading } = useGetMeQuery()
@@ -47,6 +47,11 @@ const AccountInfo = () => {
         >
           Create House
         </RouterLink>
+      )}
+      {userHouse.length > 0 && (
+        <div>
+          <LeaveHouse user={user} />
+        </div>
       )}
       <div>
         <DeleteAccount user={user} />

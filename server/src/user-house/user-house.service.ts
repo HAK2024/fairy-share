@@ -129,11 +129,6 @@ export class UserHouseService {
         );
       }
 
-      // Check if the user is an admin
-      if (!operatingUserHouse.isAdmin) {
-        throw new ForbiddenException('Only admins can update admin status.');
-      }
-
       const targetUserHouse = await this.prisma.userHouse.findUnique({
         where: {
           userId_houseId: {
@@ -146,13 +141,6 @@ export class UserHouseService {
       if (!targetUserHouse) {
         throw new NotFoundException(
           `UserHouse with userId ${targetUserId} and houseId ${houseId} not found.`,
-        );
-      }
-
-      // Check if the user is not removing themselves
-      if (userId === targetUserId) {
-        throw new BadRequestException(
-          'Users cannot remove themselves from a house',
         );
       }
 
