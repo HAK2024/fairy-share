@@ -18,7 +18,7 @@ export const useLeaveHouse = () => {
 
           toast({
             variant: 'success',
-            title: 'You have successfully left the current house',
+            title: 'You have successfully left the house',
           })
         },
         onError: (error) => {
@@ -30,7 +30,7 @@ export const useLeaveHouse = () => {
           }
           toast({
             variant: 'destructive',
-            title: 'Failed to leave the current house..',
+            title: 'Failed to leave the house..',
             description: message,
           })
         },

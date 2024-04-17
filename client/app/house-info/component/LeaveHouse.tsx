@@ -1,24 +1,25 @@
 import React, { useState } from 'react'
 import { FiLogOut } from 'react-icons/fi'
 import { Button } from '@/_components/ui'
-import { UserType } from '@/_types'
+import { HouseType } from '@/_types'
+import { AdminWarningModal } from '@/account/components'
 import { useLeaveHouse } from '../hooks'
-import { AdminWarningModal, LeaveHouseModal } from '.'
+import { LeaveHouseModal } from '.'
 
 type LeaveHouseProps = {
-  user: UserType
+  userHouse: HouseType
+  userId: number
 }
 
-const LeaveHouse = ({ user }: LeaveHouseProps) => {
+const LeaveHouse = ({ userHouse, userId }: LeaveHouseProps) => {
   const [isOpenLeaveHouseModal, setIsOpenLeaveHouseModal] = useState(false)
   const [isOpenAdminWarningModal, setIsOpenAdminWarningModal] = useState(false)
   const { onRemove, isPending } = useLeaveHouse()
 
   const handleLeaveHouse = () => {
-    const userHouse = user.houses
-    const isAdmin = userHouse[0].houseMembers.filter((member) => member.isAdmin)
+    const isAdmin = userHouse.houseMembers.filter((member) => member.isAdmin)
 
-    if (isAdmin.length === 1 && isAdmin[0].id === user.id) {
+    if (isAdmin.length === 1 && isAdmin[0].id === userId) {
       setIsOpenAdminWarningModal(true)
     } else {
       setIsOpenLeaveHouseModal(true)
@@ -41,8 +42,8 @@ const LeaveHouse = ({ user }: LeaveHouseProps) => {
         setIsOpenLeaveHouseModal={setIsOpenLeaveHouseModal}
         onRemove={onRemove}
         isPending={isPending}
-        userId={user.id}
-        houseId={user.houses[0].houseId}
+        userId={userId}
+        houseId={userHouse.houseId}
       />
       <AdminWarningModal
         isOpenAdminWarningModal={isOpenAdminWarningModal}
