@@ -21,6 +21,7 @@ const TasksCalendarPage = () => {
             variant={'outline'}
             className='text-base md:text-lg'
             onClick={() => router.push('/tasks/create')}
+            aria-label='Visit create task page'
           >
             <span className='mr-1'>
               <FiPlus />

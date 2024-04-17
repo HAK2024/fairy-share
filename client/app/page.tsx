@@ -28,6 +28,7 @@ export default function Home() {
                 variant={'outline'}
                 className='ml-3 text-base md:text-lg'
                 onClick={() => router.push('/house-info')}
+                aria-label='Visit house info page'
               >
                 House Info
               </Button>

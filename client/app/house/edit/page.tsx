@@ -35,6 +35,7 @@ export default function HouseEditPage() {
           <Button
             variant={'outline'}
             className='text-base md:text-lg'
+            aria-label='Manage house members'
             onClick={() => {
               setIsOpenModal(true)
             }}
