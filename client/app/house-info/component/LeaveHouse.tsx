@@ -17,9 +17,11 @@ const LeaveHouse = ({ userHouse, userId }: LeaveHouseProps) => {
   const { onRemove, isPending } = useLeaveHouse()
 
   const handleLeaveHouse = () => {
-    const isAdmin = userHouse.houseMembers.filter((member) => member.isAdmin)
+    const adminMembers = userHouse.houseMembers.filter(
+      (member) => member.isAdmin,
+    )
 
-    if (isAdmin.length === 1 && isAdmin[0].id === userId) {
+    if (adminMembers.length === 1 && adminMembers[0].id === userId) {
       setIsOpenAdminWarningModal(true)
     } else {
       setIsOpenLeaveHouseModal(true)
