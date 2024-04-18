@@ -20,11 +20,9 @@ export default function HouseInfoPage() {
         rules={userHouse[0].rules}
         members={userHouse[0].houseMembers}
       />
-      {userHouse.length > 0 && (
-        <div className='mt-6 md:mt-8'>
-          <LeaveHouse userHouse={userHouse[0]} userId={user.id} />
-        </div>
-      )}
+      <div className='mt-6 md:mt-8'>
+        <LeaveHouse userHouse={userHouse[0]} userId={user.id} />
+      </div>
     </PageContainer>
   )
 }
