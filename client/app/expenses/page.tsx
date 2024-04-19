@@ -20,7 +20,6 @@ export default function ExpensePage() {
             variant={'outline'}
             className='text-base md:text-lg'
             onClick={() => router.push('/expenses/create')}
-            aria-label='Visit create expense item page'
           >
             <FiPlus className='mr-1' />
             Add
