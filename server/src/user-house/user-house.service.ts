@@ -129,6 +129,11 @@ export class UserHouseService {
         );
       }
 
+      // Check if a non-admin user tries to remove a house member
+      if (!operatingUserHouse.isAdmin && userId !== targetUserId) {
+        throw new ForbiddenException('Only admins can remove a house member');
+      }
+
       const targetUserHouse = await this.prisma.userHouse.findUnique({
         where: {
           userId_houseId: {
