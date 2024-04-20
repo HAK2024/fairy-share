@@ -1,9 +1,9 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { useToast } from '@/_hooks'
 import { isErrorWithMessage } from '@/_utils'
-import { useRemoveMemberMutation } from './api'
+import { useRemoveMemberMutation } from '@/house/hooks/api'
 
-export const useRemoveMember = () => {
+export const useLeaveHouse = () => {
   const queryClient = useQueryClient()
   const { toast } = useToast()
   const { mutate, isPending } = useRemoveMemberMutation()
@@ -18,7 +18,7 @@ export const useRemoveMember = () => {
 
           toast({
             variant: 'success',
-            title: 'The member has been successfully removed from the house',
+            title: 'You have successfully left the house',
           })
         },
         onError: (error) => {
@@ -30,7 +30,7 @@ export const useRemoveMember = () => {
           }
           toast({
             variant: 'destructive',
-            title: 'Failed to remove the member from the house..',
+            title: 'Failed to leave the house..',
             description: message,
           })
         },

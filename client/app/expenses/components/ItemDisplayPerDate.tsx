@@ -16,7 +16,7 @@ const ItemDisplayPerDate = ({ item, userId }: ItemDisplayPerDateProps) => {
       className={`flex flex-col gap-2 ${userId !== item.buyerId && 'md:pt-8'}`}
     >
       <div className='flex items-center justify-between gap-2 pt-1 text-base font-semibold md:text-lg'>
-        <p className='overflow-auto truncate'>{item.itemName}</p>
+        <p className='break-words'>{item.itemName}</p>
         <span>${item.fee}</span>
       </div>
       <div className='flex items-center justify-end gap-2'>

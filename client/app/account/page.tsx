@@ -20,7 +20,6 @@ export default function AccountPage() {
               variant={'outline'}
               className='text-base md:text-lg'
               onClick={() => router.push('/account/edit')}
-              aria-label='Visit account edit page'
             >
               <FiEdit />
               &nbsp;Edit

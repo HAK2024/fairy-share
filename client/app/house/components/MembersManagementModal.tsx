@@ -124,7 +124,6 @@ const MembersManagementModal = ({
                     variant='destructiveOutline'
                     size={'smIcon'}
                     className='flex-shrink-0'
-                    disabled={userId === houseMember.id}
                     type='button'
                     aria-label={`Remove roommate ${houseMember.name}`}
                     onClick={() => handleOpenAlert(houseMember.id)}

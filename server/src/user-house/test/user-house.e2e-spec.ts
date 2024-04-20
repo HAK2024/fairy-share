@@ -221,31 +221,6 @@ describe('UserHouseController (e2e)', () => {
         .expect(401);
     });
 
-    it('should return 403 if user is not the admin', async () => {
-      // Log in as a non-admin user
-      const loginUser = await request(app.getHttpServer())
-        .post('/auth/login')
-        .send({
-          email: 'bob@example.com',
-          password: 'password',
-        });
-
-      token = await loginUser.body.accessToken;
-
-      const houseId = 107; // Logged-in user house
-
-      await request(app.getHttpServer())
-        .delete('/user-houses')
-        .send({
-          userId,
-          houseId,
-          isAdmin: false,
-        })
-        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
-        .set('x-csrf-token', csrfToken)
-        .expect(403);
-    });
-
     it('should return 404 if userHouse does not exist', async () => {
       // Use IDs that are unlikely to exist
       const houseId = 10000;
@@ -263,7 +238,33 @@ describe('UserHouseController (e2e)', () => {
         .expect(404);
     });
 
-    it('should return 400 if user is trying to remove themselves', async () => {
+    it('should return 403 if a non-admin user tries to remove a house member', async () => {
+      // Log in as a non-admin user
+      const loginUser = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: 'felip@example.com',
+          password: 'password',
+        });
+
+      token = await loginUser.body.accessToken;
+
+      const userId = 101; // Asuming this user is the member of the logged-in user house
+      const houseId = 106; // Logged-in user house
+
+      await request(app.getHttpServer())
+        .delete('/user-houses')
+        .send({
+          userId,
+          houseId,
+          isAdmin: false,
+        })
+        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
+        .set('x-csrf-token', csrfToken)
+        .expect(403);
+    });
+
+    it('should delete the user using userId from the house and return 200', async () => {
       const loginUser = await request(app.getHttpServer())
         .post('/auth/login')
         .send({
@@ -273,19 +274,8 @@ describe('UserHouseController (e2e)', () => {
 
       token = await loginUser.body.accessToken;
 
-      await request(app.getHttpServer())
-        .delete('/user-houses')
-        .send({
-          userId,
-          houseId,
-        })
-        .set('Cookie', [`token=${token}`, `csrf-token=${csrfToken}`])
-        .set('x-csrf-token', csrfToken)
-        .expect(400);
-    });
-
-    it('should delete the user using userId from the house and return 200', async () => {
-      const userId = 105; // Assuming this user is the member of the logged-in user house
+      const userId = 105;
+      const houseId = 109; // Logged-in user house
 
       await request(app.getHttpServer())
         .delete('/user-houses')
