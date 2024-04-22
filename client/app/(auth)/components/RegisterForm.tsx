@@ -14,6 +14,7 @@ import {
   RouterLink,
   Input,
   Button,
+  PasswordInput,
 } from '@/_components/ui'
 import { INVITED_HOUSE_ID } from '@/_consts'
 import { useLogin, useRegister } from '../hooks'
@@ -74,7 +75,7 @@ const RegisterForm = () => {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input placeholder='password' {...field} />
+                      <PasswordInput placeholder='password' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

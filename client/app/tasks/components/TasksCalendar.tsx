@@ -102,6 +102,8 @@ const TasksCalendar = () => {
           }}
           popup={true}
           onSelectEvent={handleSelectEvent}
+          selectable={false}
+          onDrillDown={() => {}}
         />
       </div>
 

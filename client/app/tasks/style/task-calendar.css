@@ -16,7 +16,7 @@
 }
 
 .task-calendar .rbc-date-cell button {
-  @apply pt-[6px] leading-none;
+  @apply cursor-default pt-[6px] leading-none;
 }
 
 .task-calendar .rbc-now button {
