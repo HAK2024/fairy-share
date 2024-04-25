@@ -46,7 +46,10 @@ const HouseUpdateForm = ({ defaultData }: HouseUpdateFormProps) => {
             name='isExpensePerTime'
             render={({ field }) => (
               <FormItem>
-                <FormLabel isRequired>Expenses Tracking</FormLabel>
+                <FormLabel isRequired>Expense Tracking</FormLabel>
+                <span className='text-xs font-medium'>
+                  Divided equally between all members:
+                </span>
                 <FormControl>
                   <RadioGroup
                     onValueChange={field.onChange}
@@ -60,7 +63,7 @@ const HouseUpdateForm = ({ defaultData }: HouseUpdateFormProps) => {
                         <RadioGroupItem value='eachTime' />
                       </FormControl>
                       <FormLabel>
-                        Divide the expense per person each time?
+                        End of the day after purchases are made
                       </FormLabel>
                     </FormItem>
 
@@ -68,9 +71,7 @@ const HouseUpdateForm = ({ defaultData }: HouseUpdateFormProps) => {
                       <FormControl>
                         <RadioGroupItem value='monthly' />
                       </FormControl>
-                      <FormLabel>
-                        Divide the expense per person monthly?
-                      </FormLabel>
+                      <FormLabel>Summed at the end of month</FormLabel>
                     </FormItem>
                   </RadioGroup>
                 </FormControl>
