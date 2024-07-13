@@ -44,7 +44,7 @@ This application is designed to facilitate the management of daily tasks and fin
 - **House Rules & Roommate Info:** View and update house rules and roommate information.
 - **Leave House:** Option available for users to exit the house.
 
-<img src="./images/house-info-page.png" alt="House Info Page" title="House Info Page" width="400" />
+<img src="./images/house-Info-page.png" alt="House Info Page" title="House Info Page" width="400" />
 
 ### Account Page
 
